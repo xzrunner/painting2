@@ -1,5 +1,7 @@
 #include "painting2/RenderSystem.h"
 #include "painting2/Texture.h"
+#include "painting2/RenderColorCommon.h"
+#include "painting2/RenderColorMap.h"
 
 #include <shaderlab/ShaderMgr.h>
 #include <shaderlab/Sprite2Shader.h>
@@ -28,6 +30,22 @@ void RenderSystem::DrawTexture(const Texture& tex, const sm::rect& pos,
 
 	auto shader = static_cast<sl::Sprite2Shader*>(mgr->GetShader());
 	shader->DrawQuad(vertices, texcoords, tex.GetTexID());
+}
+
+void RenderSystem::SetColor(const RenderColorCommon& col)
+{
+	sl::ShaderMgr* mgr = sl::ShaderMgr::Instance();
+	// todo: other shader
+	auto shader = static_cast<sl::Sprite2Shader*>(mgr->GetShader(sl::SPRITE2));
+	shader->SetColor(col.mul.ToABGR(), col.add.ToABGR());
+}
+
+void RenderSystem::SetColorMap(const RenderColorMap& col)
+{
+	sl::ShaderMgr* mgr = sl::ShaderMgr::Instance();
+	// todo: other shader
+	auto shader = static_cast<sl::Sprite2Shader*>(mgr->GetShader(sl::SPRITE2));
+	shader->SetColorMap(col.rmap.ToABGR(), col.gmap.ToABGR(), col.bmap.ToABGR());
 }
 
 bool RenderSystem::CalcVertices(const sm::rect& pos, const sm::Matrix2D& mat, float* vertices)
