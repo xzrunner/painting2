@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="..\..\..\source\Texture.cpp" />
     <ClCompile Include="..\..\..\source\RenderSystem.cpp" />
     <ClCompile Include="..\..\..\source\GeoTransform.cpp">
       <Filter>transform</Filter>
@@ -33,9 +32,12 @@
     <ClCompile Include="..\..\..\source\RenderShader.cpp">
       <Filter>render\shader</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\source\Texture.cpp">
+      <Filter>component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\Callback.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\include\painting2\Texture.h" />
     <ClInclude Include="..\..\..\include\painting2\RenderSystem.h" />
     <ClInclude Include="..\..\..\include\painting2\GeoTransform.h">
       <Filter>transform</Filter>
@@ -123,6 +125,16 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\painting2\typedef.h" />
     <ClInclude Include="..\..\..\include\painting2\config.h" />
+    <ClInclude Include="..\..\..\include\painting2\Texture.h">
+      <Filter>component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\painting2\Textbox.h">
+      <Filter>component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\painting2\Text.h">
+      <Filter>component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\painting2\Callback.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="transform">
@@ -154,6 +166,9 @@
     </Filter>
     <Filter Include="render\shader">
       <UniqueIdentifier>{7662e652-6749-42a6-b9d7-b46995f40e0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="component">
+      <UniqueIdentifier>{cbbc356b-5fce-4d7b-8052-aeae07318fae}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

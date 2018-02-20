@@ -2,6 +2,7 @@
 #include "painting2/Texture.h"
 #include "painting2/RenderColorCommon.h"
 #include "painting2/RenderColorMap.h"
+#include "painting2/Callback.h"
 
 #include <shaderlab/ShaderMgr.h>
 #include <shaderlab/Sprite2Shader.h>
@@ -30,6 +31,11 @@ void RenderSystem::DrawTexture(const Texture& tex, const sm::rect& pos,
 
 	auto shader = static_cast<sl::Sprite2Shader*>(mgr->GetShader());
 	shader->DrawQuad(vertices, texcoords, tex.GetTexID());
+}
+
+void RenderSystem::DrawText(const Text& text, const sm::Matrix2D& mat)
+{
+	Callback::DrawText(text, mat);
 }
 
 void RenderSystem::SetColor(const RenderColorCommon& col)
