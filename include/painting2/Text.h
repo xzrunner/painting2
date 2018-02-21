@@ -14,6 +14,8 @@ public:
 
 	std::string text;
 
+	Text() : text("text") {}
+
 }; // Text
 
 }
