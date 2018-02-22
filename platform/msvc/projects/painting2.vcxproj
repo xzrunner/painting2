@@ -20,9 +20,15 @@
     <ClCompile Include="..\..\..\source\RenderCamera.cpp" />
     <ClCompile Include="..\..\..\source\RenderColorCommon.cpp" />
     <ClCompile Include="..\..\..\source\RenderColorMap.cpp" />
+    <ClCompile Include="..\..\..\source\RenderContext.cpp" />
+    <ClCompile Include="..\..\..\source\RenderCtxStack.cpp" />
     <ClCompile Include="..\..\..\source\RenderFilter.cpp" />
+    <ClCompile Include="..\..\..\source\RenderScissor.cpp" />
+    <ClCompile Include="..\..\..\source\RenderScreen.cpp" />
     <ClCompile Include="..\..\..\source\RenderShader.cpp" />
     <ClCompile Include="..\..\..\source\RenderSystem.cpp" />
+    <ClCompile Include="..\..\..\source\RenderTarget.cpp" />
+    <ClCompile Include="..\..\..\source\RenderTargetMgr.cpp" />
     <ClCompile Include="..\..\..\source\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -33,6 +39,7 @@
     <ClInclude Include="..\..\..\include\painting2\CameraMode.h" />
     <ClInclude Include="..\..\..\include\painting2\Color.h" />
     <ClInclude Include="..\..\..\include\painting2\config.h" />
+    <ClInclude Include="..\..\..\include\painting2\DrawMask.h" />
     <ClInclude Include="..\..\..\include\painting2\FastBlendMode.h" />
     <ClInclude Include="..\..\..\include\painting2\FilterFactory.h" />
     <ClInclude Include="..\..\..\include\painting2\FilterMode.h" />
@@ -41,9 +48,15 @@
     <ClInclude Include="..\..\..\include\painting2\RenderCamera.h" />
     <ClInclude Include="..\..\..\include\painting2\RenderColorCommon.h" />
     <ClInclude Include="..\..\..\include\painting2\RenderColorMap.h" />
+    <ClInclude Include="..\..\..\include\painting2\RenderContext.h" />
+    <ClInclude Include="..\..\..\include\painting2\RenderCtxStack.h" />
     <ClInclude Include="..\..\..\include\painting2\RenderFilter.h" />
+    <ClInclude Include="..\..\..\include\painting2\RenderScissor.h" />
+    <ClInclude Include="..\..\..\include\painting2\RenderScreen.h" />
     <ClInclude Include="..\..\..\include\painting2\RenderShader.h" />
     <ClInclude Include="..\..\..\include\painting2\RenderSystem.h" />
+    <ClInclude Include="..\..\..\include\painting2\RenderTarget.h" />
+    <ClInclude Include="..\..\..\include\painting2\RenderTargetMgr.h" />
     <ClInclude Include="..\..\..\include\painting2\RFBlur.h" />
     <ClInclude Include="..\..\..\include\painting2\RFBurningMap.h" />
     <ClInclude Include="..\..\..\include\painting2\RFColGrading.h" />
@@ -65,6 +78,7 @@
   <ItemGroup>
     <None Include="..\..\..\include\painting2\AABB.inl" />
     <None Include="..\..\..\include\painting2\Color.inl" />
+    <None Include="..\..\..\include\painting2\DrawMask.inl" />
     <None Include="..\..\..\include\painting2\GeoTransform.inl" />
     <None Include="..\..\..\include\painting2\OBB.inl" />
     <None Include="..\..\..\include\painting2\SRT.inl" />
@@ -112,7 +126,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\sm\src\sm;..\..\..\..\cu\src;..\..\..\..\guard\include;..\..\..\..\unirender\include;..\..\..\..\shaderlab\include;..\..\..\..\memmgr\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\sm\src\sm;..\..\..\..\cu\src;..\..\..\..\guard\include;..\..\..\..\unirender\include;..\..\..\..\shaderlab\include;..\..\..\..\memmgr\include;..\..\..\..\stat\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;__STDC_LIMIT_MACROS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -126,7 +140,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\sm\src\sm;..\..\..\..\cu\src;..\..\..\..\guard\include;..\..\..\..\unirender\include;..\..\..\..\shaderlab\include;..\..\..\..\memmgr\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\sm\src\sm;..\..\..\..\cu\src;..\..\..\..\guard\include;..\..\..\..\unirender\include;..\..\..\..\shaderlab\include;..\..\..\..\memmgr\include;..\..\..\..\stat\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;__STDC_LIMIT_MACROS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>

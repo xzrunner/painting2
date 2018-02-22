@@ -36,6 +36,24 @@
       <Filter>component</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\Callback.cpp" />
+    <ClCompile Include="..\..\..\source\RenderTargetMgr.cpp">
+      <Filter>rt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\RenderTarget.cpp">
+      <Filter>rt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\RenderScreen.cpp">
+      <Filter>scissor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\RenderScissor.cpp">
+      <Filter>scissor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\RenderCtxStack.cpp">
+      <Filter>ctx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\RenderContext.cpp">
+      <Filter>ctx</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\painting2\RenderSystem.h" />
@@ -135,6 +153,27 @@
       <Filter>component</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\painting2\Callback.h" />
+    <ClInclude Include="..\..\..\include\painting2\DrawMask.h">
+      <Filter>draw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\painting2\RenderTargetMgr.h">
+      <Filter>rt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\painting2\RenderTarget.h">
+      <Filter>rt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\painting2\RenderScreen.h">
+      <Filter>scissor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\painting2\RenderScissor.h">
+      <Filter>scissor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\painting2\RenderCtxStack.h">
+      <Filter>ctx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\painting2\RenderContext.h">
+      <Filter>ctx</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="transform">
@@ -170,6 +209,18 @@
     <Filter Include="component">
       <UniqueIdentifier>{cbbc356b-5fce-4d7b-8052-aeae07318fae}</UniqueIdentifier>
     </Filter>
+    <Filter Include="draw">
+      <UniqueIdentifier>{ec6d3503-1d45-4a04-abd6-ea0e054b74ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="rt">
+      <UniqueIdentifier>{a1c72625-e630-444d-a6d4-832db5a73f0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="scissor">
+      <UniqueIdentifier>{14c47f33-6510-4a19-92f1-726999a9b68e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ctx">
+      <UniqueIdentifier>{07a0eab6-2e72-4240-b6a6-6a0ef0191b7b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\include\painting2\GeoTransform.inl">
@@ -186,6 +237,9 @@
     </None>
     <None Include="..\..\..\include\painting2\SRT.inl">
       <Filter>transform</Filter>
+    </None>
+    <None Include="..\..\..\include\painting2\DrawMask.inl">
+      <Filter>draw</Filter>
     </None>
   </ItemGroup>
 </Project>
