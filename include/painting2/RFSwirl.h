@@ -11,7 +11,7 @@ class RFSwirl : public RenderFilter
 {
 public:
 	RFSwirl() 
-		: RenderFilter(pt2::FM_SWIRL) 
+		: RenderFilter(FM_SWIRL) 
 	{}
 
 	virtual RenderFilter* Clone() const override {

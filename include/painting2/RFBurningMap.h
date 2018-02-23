@@ -11,7 +11,7 @@ class RFBurningMap : public RenderFilter
 {
 public:
 	RFBurningMap() 
-		: RenderFilter(pt2::FM_BURNING_MAP) 
+		: RenderFilter(FM_BURNING_MAP) 
 	{}
 
 	virtual RenderFilter* Clone() const override {

@@ -13,9 +13,9 @@ namespace pt2
 class FilterFactory
 {
 public:
-	RenderFilterPtr Create(pt2::FilterMode mode);
+	RenderFilterPtr Create(FilterMode mode);
 
-	RenderFilter* GetTemp(pt2::FilterMode mode) {
+	RenderFilter* GetTemp(FilterMode mode) {
 		return m_temps[mode];
 	}
 

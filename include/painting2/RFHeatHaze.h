@@ -12,7 +12,7 @@ class RFHeatHaze : public RenderFilter
 {
 public:
 	RFHeatHaze() 
-		: RenderFilter(pt2::FM_HEAT_HAZE) 
+		: RenderFilter(FM_HEAT_HAZE) 
 		, m_distortion_factor(0.02f)
 		, m_rise_factor(0.2f)
 	{}

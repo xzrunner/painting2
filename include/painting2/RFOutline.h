@@ -11,7 +11,7 @@ class RFOutline : public RenderFilter
 {
 public:
 	RFOutline() 
-		: RenderFilter(pt2::FM_OUTLINE) 
+		: RenderFilter(FM_OUTLINE) 
 	{}
 
 	virtual RenderFilter* Clone() const override {

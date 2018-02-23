@@ -3,6 +3,7 @@
 #include "painting2/RenderColorCommon.h"
 #include "painting2/RenderColorMap.h"
 #include "painting2/Callback.h"
+#include "painting2/DrawMask.h"
 
 #include <shaderlab/ShaderMgr.h>
 #include <shaderlab/Sprite2Shader.h>

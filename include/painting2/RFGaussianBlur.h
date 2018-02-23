@@ -11,7 +11,7 @@ class RFGaussianBlur : public RenderFilter
 {
 public:
 	RFGaussianBlur() 
-		: RenderFilter(pt2::FM_GAUSSIAN_BLUR)
+		: RenderFilter(FM_GAUSSIAN_BLUR)
 		, m_iterations(9)
 	{}
 

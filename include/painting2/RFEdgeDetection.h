@@ -11,7 +11,7 @@ class RFEdgeDetection : public RenderFilter
 {
 public:
 	RFEdgeDetection() 
-		: RenderFilter(pt2::FM_EDGE_DETECTION) 
+		: RenderFilter(FM_EDGE_DETECTION) 
 		, m_blend(0.5f)
 	{}
 

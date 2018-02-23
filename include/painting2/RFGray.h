@@ -11,7 +11,7 @@ class RFGray : public RenderFilter
 {
 public:
 	RFGray() 
-		: RenderFilter(pt2::FM_GRAY) 
+		: RenderFilter(FM_GRAY) 
 	{}
 
 	virtual RenderFilter* Clone() const override {

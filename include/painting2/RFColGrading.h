@@ -12,7 +12,7 @@ class RFColGrading : public RenderFilter
 {
 public:
 	RFColGrading() 
-		: RenderFilter(pt2::FM_COL_GRADING) 
+		: RenderFilter(FM_COL_GRADING) 
 	{}
 
 	virtual bool operator == (const RenderFilter& rf) const override {

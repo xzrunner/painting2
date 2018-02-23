@@ -11,7 +11,7 @@ class RFOuterGlow : public RenderFilter
 {
 public:
 	RFOuterGlow() 
-		: RenderFilter(pt2::FM_OUTER_GLOW) 
+		: RenderFilter(FM_OUTER_GLOW) 
 		, m_iterations(9)
 	{}
 

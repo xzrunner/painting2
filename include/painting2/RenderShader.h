@@ -28,33 +28,33 @@ public:
 	RenderShader operator * (const RenderShader& rs) const;
 #ifdef PT2_FILTER_FULL
 	RenderShader Multiply(const RenderFilter* filter,
-		pt2::BlendMode blend, pt2::FastBlendMode fast_blend, float downsample) const;
+		BlendMode blend, FastBlendMode fast_blend, float downsample) const;
 #else
-	RenderShader Multiply(pt2::FilterMode filter, pt2::BlendMode blend, 
-		pt2::FastBlendMode fast_blend, float downsample) const;
+	RenderShader Multiply(FilterMode filter, BlendMode blend, 
+		FastBlendMode fast_blend, float downsample) const;
 #endif // PT2_FILTER_FULL
 
 	auto& GetFilter() const { return m_filter; }
-	pt2::BlendMode GetBlend() const { return m_blend; }
-	pt2::FastBlendMode GetFastBlend() const { return m_fast_blend; }
+	BlendMode GetBlend() const { return m_blend; }
+	FastBlendMode GetFastBlend() const { return m_fast_blend; }
 	float GetDownsample() const { return m_downsample; }
 
-	void SetFilter(pt2::FilterMode mode);
+	void SetFilter(FilterMode mode);
 #ifdef PT2_FILTER_FULL
 	void SetFilter(const RenderFilter* filter);
 #endif // PT2_FILTER_FULL
-	void SetBlend(pt2::BlendMode mode) { m_blend = mode; }
-	void SetFastBlend(pt2::FastBlendMode mode) { m_fast_blend = mode; }
+	void SetBlend(BlendMode mode) { m_blend = mode; }
+	void SetFastBlend(FastBlendMode mode) { m_fast_blend = mode; }
 	void SetDownsample(float downsample) { m_downsample = downsample; }
 
 private:
 #ifdef PT2_FILTER_FULL
-	pt2::RenderFilterPtr m_filter;
+	RenderFilterPtr m_filter;
 #else
-	pt2::FilterMode      m_filter;
+	FilterMode      m_filter;
 #endif // PT2_FILTER_FULL
-	pt2::BlendMode       m_blend;
-	pt2::FastBlendMode   m_fast_blend;
+	BlendMode       m_blend;
+	FastBlendMode   m_fast_blend;
 	float                m_downsample;
 
 }; // RenderShader

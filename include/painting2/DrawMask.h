@@ -5,6 +5,8 @@
 namespace pt2
 {
 
+class RenderTarget;
+
 class DrawMask
 {
 public:
@@ -14,15 +16,16 @@ public:
 
 private:
 	template<typename Type, typename Params>
-	static void DrawBaseToRT(pt2::RenderTarget* rt, const Type& base, const Params& params,
+	static void DrawBaseToRT(RenderTarget* rt, const Type& base, const Params& params,
 		std::function<void(const Type& data, const Params& params)> draw_cb);
 
 	template<typename Type, typename Params>
-	static void DrawMaskToRT(pt2::RenderTarget* rt, const Type& mask, const Params& params,
+	static void DrawMaskToRT(RenderTarget* rt, const Type& mask, const Params& params,
 		std::function<void(const Type& data, const Params& params)> draw_cb);
 
 	template<typename Type, typename Params>
-	static void DrawMaskFromRT(pt2::RenderTarget* rt_base, pt2::RenderTarget* rt_mask, const Type& mask, const S2_MAT& mt);
+	static void DrawMaskFromRT(RenderTarget* rt_base, RenderTarget* rt_mask, 
+		const Type& mask, const Params& params);
 
 }; // DrawMask
 

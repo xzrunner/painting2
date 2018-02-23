@@ -2,6 +2,7 @@
 
 #include <SM_Rect.h>
 #include <SM_Matrix2D.h>
+#include <node0/typedef.h>
 
 namespace pt2
 {
@@ -18,8 +19,6 @@ public:
 		const sm::Matrix2D& mat);
 
 	static void DrawText(const Text& text, const sm::Matrix2D& mat);
-
-	static void DrawMask();
 
 	static void SetColor(const RenderColorCommon& col);
 	static void SetColorMap(const RenderColorMap& col);

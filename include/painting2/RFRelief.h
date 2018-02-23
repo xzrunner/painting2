@@ -11,7 +11,7 @@ class RFRelief : public RenderFilter
 {
 public:
 	RFRelief() 
-		: RenderFilter(pt2::FM_RELIEF) 
+		: RenderFilter(FM_RELIEF) 
 	{}
 
 	virtual RenderFilter* Clone() const override {

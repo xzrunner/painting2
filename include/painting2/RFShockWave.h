@@ -11,7 +11,7 @@ class RFShockWave : public RenderFilter
 {
 public:
 	RFShockWave() 
-		: RenderFilter(pt2::FM_SHOCK_WAVE) 
+		: RenderFilter(FM_SHOCK_WAVE) 
 	{}
 
 	virtual RenderFilter* Clone() const override {
