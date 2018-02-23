@@ -14,9 +14,12 @@
     <ClCompile Include="..\..\..\source\AABB.cpp" />
     <ClCompile Include="..\..\..\source\BoundingBox.cpp" />
     <ClCompile Include="..\..\..\source\Callback.cpp" />
+    <ClCompile Include="..\..\..\source\CameraMgr.cpp" />
     <ClCompile Include="..\..\..\source\FilterFactory.cpp" />
     <ClCompile Include="..\..\..\source\GeoTransform.cpp" />
     <ClCompile Include="..\..\..\source\OBB.cpp" />
+    <ClCompile Include="..\..\..\source\OrthoCamera.cpp" />
+    <ClCompile Include="..\..\..\source\Pseudo3DCamera.cpp" />
     <ClCompile Include="..\..\..\source\RenderCamera.cpp" />
     <ClCompile Include="..\..\..\source\RenderColorCommon.cpp" />
     <ClCompile Include="..\..\..\source\RenderColorMap.cpp" />
@@ -36,7 +39,10 @@
     <ClInclude Include="..\..\..\include\painting2\BlendMode.h" />
     <ClInclude Include="..\..\..\include\painting2\BoundingBox.h" />
     <ClInclude Include="..\..\..\include\painting2\Callback.h" />
+    <ClInclude Include="..\..\..\include\painting2\Camera.h" />
+    <ClInclude Include="..\..\..\include\painting2\CameraMgr.h" />
     <ClInclude Include="..\..\..\include\painting2\CameraMode.h" />
+    <ClInclude Include="..\..\..\include\painting2\CameraType.h" />
     <ClInclude Include="..\..\..\include\painting2\Color.h" />
     <ClInclude Include="..\..\..\include\painting2\config.h" />
     <ClInclude Include="..\..\..\include\painting2\DrawMask.h" />
@@ -45,6 +51,8 @@
     <ClInclude Include="..\..\..\include\painting2\FilterMode.h" />
     <ClInclude Include="..\..\..\include\painting2\GeoTransform.h" />
     <ClInclude Include="..\..\..\include\painting2\OBB.h" />
+    <ClInclude Include="..\..\..\include\painting2\OrthoCamera.h" />
+    <ClInclude Include="..\..\..\include\painting2\Pseudo3DCamera.h" />
     <ClInclude Include="..\..\..\include\painting2\RenderCamera.h" />
     <ClInclude Include="..\..\..\include\painting2\RenderColorCommon.h" />
     <ClInclude Include="..\..\..\include\painting2\RenderColorMap.h" />
@@ -127,7 +135,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\sm\src\sm;..\..\..\..\cu\src;..\..\..\..\guard\include;..\..\..\..\unirender\include;..\..\..\..\shaderlab\include;..\..\..\..\memmgr\include;..\..\..\..\stat\include;..\..\..\..\external\boost\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\sm\src\sm;..\..\..\..\cu\src;..\..\..\..\camera25\src\camera25;..\..\..\..\guard\include;..\..\..\..\unirender\include;..\..\..\..\shaderlab\include;..\..\..\..\memmgr\include;..\..\..\..\stat\include;..\..\..\..\external\boost\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;__STDC_LIMIT_MACROS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -141,7 +149,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\sm\src\sm;..\..\..\..\cu\src;..\..\..\..\guard\include;..\..\..\..\unirender\include;..\..\..\..\shaderlab\include;..\..\..\..\memmgr\include;..\..\..\..\stat\include;..\..\..\..\external\boost\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\sm\src\sm;..\..\..\..\cu\src;..\..\..\..\camera25\src\camera25;..\..\..\..\guard\include;..\..\..\..\unirender\include;..\..\..\..\shaderlab\include;..\..\..\..\memmgr\include;..\..\..\..\stat\include;..\..\..\..\external\boost\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;__STDC_LIMIT_MACROS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>

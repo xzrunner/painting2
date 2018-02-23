@@ -54,6 +54,15 @@
     <ClCompile Include="..\..\..\source\RenderContext.cpp">
       <Filter>ctx</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\source\CameraMgr.cpp">
+      <Filter>camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\Pseudo3DCamera.cpp">
+      <Filter>camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\OrthoCamera.cpp">
+      <Filter>camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\painting2\RenderSystem.h" />
@@ -177,6 +186,21 @@
     <ClInclude Include="..\..\..\include\painting2\RenderReturn.h">
       <Filter>render</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\painting2\CameraType.h">
+      <Filter>camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\painting2\CameraMgr.h">
+      <Filter>camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\painting2\Camera.h">
+      <Filter>camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\painting2\Pseudo3DCamera.h">
+      <Filter>camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\painting2\OrthoCamera.h">
+      <Filter>camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="transform">
@@ -223,6 +247,9 @@
     </Filter>
     <Filter Include="ctx">
       <UniqueIdentifier>{07a0eab6-2e72-4240-b6a6-6a0ef0191b7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="camera">
+      <UniqueIdentifier>{31a27eb4-10e5-49d7-b25c-c4c56be4d585}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
