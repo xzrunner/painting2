@@ -207,6 +207,15 @@
     <ClInclude Include="..\..\..\include\painting2\PrimitiveDraw.h">
       <Filter>draw</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\painting2\DrawMesh.h">
+      <Filter>draw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\painting2\DrawPingPong.h">
+      <Filter>draw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\painting2\Mesh.h">
+      <Filter>render\mesh</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="transform">
@@ -257,6 +266,9 @@
     <Filter Include="camera">
       <UniqueIdentifier>{31a27eb4-10e5-49d7-b25c-c4c56be4d585}</UniqueIdentifier>
     </Filter>
+    <Filter Include="render\mesh">
+      <UniqueIdentifier>{75545928-d3bb-47d9-aab9-0cd8a73af9e4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\include\painting2\GeoTransform.inl">
@@ -276,6 +288,15 @@
     </None>
     <None Include="..\..\..\include\painting2\DrawMask.inl">
       <Filter>draw</Filter>
+    </None>
+    <None Include="..\..\..\include\painting2\DrawMesh.inl">
+      <Filter>draw</Filter>
+    </None>
+    <None Include="..\..\..\include\painting2\DrawPingPong.inl">
+      <Filter>draw</Filter>
+    </None>
+    <None Include="..\..\..\include\painting2\Mesh.inl">
+      <Filter>render\mesh</Filter>
     </None>
   </ItemGroup>
 </Project>

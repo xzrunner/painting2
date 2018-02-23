@@ -4,8 +4,6 @@
 
 #include <boost/noncopyable.hpp>
 
-#include <functional>
-
 namespace cooking { class DisplayList; }
 
 namespace pt2
