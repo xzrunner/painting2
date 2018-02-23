@@ -2,13 +2,12 @@
 
 #include <cu/cu_stl.h>
 #include <SM_Rect.h>
-#include <polymesh/Mesh.h>
 
 #include <boost/noncopyable.hpp>
 
 #include <memory>
 
-namespace pm { class MeshTransform; }
+namespace pm { class Mesh; class MeshTransform; }
 
 struct rg_skeleton_pose;
 struct rg_tl_deform_state;

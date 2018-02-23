@@ -3,6 +3,7 @@
 #include <rigging.h>
 #include <polymesh/TrianglesMesh.h>
 #include <polymesh/Skin2Mesh.h>
+#include <polymesh/Mesh.h>
 
 namespace
 {
