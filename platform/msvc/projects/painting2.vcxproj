@@ -19,6 +19,7 @@
     <ClCompile Include="..\..\..\source\GeoTransform.cpp" />
     <ClCompile Include="..\..\..\source\OBB.cpp" />
     <ClCompile Include="..\..\..\source\OrthoCamera.cpp" />
+    <ClCompile Include="..\..\..\source\PrimitiveDraw.cpp" />
     <ClCompile Include="..\..\..\source\Pseudo3DCamera.cpp" />
     <ClCompile Include="..\..\..\source\RenderCamera.cpp" />
     <ClCompile Include="..\..\..\source\RenderColorCommon.cpp" />
@@ -52,6 +53,7 @@
     <ClInclude Include="..\..\..\include\painting2\GeoTransform.h" />
     <ClInclude Include="..\..\..\include\painting2\OBB.h" />
     <ClInclude Include="..\..\..\include\painting2\OrthoCamera.h" />
+    <ClInclude Include="..\..\..\include\painting2\PrimitiveDraw.h" />
     <ClInclude Include="..\..\..\include\painting2\Pseudo3DCamera.h" />
     <ClInclude Include="..\..\..\include\painting2\RenderCamera.h" />
     <ClInclude Include="..\..\..\include\painting2\RenderColorCommon.h" />
@@ -135,7 +137,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\sm\src\sm;..\..\..\..\cu\src;..\..\..\..\camera25\src\camera25;..\..\..\..\guard\include;..\..\..\..\unirender\include;..\..\..\..\shaderlab\include;..\..\..\..\memmgr\include;..\..\..\..\stat\include;..\..\..\..\external\boost\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\sm\src\sm;..\..\..\..\cu\src;..\..\..\..\camera25\src\camera25;..\..\..\..\rapidvg\src\rapidvg;..\..\..\..\guard\include;..\..\..\..\cooking\include;..\..\..\..\unirender\include;..\..\..\..\shaderlab\include;..\..\..\..\memmgr\include;..\..\..\..\stat\include;..\..\..\..\external\boost\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;__STDC_LIMIT_MACROS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -149,7 +151,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\sm\src\sm;..\..\..\..\cu\src;..\..\..\..\camera25\src\camera25;..\..\..\..\guard\include;..\..\..\..\unirender\include;..\..\..\..\shaderlab\include;..\..\..\..\memmgr\include;..\..\..\..\stat\include;..\..\..\..\external\boost\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\sm\src\sm;..\..\..\..\cu\src;..\..\..\..\camera25\src\camera25;..\..\..\..\rapidvg\src\rapidvg;..\..\..\..\guard\include;..\..\..\..\cooking\include;..\..\..\..\unirender\include;..\..\..\..\shaderlab\include;..\..\..\..\memmgr\include;..\..\..\..\stat\include;..\..\..\..\external\boost\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;__STDC_LIMIT_MACROS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>

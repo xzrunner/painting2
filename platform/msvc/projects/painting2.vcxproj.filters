@@ -63,6 +63,9 @@
     <ClCompile Include="..\..\..\source\OrthoCamera.cpp">
       <Filter>camera</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\source\PrimitiveDraw.cpp">
+      <Filter>draw</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\painting2\RenderSystem.h" />
@@ -200,6 +203,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\painting2\OrthoCamera.h">
       <Filter>camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\painting2\PrimitiveDraw.h">
+      <Filter>draw</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
