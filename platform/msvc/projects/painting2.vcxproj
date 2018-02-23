@@ -51,6 +51,7 @@
     <ClInclude Include="..\..\..\include\painting2\RenderContext.h" />
     <ClInclude Include="..\..\..\include\painting2\RenderCtxStack.h" />
     <ClInclude Include="..\..\..\include\painting2\RenderFilter.h" />
+    <ClInclude Include="..\..\..\include\painting2\RenderReturn.h" />
     <ClInclude Include="..\..\..\include\painting2\RenderScissor.h" />
     <ClInclude Include="..\..\..\include\painting2\RenderScreen.h" />
     <ClInclude Include="..\..\..\include\painting2\RenderShader.h" />
@@ -126,7 +127,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\sm\src\sm;..\..\..\..\cu\src;..\..\..\..\guard\include;..\..\..\..\unirender\include;..\..\..\..\shaderlab\include;..\..\..\..\memmgr\include;..\..\..\..\stat\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\sm\src\sm;..\..\..\..\cu\src;..\..\..\..\guard\include;..\..\..\..\unirender\include;..\..\..\..\shaderlab\include;..\..\..\..\memmgr\include;..\..\..\..\stat\include;..\..\..\..\external\boost\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;__STDC_LIMIT_MACROS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -140,7 +141,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\sm\src\sm;..\..\..\..\cu\src;..\..\..\..\guard\include;..\..\..\..\unirender\include;..\..\..\..\shaderlab\include;..\..\..\..\memmgr\include;..\..\..\..\stat\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\sm\src\sm;..\..\..\..\cu\src;..\..\..\..\guard\include;..\..\..\..\unirender\include;..\..\..\..\shaderlab\include;..\..\..\..\memmgr\include;..\..\..\..\stat\include;..\..\..\..\external\boost\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;__STDC_LIMIT_MACROS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>

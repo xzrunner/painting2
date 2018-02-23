@@ -2,7 +2,6 @@
 
 #include <SM_Rect.h>
 #include <SM_Matrix2D.h>
-#include <node0/typedef.h>
 
 namespace pt2
 {
