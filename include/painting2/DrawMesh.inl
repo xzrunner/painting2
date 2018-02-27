@@ -7,7 +7,9 @@
 #include "painting2/RenderCtxStack.h"
 #include "painting2/RenderScissor.h"
 
+#include <shaderlab/Blackboard.h>
 #include <shaderlab/FilterShader.h>
+#include <shaderlab/Sprite2Shader.h>
 #include <painting2/Color.h>
 #ifdef PT2_DISABLE_DEFERRED
 #include <unirender/RenderContext.h>
@@ -25,7 +27,7 @@ namespace
 void draw_sprite2(cooking::DisplayList* dlist, const float* positions, const float* texcoords, int tex_id)
 {
 #ifdef PT2_DISABLE_DEFERRED
-	sl::ShaderMgr* mgr = sl::ShaderMgr::Instance();
+	sl::ShaderMgr* mgr = sl::Blackboard::Instance()->GetShaderMgr();
 	assert(mgr->GetShaderType() == sl::SPRITE2);
 
 	sl::Sprite2Shader* shader = static_cast<sl::Sprite2Shader*>(mgr->GetShader());
@@ -38,7 +40,7 @@ void draw_sprite2(cooking::DisplayList* dlist, const float* positions, const flo
 void draw_filter(cooking::DisplayList* dlist, const float* positions, const float* texcoords, int tex_id)
 {
 #ifdef PT2_DISABLE_DEFERRED
-	sl::ShaderMgr* mgr = sl::ShaderMgr::Instance();
+	sl::ShaderMgr* mgr = sl::Blackboard::Instance()->GetShaderMgr();
 	assert(mgr->GetShaderType() == sl::FILTER);
 
 	sl::FilterShader* shader = static_cast<sl::FilterShader*>(mgr->GetShader());
@@ -191,7 +193,7 @@ DrawOnlyMesh(cooking::DisplayList* dlist, const sm::Matrix2D& mt, int tex_id)
 	}
 
 #ifdef PT2_DISABLE_DEFERRED
-	sl::ShaderMgr* mgr = sl::ShaderMgr::Instance();
+	sl::ShaderMgr* mgr = sl::Blackboard::Instance()->GetShaderMgr();
 
 	mgr->SetShader(sl::SPRITE2);
 
@@ -236,7 +238,7 @@ DrawOnePass(cooking::DisplayList* dlist, const Params& params, const float* src_
 {
 	sl::ShaderType shader_type;
 #ifdef PT2_DISABLE_DEFERRED
-	sl::ShaderMgr* mgr = sl::ShaderMgr::Instance();
+	sl::ShaderMgr* mgr = sl::Blackboard::Instance()->GetShaderMgr();
 	shader_type = mgr->GetShaderType();
 	if (shader_type != sl::SPRITE2 && shader_type != sl::FILTER) {
 		return RENDER_NO_DATA;
@@ -356,7 +358,7 @@ DrawTwoPass(cooking::DisplayList* dlist, const Params& params, const T& node)
 	st::StatPingPong::Instance()->AddCount(st::StatPingPong::MESH);
 #endif // S2_DISABLE_STATISTICS
 
-	sl::ShaderMgr::Instance()->FlushShader();
+	sl::Blackboard::Instance()->GetShaderMgr()->FlushShader();
 
 	RenderScissor::Instance()->Disable();
 	RenderCtxStack::Instance()->Push(RenderContext(
@@ -381,8 +383,8 @@ DrawMesh2RT(cooking::DisplayList* dlist, RenderTarget* rt, const Params& params,
 	rt->Bind();
 
 #ifdef PT2_DISABLE_DEFERRED
-	sl::ShaderMgr* mgr = sl::ShaderMgr::Instance();
-	mgr->GetContext()->Clear(0);
+	sl::ShaderMgr* mgr = sl::Blackboard::Instance()->GetShaderMgr();
+	mgr->GetContext().Clear(0);
 #else
 	cooking::render_clear(dlist, 0);
 #endif // PT2_DISABLE_DEFERRED

@@ -14,7 +14,7 @@ namespace pt2
 void RenderSystem::DrawTexture(const Texture& tex, const sm::rect& pos,
 	                           const sm::Matrix2D& mat)
 {
-	sl::ShaderMgr* mgr = sl::ShaderMgr::Instance();
+	sl::ShaderMgr* mgr = sl::Blackboard::Instance()->GetShaderMgr();
 	mgr->SetShader(sl::SPRITE2);
 	
 	float vertices[8];
@@ -41,7 +41,7 @@ void RenderSystem::DrawText(const Text& text, const sm::Matrix2D& mat)
 
 void RenderSystem::SetColor(const RenderColorCommon& col)
 {
-	sl::ShaderMgr* mgr = sl::ShaderMgr::Instance();
+	sl::ShaderMgr* mgr = sl::Blackboard::Instance()->GetShaderMgr();
 	// todo: other shader
 	auto shader = static_cast<sl::Sprite2Shader*>(mgr->GetShader(sl::SPRITE2));
 	shader->SetColor(col.mul.ToABGR(), col.add.ToABGR());
@@ -49,7 +49,7 @@ void RenderSystem::SetColor(const RenderColorCommon& col)
 
 void RenderSystem::SetColorMap(const RenderColorMap& col)
 {
-	sl::ShaderMgr* mgr = sl::ShaderMgr::Instance();
+	sl::ShaderMgr* mgr = sl::Blackboard::Instance()->GetShaderMgr();
 	// todo: other shader
 	auto shader = static_cast<sl::Sprite2Shader*>(mgr->GetShader(sl::SPRITE2));
 	shader->SetColorMap(col.rmap.ToABGR(), col.gmap.ToABGR(), col.bmap.ToABGR());

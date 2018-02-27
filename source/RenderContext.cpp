@@ -2,6 +2,7 @@
 
 #include <unirender/RenderContext.h>
 #include <shaderlab/SubjectMVP2.h>
+#include <shaderlab/Blackboard.h>
 #include <shaderlab/ShaderMgr.h>
 
 namespace pt2
@@ -104,8 +105,8 @@ void RenderContext::UpdateViewport() const
 		return;
 	}
 
-	sl::ShaderMgr::Instance()->GetContext()->SetViewport(
-		m_vp_x, m_vp_y, m_vp_w, m_vp_h);
+	auto& ur_rc = sl::Blackboard::Instance()->GetShaderMgr()->GetContext();
+	ur_rc.SetViewport(m_vp_x, m_vp_y, m_vp_w, m_vp_h);
 }
 
 }

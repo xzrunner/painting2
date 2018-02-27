@@ -3,6 +3,7 @@
 #include <unirender/RenderContext.h>
 #include <unirender/RenderTarget.h>
 #include <unirender/Texture.h>
+#include <shaderlab/Blackboard.h>
 #include <shaderlab/ShaderMgr.h>
 #include <stat/StatImages.h>
 
@@ -13,8 +14,8 @@ static const int IMG_ID = -2;
 
 RenderTarget::RenderTarget(int width, int height)
 {
-	ur::RenderContext* rc = sl::ShaderMgr::Instance()->GetContext();
-	m_impl = new ur::RenderTarget(rc, width, height);
+	ur::RenderContext& ur_rc = sl::Blackboard::Instance()->GetShaderMgr()->GetContext();
+	m_impl = new ur::RenderTarget(&ur_rc, width, height);
 
 	st::StatImages::Instance()->Add(IMG_ID, width, height, ur::TEXTURE_RGBA8);
 }

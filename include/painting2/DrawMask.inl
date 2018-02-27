@@ -8,6 +8,7 @@
 
 #include <stat/StatPingPong.h>
 #include <stat/StatOverdraw.h>
+#include <shaderlab/Blackboard.h>
 #include <shaderlab/ShaderMgr.h>
 #include <shaderlab/MaskShader.h>
 #include <unirender/RenderContext.h>
@@ -38,7 +39,7 @@ RenderReturn DrawMask<Type, Params>::DrawImpl(cooking::DisplayList* dlist) const
 	RenderTargetMgr* RT = RenderTargetMgr::Instance();
 
 #ifdef PT2_DISABLE_DEFERRED
-	sl::ShaderMgr* mgr = sl::ShaderMgr::Instance();
+	sl::ShaderMgr* mgr = sl::Blackboard::Instance()->GetShaderMgr();
 	mgr->FlushShader();
 #else
 	cooking::flush_shader(dlist);
@@ -82,9 +83,9 @@ RenderReturn DrawMask<Type, Params>::DrawBaseToRT(cooking::DisplayList* dlist, R
 	rt->Bind();
 
 #ifdef PT2_DISABLE_DEFERRED
-	sl::ShaderMgr* mgr = sl::ShaderMgr::Instance();
+	sl::ShaderMgr* mgr = sl::Blackboard::Instance()->GetShaderMgr();
 
-	mgr->GetContext()->Clear(0);
+	mgr->GetContext().Clear(0);
 
 	mgr->SetShader(sl::SPRITE2);
 	sl::Shader* shader = mgr->GetShader();
@@ -112,9 +113,9 @@ RenderReturn DrawMask<Type, Params>::DrawMaskToRT(cooking::DisplayList* dlist, R
 	rt->Bind();
 
 #ifdef PT2_DISABLE_DEFERRED
-	sl::ShaderMgr* mgr = sl::ShaderMgr::Instance();
+	sl::ShaderMgr* mgr = sl::Blackboard::Instance()->GetShaderMgr();
 
-	mgr->GetContext()->Clear(0);
+	mgr->GetContext().Clear(0);
 
 	mgr->SetShader(sl::SPRITE2);
 	sl::Shader* shader = mgr->GetShader();
@@ -186,7 +187,7 @@ DrawMaskFromRT(cooking::DisplayList* dlist, RenderTarget* rt_base, RenderTarget*
 #endif // PT2_DISABLE_STATISTICS
 
 #ifdef PT2_DISABLE_DEFERRED
-	sl::ShaderMgr* mgr = sl::ShaderMgr::Instance();
+	sl::ShaderMgr* mgr = sl::Blackboard::Instance()->GetShaderMgr();
 	mgr->SetShader(sl::MASK);
 	sl::MaskShader* shader = static_cast<sl::MaskShader*>(mgr->GetShader());
 	shader->Draw(&vertices[0].x, &texcoords[0].x, &texcoords_mask[0].x, rt_base->GetTexID(), rt_mask->GetTexID());

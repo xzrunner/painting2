@@ -5,6 +5,7 @@
 #include <rvg.h>
 #endif // PT2_DISABLE_RVG
 #include <SM_Calc.h>
+#include <shaderlab/Blackboard.h>
 #include <shaderlab/ShaderMgr.h>
 #include <shaderlab/Shape2Shader.h>
 #include <shaderlab/Shape3Shader.h>
@@ -28,7 +29,7 @@ void PrimitiveDraw::Init()
 
 void PrimitiveDraw::SetColor(const pt2::Color& color)
 {
-	sl::ShaderMgr* mgr = sl::ShaderMgr::Instance();
+	sl::ShaderMgr* mgr = sl::Blackboard::Instance()->GetShaderMgr();
 	if (pt2::CameraMgr::Instance()->IsType(pt2::CameraMgr::ORTHO)) {
 		sl::Shape2Shader* shader = static_cast<sl::Shape2Shader*>(mgr->GetShader(sl::SHAPE2));
 		shader->SetColor(color.ToABGR());
@@ -260,7 +261,7 @@ void PrimitiveDraw::Rect(cooking::DisplayList* dlist, const sm::vec2& p0, const 
 	if (pt2::CameraMgr::Instance()->IsType(pt2::CameraMgr::ORTHO)) {
 		SetShader(dlist, sl::SHAPE2);
 		rvg_rect(p0.x, p0.y, p1.x, p1.y, filling);
-		sl::ShaderMgr::Instance()->GetShader()->Commit();
+		sl::Blackboard::Instance()->GetShaderMgr()->GetShader()->Commit();
 	} else {
 		SetShader(dlist, sl::SHAPE3);
 		rvg_rect3_on_z(p0.x, p0.y, p1.x, p1.y, 0, filling);
@@ -327,7 +328,7 @@ void PrimitiveDraw::Arrow(cooking::DisplayList* dlist, const sm::vec2& p0, const
 void PrimitiveDraw::SetShader(cooking::DisplayList* dlist, int shader_type)
 {
 #ifdef PT2_DISABLE_DEFERRED
-	sl::ShaderMgr::Instance()->SetShader(static_cast<sl::ShaderType>(shader_type));
+	sl::Blackboard::Instance()->GetShaderMgr()->SetShader(static_cast<sl::ShaderType>(shader_type));
 #else
 	assert(dlist);
 	cooking::change_shader(dlist, shader_type);

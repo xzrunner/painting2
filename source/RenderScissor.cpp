@@ -2,6 +2,7 @@
 #include "painting2/RenderScreen.h"
 
 #include <unirender/RenderContext.h>
+#include <shaderlab/Blackboard.h>
 #include <shaderlab/ShaderMgr.h>
 #include <SM_Test.h>
 
@@ -22,9 +23,11 @@ RenderScissor::~RenderScissor()
 
 void RenderScissor::Push(float x, float y, float w, float h, bool use_render_screen, bool no_intersect)
 {
-	sl::ShaderMgr* mgr = sl::ShaderMgr::Instance();
+	sl::ShaderMgr* mgr = sl::Blackboard::Instance()->GetShaderMgr();
 	mgr->FlushShader();
-	mgr->GetContext()->EnableScissor(true);
+
+	ur::RenderContext& ur_rc = mgr->GetContext();
+	ur_rc.EnableScissor(true);
 
 	if (!no_intersect && !m_stack.empty() && !m_stack.back().IsInvalid()) {
 		Intersection(m_stack.back(), x, y, w, h);
@@ -41,8 +44,7 @@ void RenderScissor::Push(float x, float y, float w, float h, bool use_render_scr
 	if (use_render_screen) {
 		RenderScreen::Scissor(x, y, w, h);
 	} else {
-		sl::ShaderMgr::Instance()->GetContext()->SetScissor(
-			static_cast<int>(x), static_cast<int>(y), static_cast<int>(w), static_cast<int>(h));
+		ur_rc.SetScissor(static_cast<int>(x), static_cast<int>(y), static_cast<int>(w), static_cast<int>(h));
 	}
 }
 
@@ -50,26 +52,26 @@ void RenderScissor::Pop()
 {
 	assert(!m_stack.empty());
 
-	sl::ShaderMgr* mgr = sl::ShaderMgr::Instance();
+	sl::ShaderMgr* mgr = sl::Blackboard::Instance()->GetShaderMgr();
 	mgr->FlushShader();
 	m_stack.pop_back();
+	ur::RenderContext& ur_rc = mgr->GetContext();
 	if (m_stack.empty()) {
-		mgr->GetContext()->EnableScissor(false);
+		ur_rc.EnableScissor(false);
 		return;
 	} else {
-		mgr->GetContext()->EnableScissor(true);
+		ur_rc.EnableScissor(true);
 	}
 
 	const Rect& r = m_stack.back();
 	if (r.IsInvalid()) {
-		mgr->GetContext()->EnableScissor(false);
+		ur_rc.EnableScissor(false);
 		return;
 	}
 	if (r.use_render_screen) {
 		RenderScreen::Scissor(r.x, r.y, r.w, r.h);
 	} else {
-		sl::ShaderMgr::Instance()->GetContext()->SetScissor(
-			static_cast<int>(r.x), static_cast<int>(r.y), static_cast<int>(r.w), static_cast<int>(r.h));
+		ur_rc.SetScissor(static_cast<int>(r.x), static_cast<int>(r.y), static_cast<int>(r.w), static_cast<int>(r.h));
 	}
 }
 
@@ -80,7 +82,8 @@ bool RenderScissor::IsEmpty() const
 
 void RenderScissor::Disable()
 {
-	sl::ShaderMgr::Instance()->GetContext()->EnableScissor(false);
+	ur::RenderContext& ur_rc = sl::Blackboard::Instance()->GetShaderMgr()->GetContext();
+	ur_rc.EnableScissor(false);
 	Rect r;
 	r.MakeInvalid();
 	m_stack.push_back(r);
