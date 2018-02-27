@@ -4,6 +4,7 @@
 #include <unirender/RenderContext.h>
 #include <shaderlab/Blackboard.h>
 #include <shaderlab/ShaderMgr.h>
+#include <shaderlab/RenderContext.h>
 #include <SM_Test.h>
 
 #include <assert.h>
@@ -23,10 +24,10 @@ RenderScissor::~RenderScissor()
 
 void RenderScissor::Push(float x, float y, float w, float h, bool use_render_screen, bool no_intersect)
 {
-	sl::ShaderMgr* mgr = sl::Blackboard::Instance()->GetShaderMgr();
-	mgr->FlushShader();
+	auto& rc = sl::Blackboard::Instance()->GetRenderContext();
+	rc.GetShaderMgr().FlushShader();
 
-	ur::RenderContext& ur_rc = mgr->GetContext();
+	ur::RenderContext& ur_rc = rc.GetContext();
 	ur_rc.EnableScissor(true);
 
 	if (!no_intersect && !m_stack.empty() && !m_stack.back().IsInvalid()) {
@@ -52,10 +53,10 @@ void RenderScissor::Pop()
 {
 	assert(!m_stack.empty());
 
-	sl::ShaderMgr* mgr = sl::Blackboard::Instance()->GetShaderMgr();
-	mgr->FlushShader();
+	auto& rc = sl::Blackboard::Instance()->GetRenderContext();
+	rc.GetShaderMgr().FlushShader();
 	m_stack.pop_back();
-	ur::RenderContext& ur_rc = mgr->GetContext();
+	ur::RenderContext& ur_rc = rc.GetContext();
 	if (m_stack.empty()) {
 		ur_rc.EnableScissor(false);
 		return;
@@ -82,7 +83,7 @@ bool RenderScissor::IsEmpty() const
 
 void RenderScissor::Disable()
 {
-	ur::RenderContext& ur_rc = sl::Blackboard::Instance()->GetShaderMgr()->GetContext();
+	auto& ur_rc = sl::Blackboard::Instance()->GetRenderContext().GetContext();
 	ur_rc.EnableScissor(false);
 	Rect r;
 	r.MakeInvalid();

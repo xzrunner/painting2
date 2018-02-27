@@ -4,6 +4,7 @@
 #include <shaderlab/SubjectMVP2.h>
 #include <shaderlab/Blackboard.h>
 #include <shaderlab/ShaderMgr.h>
+#include <shaderlab/RenderContext.h>
 
 namespace pt2
 {
@@ -91,12 +92,14 @@ void RenderContext::UpdateMVP() const
 
 void RenderContext::UpdateModelView() const
 {
-	sl::SubjectMVP2::Instance()->NotifyModelview(m_mv_offset.x, m_mv_offset.y, m_mv_scale, m_mv_scale);
+	sl::Blackboard::Instance()->GetRenderContext().GetSubMVP2().
+		NotifyModelview(m_mv_offset.x, m_mv_offset.y, m_mv_scale, m_mv_scale);
 }
 
 void RenderContext::UpdateProjection() const
 {
-	sl::SubjectMVP2::Instance()->NotifyProjection(static_cast<int>(m_proj_width), static_cast<int>(m_proj_height));
+	sl::Blackboard::Instance()->GetRenderContext().GetSubMVP2().
+		NotifyProjection(static_cast<int>(m_proj_width), static_cast<int>(m_proj_height));
 }
 
 void RenderContext::UpdateViewport() const
@@ -105,7 +108,7 @@ void RenderContext::UpdateViewport() const
 		return;
 	}
 
-	auto& ur_rc = sl::Blackboard::Instance()->GetShaderMgr()->GetContext();
+	auto& ur_rc = sl::Blackboard::Instance()->GetRenderContext().GetContext();
 	ur_rc.SetViewport(m_vp_x, m_vp_y, m_vp_w, m_vp_h);
 }
 

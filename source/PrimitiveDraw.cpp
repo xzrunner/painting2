@@ -7,6 +7,7 @@
 #include <SM_Calc.h>
 #include <shaderlab/Blackboard.h>
 #include <shaderlab/ShaderMgr.h>
+#include <shaderlab/RenderContext.h>
 #include <shaderlab/Shape2Shader.h>
 #include <shaderlab/Shape3Shader.h>
 #ifndef PT2_DISABLE_DEFERRED
@@ -29,12 +30,12 @@ void PrimitiveDraw::Init()
 
 void PrimitiveDraw::SetColor(const pt2::Color& color)
 {
-	sl::ShaderMgr* mgr = sl::Blackboard::Instance()->GetShaderMgr();
+	auto& shader_mgr = sl::Blackboard::Instance()->GetRenderContext().GetShaderMgr();
 	if (pt2::CameraMgr::Instance()->IsType(pt2::CameraMgr::ORTHO)) {
-		sl::Shape2Shader* shader = static_cast<sl::Shape2Shader*>(mgr->GetShader(sl::SHAPE2));
+		sl::Shape2Shader* shader = static_cast<sl::Shape2Shader*>(shader_mgr.GetShader(sl::SHAPE2));
 		shader->SetColor(color.ToABGR());
 	} else {
-		sl::Shape3Shader* shader = static_cast<sl::Shape3Shader*>(mgr->GetShader(sl::SHAPE3));
+		sl::Shape3Shader* shader = static_cast<sl::Shape3Shader*>(shader_mgr.GetShader(sl::SHAPE3));
 		shader->SetColor(color.ToABGR());
 	}
 }
@@ -261,7 +262,7 @@ void PrimitiveDraw::Rect(cooking::DisplayList* dlist, const sm::vec2& p0, const 
 	if (pt2::CameraMgr::Instance()->IsType(pt2::CameraMgr::ORTHO)) {
 		SetShader(dlist, sl::SHAPE2);
 		rvg_rect(p0.x, p0.y, p1.x, p1.y, filling);
-		sl::Blackboard::Instance()->GetShaderMgr()->GetShader()->Commit();
+		sl::Blackboard::Instance()->GetRenderContext().GetShaderMgr().GetShader()->Commit();
 	} else {
 		SetShader(dlist, sl::SHAPE3);
 		rvg_rect3_on_z(p0.x, p0.y, p1.x, p1.y, 0, filling);
@@ -328,7 +329,7 @@ void PrimitiveDraw::Arrow(cooking::DisplayList* dlist, const sm::vec2& p0, const
 void PrimitiveDraw::SetShader(cooking::DisplayList* dlist, int shader_type)
 {
 #ifdef PT2_DISABLE_DEFERRED
-	sl::Blackboard::Instance()->GetShaderMgr()->SetShader(static_cast<sl::ShaderType>(shader_type));
+	sl::Blackboard::Instance()->GetRenderContext().GetShaderMgr().SetShader(static_cast<sl::ShaderType>(shader_type));
 #else
 	assert(dlist);
 	cooking::change_shader(dlist, shader_type);

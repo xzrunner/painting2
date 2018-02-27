@@ -3,7 +3,7 @@
 
 #include <unirender/RenderContext.h>
 #include <shaderlab/Blackboard.h>
-#include <shaderlab/ShaderMgr.h>
+#include <shaderlab/RenderContext.h>
 
 namespace pt2
 {
@@ -12,7 +12,7 @@ void RenderScreen::Scissor(float x, float y, float w, float h)
 {
 	const RenderContext* ctx = RenderCtxStack::Instance()->Top();
 	if (!ctx) {
-		ur::RenderContext& ur_rc = sl::Blackboard::Instance()->GetShaderMgr()->GetContext();
+		auto& ur_rc = sl::Blackboard::Instance()->GetRenderContext().GetContext();
 		ur_rc.SetScissor(0, 0, 0, 0);
 		return;
 	}
@@ -48,7 +48,7 @@ void RenderScreen::Scissor(float x, float y, float w, float h)
 		w = h = 0;
 	}
 
-	ur::RenderContext& ur_rc = sl::Blackboard::Instance()->GetShaderMgr()->GetContext();
+	auto& ur_rc = sl::Blackboard::Instance()->GetRenderContext().GetContext();
 	ur_rc.SetScissor(static_cast<int>(x), static_cast<int>(y), static_cast<int>(w), static_cast<int>(h));
 }
 

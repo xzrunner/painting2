@@ -10,7 +10,9 @@
 #include <stat/StatOverdraw.h>
 #include <shaderlab/Blackboard.h>
 #include <shaderlab/ShaderMgr.h>
+#include <shaderlab/RenderContext.h>
 #include <shaderlab/MaskShader.h>
+#include <shaderlab/RenderContext.h>
 #include <unirender/RenderContext.h>
 #ifndef PT2_DISABLE_DEFERRED
 #include <cooking/Facade.h>
@@ -39,8 +41,8 @@ RenderReturn DrawMask<Type, Params>::DrawImpl(cooking::DisplayList* dlist) const
 	RenderTargetMgr* RT = RenderTargetMgr::Instance();
 
 #ifdef PT2_DISABLE_DEFERRED
-	sl::ShaderMgr* mgr = sl::Blackboard::Instance()->GetShaderMgr();
-	mgr->FlushShader();
+	auto& shader_mgr = sl::Blackboard::Instance()->GetRenderContext().GetShaderMgr();
+	shader_mgr.FlushShader();
 #else
 	cooking::flush_shader(dlist);
 #endif // PT2_DISABLE_DEFERRED
@@ -83,12 +85,11 @@ RenderReturn DrawMask<Type, Params>::DrawBaseToRT(cooking::DisplayList* dlist, R
 	rt->Bind();
 
 #ifdef PT2_DISABLE_DEFERRED
-	sl::ShaderMgr* mgr = sl::Blackboard::Instance()->GetShaderMgr();
+	auto& rc = sl::Blackboard::Instance()->GetRenderContext();
+	rc.GetContext().Clear(0);
 
-	mgr->GetContext().Clear(0);
-
-	mgr->SetShader(sl::SPRITE2);
-	sl::Shader* shader = mgr->GetShader();
+	rc.GetShaderMgr().SetShader(sl::SPRITE2);
+	sl::Shader* shader = rc.GetShaderMgr().GetShader();
 #else
 	cooking::render_clear(dlist, 0);
 	cooking::change_shader(dlist, sl::SPRITE2);
@@ -113,12 +114,11 @@ RenderReturn DrawMask<Type, Params>::DrawMaskToRT(cooking::DisplayList* dlist, R
 	rt->Bind();
 
 #ifdef PT2_DISABLE_DEFERRED
-	sl::ShaderMgr* mgr = sl::Blackboard::Instance()->GetShaderMgr();
+	auto& rc = sl::Blackboard::Instance()->GetRenderContext();
+	rc.GetContext().Clear(0);
 
-	mgr->GetContext().Clear(0);
-
-	mgr->SetShader(sl::SPRITE2);
-	sl::Shader* shader = mgr->GetShader();
+	rc.GetShaderMgr().SetShader(sl::SPRITE2);
+	sl::Shader* shader = rc.GetShaderMgr().GetShader();
 #else
 	cooking::render_clear(dlist, 0);
 	cooking::change_shader(dlist, sl::SPRITE2);
@@ -187,9 +187,9 @@ DrawMaskFromRT(cooking::DisplayList* dlist, RenderTarget* rt_base, RenderTarget*
 #endif // PT2_DISABLE_STATISTICS
 
 #ifdef PT2_DISABLE_DEFERRED
-	sl::ShaderMgr* mgr = sl::Blackboard::Instance()->GetShaderMgr();
-	mgr->SetShader(sl::MASK);
-	sl::MaskShader* shader = static_cast<sl::MaskShader*>(mgr->GetShader());
+	auto& shader_mgr = sl::Blackboard::Instance()->GetRenderContext().GetShaderMgr();
+	shader_mgr.SetShader(sl::MASK);
+	sl::MaskShader* shader = static_cast<sl::MaskShader*>(shader_mgr.GetShader());
 	shader->Draw(&vertices[0].x, &texcoords[0].x, &texcoords_mask[0].x, rt_base->GetTexID(), rt_mask->GetTexID());
 #else
 	cooking::change_shader(dlist, sl::MASK);

@@ -5,6 +5,7 @@
 #include <unirender/Texture.h>
 #include <shaderlab/Blackboard.h>
 #include <shaderlab/ShaderMgr.h>
+#include <shaderlab/RenderContext.h>
 #include <stat/StatImages.h>
 
 namespace pt2
@@ -14,7 +15,7 @@ static const int IMG_ID = -2;
 
 RenderTarget::RenderTarget(int width, int height)
 {
-	ur::RenderContext& ur_rc = sl::Blackboard::Instance()->GetShaderMgr()->GetContext();
+	auto& ur_rc = sl::Blackboard::Instance()->GetRenderContext().GetContext();
 	m_impl = new ur::RenderTarget(&ur_rc, width, height);
 
 	st::StatImages::Instance()->Add(IMG_ID, width, height, ur::TEXTURE_RGBA8);
