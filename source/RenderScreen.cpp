@@ -1,5 +1,7 @@
 #include "painting2/RenderScreen.h"
 #include "painting2/RenderCtxStack.h"
+#include "painting2/Blackboard.h"
+#include "painting2/Context.h"
 
 #include <unirender/RenderContext.h>
 #include <shaderlab/Blackboard.h>
@@ -10,26 +12,27 @@ namespace pt2
 
 void RenderScreen::Scissor(float x, float y, float w, float h)
 {
-	const RenderContext* ctx = RenderCtxStack::Instance()->Top();
-	if (!ctx) {
+	auto& ctx = Blackboard::Instance()->GetContext();
+	const RenderContext* rc = ctx.GetCtxStack().Top();
+	if (!rc) {
 		auto& ur_rc = sl::Blackboard::Instance()->GetRenderContext().GetContext();
 		ur_rc.SetScissor(0, 0, 0, 0);
 		return;
 	}
 
-	float mv_scale = ctx->GetMVScale();
+	float mv_scale = rc->GetMVScale();
 	x *= mv_scale;
 	y *= mv_scale;
 	w *= mv_scale;
 	h *= mv_scale;
 
-	float screen_w = static_cast<float>(ctx->GetScreenWidth()),
-		  screen_h = static_cast<float>(ctx->GetScreenHeight());
+	float screen_w = static_cast<float>(rc->GetScreenWidth()),
+		  screen_h = static_cast<float>(rc->GetScreenHeight());
 	x += screen_w * 0.5f;
 	y += screen_h * 0.5f;
 
-	x += ctx->GetMVOffset().x * mv_scale;
-	y += ctx->GetMVOffset().y * mv_scale;
+	x += rc->GetMVOffset().x * mv_scale;
+	y += rc->GetMVOffset().y * mv_scale;
 
 	if (x < 0) {
 		w += x;

@@ -1,7 +1,5 @@
 #pragma once
 
-#include <cu/cu_macro.h>
-
 namespace pt2
 {
 
@@ -16,13 +14,13 @@ public:
 		MAX_COUNT,
 	};
 
+	CameraMgr();
+
 public:
 	bool IsType(Type t) const { return m_type == t; }
 
 private:
 	Type m_type;
-
-	CU_SINGLETON_DECLARATION(CameraMgr)
 
 }; // CameraMgr
 

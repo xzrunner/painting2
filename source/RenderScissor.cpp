@@ -12,16 +12,6 @@
 namespace pt2
 {
 
-CU_SINGLETON_DEFINITION(RenderScissor)
-
-RenderScissor::RenderScissor() 
-{
-}
-
-RenderScissor::~RenderScissor() 
-{
-}
-
 void RenderScissor::Push(float x, float y, float w, float h, bool use_render_screen, bool no_intersect)
 {
 	auto& rc = sl::Blackboard::Instance()->GetRenderContext();

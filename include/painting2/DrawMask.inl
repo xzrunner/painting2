@@ -5,6 +5,8 @@
 #include "painting2/RenderTarget.h"
 #include "painting2/RenderScissor.h"
 #include "painting2/RenderCtxStack.h"
+#include "painting2/Blackboard.h"
+#include "painting2/Context.h"
 
 #include <stat/StatPingPong.h>
 #include <stat/StatOverdraw.h>
@@ -32,13 +34,11 @@ DrawMask<Type, Params>::DrawMask(const Type& base, const Type& mask, const Param
 template<typename Type, typename Params>
 RenderReturn DrawMask<Type, Params>::DrawImpl(cooking::DisplayList* dlist) const
 {
-	pt2::RenderReturn ret = pt2::RENDER_OK;
+	RenderReturn ret = RENDER_OK;
 
 #ifndef PT2_DISABLE_STATISTICS
 	st::StatPingPong::Instance()->AddCount(st::StatPingPong::MASK);
 #endif // PT2_DISABLE_STATISTICS
-
-	RenderTargetMgr* RT = RenderTargetMgr::Instance();
 
 #ifdef PT2_DISABLE_DEFERRED
 	auto& shader_mgr = sl::Blackboard::Instance()->GetRenderContext().GetShaderMgr();
@@ -47,34 +47,37 @@ RenderReturn DrawMask<Type, Params>::DrawImpl(cooking::DisplayList* dlist) const
 	cooking::flush_shader(dlist);
 #endif // PT2_DISABLE_DEFERRED
 
-	RenderScissor::Instance()->Disable();
-	RenderCtxStack::Instance()->Push(RenderContext(
-		static_cast<float>(RT->WIDTH), static_cast<float>(RT->HEIGHT), RT->WIDTH, RT->HEIGHT));
+	auto& ctx = Blackboard::Instance()->GetContext();
+	auto& rt_mgr = ctx.GetRTMgr();
 
-	RenderTarget* rt_base = RT->Fetch();
+	ctx.GetScissor().Disable();
+	ctx.GetCtxStack().Push(RenderContext(
+		static_cast<float>(rt_mgr.WIDTH), static_cast<float>(rt_mgr.HEIGHT), rt_mgr.WIDTH, rt_mgr.HEIGHT));
+
+	RenderTarget* rt_base = rt_mgr.Fetch();
 	if (!rt_base) {
-		RenderCtxStack::Instance()->Pop();
-		RenderScissor::Instance()->Enable();
+		ctx.GetCtxStack().Pop();
+		ctx.GetScissor().Enable();
 		return RENDER_NO_RT;
 	}
 	ret |= DrawBaseToRT(dlist, rt_base);
 
-	RenderTarget* rt_mask = RT->Fetch();
+	RenderTarget* rt_mask = rt_mgr.Fetch();
 	if (!rt_mask) {
-		RT->Return(rt_base);
-		RenderCtxStack::Instance()->Pop();
-		RenderScissor::Instance()->Enable();
+		rt_mgr.Return(rt_base);
+		ctx.GetCtxStack().Pop();
+		ctx.GetScissor().Enable();
 		return RENDER_NO_RT;
 	}
 	ret |= DrawMaskToRT(dlist, rt_mask);
 
-	RenderCtxStack::Instance()->Pop();
-	RenderScissor::Instance()->Enable();
+	ctx.GetCtxStack().Pop();
+	ctx.GetScissor().Enable();
 
 	ret |= DrawMaskFromRT(dlist, rt_base, rt_mask);
 
-	RT->Return(rt_base);
-	RT->Return(rt_mask);
+	rt_mgr.Return(rt_base);
+	rt_mgr.Return(rt_mask);
 
 	return ret;
 }
@@ -95,7 +98,7 @@ RenderReturn DrawMask<Type, Params>::DrawBaseToRT(cooking::DisplayList* dlist, R
 	cooking::change_shader(dlist, sl::SPRITE2);
 #endif // PT2_DISABLE_DEFERRED
 
-	pt2::RenderReturn ret = DrawBaseNode(m_base, m_params);
+	RenderReturn ret = DrawBaseNode(m_base, m_params);
 
 #ifdef PT2_DISABLE_DEFERRED
 	shader->Commit();
@@ -124,7 +127,7 @@ RenderReturn DrawMask<Type, Params>::DrawMaskToRT(cooking::DisplayList* dlist, R
 	cooking::change_shader(dlist, sl::SPRITE2);
 #endif // PT2_DISABLE_DEFERRED
 
-	pt2::RenderReturn ret = DrawMaskNode(m_mask, m_params);
+	RenderReturn ret = DrawMaskNode(m_mask, m_params);
 
 #ifdef PT2_DISABLE_DEFERRED
 	shader->Commit();
@@ -141,7 +144,8 @@ template<typename Type, typename Params>
 RenderReturn DrawMask<Type, Params>::
 DrawMaskFromRT(cooking::DisplayList* dlist, RenderTarget* rt_base, RenderTarget* rt_mask) const
 {
-	RenderTargetMgr* RT = RenderTargetMgr::Instance();
+	auto& ctx = pt2::Blackboard::Instance()->GetContext();
+	auto& rt_mgr = ctx.GetRTMgr();
 
 	sm::vec2 vertices[4];
 	sm::rect r = GetBounding(m_mask);;
@@ -153,15 +157,15 @@ DrawMaskFromRT(cooking::DisplayList* dlist, RenderTarget* rt_base, RenderTarget*
 	sm::vec2 texcoords[4];
 	for (int i = 0; i < 4; ++i) {
 		texcoords[i] = vertices[i];
-		texcoords[i].x = texcoords[i].x / RT->WIDTH  + 0.5f;
-		texcoords[i].y = texcoords[i].y / RT->HEIGHT + 0.5f;
+		texcoords[i].x = texcoords[i].x / rt_mgr.WIDTH  + 0.5f;
+		texcoords[i].y = texcoords[i].y / rt_mgr.HEIGHT + 0.5f;
 	}
 
 	sm::vec2 texcoords_mask[4];
 	for (int i = 0; i < 4; ++i) {
 		texcoords_mask[i] = vertices[i];
-		texcoords_mask[i].x = texcoords_mask[i].x / RT->WIDTH  + 0.5f;
-		texcoords_mask[i].y = texcoords_mask[i].y / RT->HEIGHT + 0.5f;
+		texcoords_mask[i].x = texcoords_mask[i].x / rt_mgr.WIDTH  + 0.5f;
+		texcoords_mask[i].y = texcoords_mask[i].y / rt_mgr.HEIGHT + 0.5f;
 	}
 
 	auto& mt = GetMat(m_params);
@@ -179,9 +183,9 @@ DrawMaskFromRT(cooking::DisplayList* dlist, RenderTarget* rt_base, RenderTarget*
 		if (pos.y < ymin) ymin = pos.y;
 		if (pos.y > ymax) ymax = pos.y;
 	}
-	const RenderContext* ctx = RenderCtxStack::Instance()->Top();
-	if (ctx) {
-		float area = (xmax - xmin) * (ymax - ymin) / ctx->GetScreenWidth() / ctx->GetScreenHeight();
+	const RenderContext* rc = ctx.GetCtxStack().Top();
+	if (rc) {
+		float area = (xmax - xmin) * (ymax - ymin) / rc->GetScreenWidth() / rc->GetScreenHeight();
 		st::StatOverdraw::Instance()->AddArea(area);
 	}
 #endif // PT2_DISABLE_STATISTICS

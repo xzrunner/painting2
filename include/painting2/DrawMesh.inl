@@ -6,12 +6,14 @@
 #include "painting2/RenderTarget.h"
 #include "painting2/RenderCtxStack.h"
 #include "painting2/RenderScissor.h"
+#include "painting2/Blackboard.h"
+#include "painting2/Context.h"
+#include "painting2/Color.h"
 
 #include <shaderlab/Blackboard.h>
 #include <shaderlab/RenderContext.h>
 #include <shaderlab/FilterShader.h>
 #include <shaderlab/Sprite2Shader.h>
-#include <painting2/Color.h>
 #ifdef PT2_DISABLE_DEFERRED
 #include <unirender/RenderContext.h>
 #else
@@ -159,7 +161,7 @@ DrawTexture(cooking::DisplayList* dlist, const Params& params, const std::shared
 		float texcoords[8];
 		int tex_id;
 		auto ret = PrepareDrawOnePass(dlist, *node, params, texcoords, &tex_id);
-		if (ret != pt2::RENDER_OK) {
+		if (ret != RENDER_OK) {
 			return ret;
 		}
 		ret = DrawOnePass(dlist, params, texcoords, tex_id);
@@ -206,8 +208,9 @@ DrawOnlyMesh(cooking::DisplayList* dlist, const sm::Matrix2D& mt, int tex_id)
 	cooking::set_color_sprite(dlist, 0xffffffff, 0, 0x000000ff, 0x0000ff00, 0x00ff0000);
 #endif // PT2_DISABLE_DEFERRED
 
-	int w = RenderTargetMgr::Instance()->WIDTH,
-		h = RenderTargetMgr::Instance()->HEIGHT;
+	auto& rt_mgr = Blackboard::Instance()->GetContext().GetRTMgr();
+	int w = rt_mgr.WIDTH,
+		h = rt_mgr.HEIGHT;
 	float ori_w = m_mesh.GetWidth(),
 		  ori_h = m_mesh.GetHeight();
 	for (int i = 0, n = triangles.size(); i < n; )
@@ -347,8 +350,9 @@ template<typename T, typename Params>
 RenderReturn DrawMesh<T, Params>::
 DrawTwoPass(cooking::DisplayList* dlist, const Params& params, const T& node)
 {
-	RenderTargetMgr* RT = RenderTargetMgr::Instance();
-	RenderTarget* rt = RT->Fetch();
+	auto& ctx = Blackboard::Instance()->GetContext();
+	auto& rt_mgr = ctx.GetRTMgr();
+	RenderTarget* rt = rt_mgr.Fetch();
 	if (!rt) {
 		return RENDER_NO_RT;
 	}
@@ -361,18 +365,18 @@ DrawTwoPass(cooking::DisplayList* dlist, const Params& params, const T& node)
 
 	sl::Blackboard::Instance()->GetRenderContext().GetShaderMgr().FlushShader();
 
-	RenderScissor::Instance()->Disable();
-	RenderCtxStack::Instance()->Push(RenderContext(
-		static_cast<float>(RT->WIDTH), static_cast<float>(RT->HEIGHT), RT->WIDTH, RT->HEIGHT));
+	ctx.GetScissor().Disable();
+	ctx.GetCtxStack().Push(RenderContext(
+		static_cast<float>(rt_mgr.WIDTH), static_cast<float>(rt_mgr.HEIGHT), rt_mgr.WIDTH, rt_mgr.HEIGHT));
 
 	ret |= DrawMesh2RT(dlist, rt, params, node);
 
-	RenderCtxStack::Instance()->Pop();
-	RenderScissor::Instance()->Enable();
+	ctx.GetCtxStack().Pop();
+	ctx.GetScissor().Enable();
 
 	ret |= DrawRT2Screen(dlist, rt, params.mt);
 
-	RT->Return(rt);
+	rt_mgr.Return(rt);
 
 	return ret;
 }

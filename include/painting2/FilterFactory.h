@@ -1,9 +1,9 @@
 #pragma once
 
 #include "painting2/RenderFilter.h"
+#include "painting2/FilterMode.h"
 
 #include <cu/cu_macro.h>
-#include <painting2/FilterMode.h>
 
 #include <memory>
 

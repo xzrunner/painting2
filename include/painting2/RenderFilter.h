@@ -1,6 +1,6 @@
 #pragma once
 
-#include <painting2/FilterMode.h>
+#include "painting2/FilterMode.h"
 
 #include <memory>
 

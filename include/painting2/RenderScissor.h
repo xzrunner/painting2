@@ -45,8 +45,6 @@ private:
 private:
 	CU_VEC<Rect> m_stack;
 	
-	CU_SINGLETON_DECLARATION(RenderScissor)
-
 }; // RenderScissor
 
 }

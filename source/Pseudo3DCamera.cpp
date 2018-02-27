@@ -1,11 +1,13 @@
 #include "painting2/Pseudo3DCamera.h"
+#include "painting2/RenderContext.h"
+#include "painting2/RenderCtxStack.h"
+#include "painting2/Blackboard.h"
+#include "painting2/Context.h"
 
 #ifndef PT2_DISABLE_CAMERA25
 
 #include <c25_camera.h>
 #include <sm_c_vector.h>
-#include <painting2/RenderContext.h>
-#include <painting2/RenderCtxStack.h>
 
 #include <stddef.h>
 
@@ -19,9 +21,10 @@ static const float ANGLE = -20;
 Pseudo3DCamera::Pseudo3DCamera()
 	: m_cam(nullptr)
 {
-	const pt2::RenderContext* ctx = pt2::RenderCtxStack::Instance()->Top();
-	if (ctx) {
-		OnSize(ctx->GetScreenWidth(), ctx->GetScreenHeight());
+	auto& ctx = Blackboard::Instance()->GetContext();
+	const RenderContext* rc = ctx.GetCtxStack().Top();
+	if (rc) {
+		OnSize(rc->GetScreenWidth(), rc->GetScreenHeight());
 	}
 }
 
@@ -43,9 +46,10 @@ Pseudo3DCamera::~Pseudo3DCamera()
 
 void Pseudo3DCamera::OnSize(int width, int height)
 {
-	pt2::RenderContext* ctx = const_cast<pt2::RenderContext*>(pt2::RenderCtxStack::Instance()->Top());
-	if (ctx) {
-		ctx->SetProjection(width, height);
+	auto& ctx = Blackboard::Instance()->GetContext();
+	RenderContext* rc = const_cast<RenderContext*>(ctx.GetCtxStack().Top());
+	if (rc) {
+		rc->SetProjection(width, height);
 	}
 
 	c25_cam_release(m_cam);
@@ -140,15 +144,16 @@ const sm_mat4* Pseudo3DCamera::GetProjectMat() const
 
 void Pseudo3DCamera::Init(const Pseudo3DCamera& cam)
 {
-	const pt2::RenderContext* ctx = pt2::RenderCtxStack::Instance()->Top();
-	if (!ctx) {
+	auto& ctx = Blackboard::Instance()->GetContext();
+	const RenderContext* rc = ctx.GetCtxStack().Top();
+	if (!rc) {
 		return;
 	}
 
 	const sm_vec3* pos = c25_cam_get_pos(cam.m_cam);
 	float angle = c25_cam_get_angle(cam.m_cam);
-	int w = ctx->GetScreenWidth(),
-		h = ctx->GetScreenHeight();
+	int w = rc->GetScreenWidth(),
+		h = rc->GetScreenHeight();
 	m_cam = c25_cam_create(pos, angle, (float)w / h);
 }
 
@@ -156,7 +161,7 @@ void Pseudo3DCamera::UpdateRender() const
 {
 	float angle = c25_cam_get_angle(m_cam);
 
-	// todo: should change pt2::RenderContext, which will change sl mvp
+	// todo: should change RenderContext, which will change sl mvp
 // 	const sm_mat4* mat = c25_cam_get_modelview_mat(m_cam);
 // 	sl::SubjectMVP3::Instance()->NotifyModelview(*(const sm::mat4*)mat);
 }

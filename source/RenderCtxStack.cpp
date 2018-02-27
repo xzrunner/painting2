@@ -7,16 +7,6 @@
 namespace pt2
 {
 
-CU_SINGLETON_DEFINITION(RenderCtxStack)
-
-RenderCtxStack::RenderCtxStack() 
-{
-}
-
-RenderCtxStack::~RenderCtxStack() 
-{
-}
-
 int RenderCtxStack::Push(const RenderContext& ctx)
 {
 	int idx = m_stack.size();

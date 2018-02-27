@@ -2,7 +2,6 @@
 
 #include "painting2/RenderContext.h"
 
-#include <cu/cu_macro.h>
 #include <cu/cu_stl.h>
 
 namespace pt2
@@ -26,8 +25,6 @@ private:
 
 private:
 	CU_VEC<RenderContext> m_stack;
-
-	CU_SINGLETON_DECLARATION(RenderCtxStack)
 
 }; // RenderCtxStack
 

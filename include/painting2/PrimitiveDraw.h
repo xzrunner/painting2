@@ -17,7 +17,7 @@ public:
 	// config
 	static void Init();	
 
-	static void SetColor(const pt2::Color& color);
+	static void SetColor(const Color& color);
 	static void PointSize(float size);
 	static void LineWidth(float width);
 
@@ -37,7 +37,7 @@ public:
 
 	// face
 	static void Triangles(cooking::DisplayList* dlist, const CU_VEC<sm::vec2>& triangles);
-	static void Triangles(cooking::DisplayList* dlist, const CU_VEC<sm::vec2>& triangles, const CU_VEC<pt2::Color>& colors);
+	static void Triangles(cooking::DisplayList* dlist, const CU_VEC<sm::vec2>& triangles, const CU_VEC<Color>& colors);
 	static void TriangleStrip(cooking::DisplayList* dlist, const CU_VEC<sm::vec2>& triangles);
 
 	static void Rect(cooking::DisplayList* dlist, const sm::vec2& center, float hw, float hh, bool filling);

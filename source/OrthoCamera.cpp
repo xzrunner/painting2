@@ -1,6 +1,8 @@
 #include "painting2/OrthoCamera.h"
 #include "painting2/RenderContext.h"
 #include "painting2/RenderCtxStack.h"
+#include "painting2/Blackboard.h"
+#include "painting2/Context.h"
 
 namespace pt2
 {
@@ -14,12 +16,13 @@ OrthoCamera::OrthoCamera()
 
 void OrthoCamera::OnSize(int width, int height)
 {
-	pt2::RenderContext* ctx = const_cast<pt2::RenderContext*>(pt2::RenderCtxStack::Instance()->Top());
-	if (ctx) {
-		ctx->SetProjection(width, height);
-		ctx->SetScreen(width, height);
+	auto& ctx = Blackboard::Instance()->GetContext();
+	RenderContext* rc = const_cast<RenderContext*>(ctx.GetCtxStack().Top());
+	if (rc) {
+		rc->SetProjection(width, height);
+		rc->SetScreen(width, height);
 		// todo: set viewport single
-//		ctx->SetViewport(0, 0, width, height);
+//		rc->SetViewport(0, 0, width, height);
 	}
 }
 
@@ -86,14 +89,15 @@ void OrthoCamera::Set(const sm::vec2& pos, float scale)
 
 void OrthoCamera::UpdateRender() const
 {
-	pt2::RenderContext* ctx = const_cast<pt2::RenderContext*>(pt2::RenderCtxStack::Instance()->Top());
-	if (!ctx) {
+	auto& ctx = Blackboard::Instance()->GetContext();
+	RenderContext* rc = const_cast<RenderContext*>(ctx.GetCtxStack().Top());
+	if (!rc) {
 		return;
 	}
 
 	sm::vec2 mv_offset = - m_position;
 	float mv_scale = 1 / m_scale;
-	ctx->SetModelView(mv_offset, mv_scale);
+	rc->SetModelView(mv_offset, mv_scale);
 }
 
 }

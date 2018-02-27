@@ -12,9 +12,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\AABB.cpp" />
+    <ClCompile Include="..\..\..\source\Blackboard.cpp" />
     <ClCompile Include="..\..\..\source\BoundingBox.cpp" />
     <ClCompile Include="..\..\..\source\Callback.cpp" />
     <ClCompile Include="..\..\..\source\CameraMgr.cpp" />
+    <ClCompile Include="..\..\..\source\Context.cpp" />
     <ClCompile Include="..\..\..\source\FilterFactory.cpp" />
     <ClCompile Include="..\..\..\source\GeoTransform.cpp" />
     <ClCompile Include="..\..\..\source\OBB.cpp" />
@@ -37,6 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\painting2\AABB.h" />
+    <ClInclude Include="..\..\..\include\painting2\Blackboard.h" />
     <ClInclude Include="..\..\..\include\painting2\BlendMode.h" />
     <ClInclude Include="..\..\..\include\painting2\BoundingBox.h" />
     <ClInclude Include="..\..\..\include\painting2\Callback.h" />
@@ -46,6 +49,7 @@
     <ClInclude Include="..\..\..\include\painting2\CameraType.h" />
     <ClInclude Include="..\..\..\include\painting2\Color.h" />
     <ClInclude Include="..\..\..\include\painting2\config.h" />
+    <ClInclude Include="..\..\..\include\painting2\Context.h" />
     <ClInclude Include="..\..\..\include\painting2\DrawMask.h" />
     <ClInclude Include="..\..\..\include\painting2\DrawMesh.h" />
     <ClInclude Include="..\..\..\include\painting2\DrawPingPong.h" />

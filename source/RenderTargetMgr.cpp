@@ -6,17 +6,11 @@
 namespace pt2
 {
 
-CU_SINGLETON_DEFINITION(RenderTargetMgr);
-
 const int RenderTargetMgr::WIDTH  = 1024;
 const int RenderTargetMgr::HEIGHT = 1024;
 
 static RenderTarget* (*FETCH_SCREEN)() = nullptr;
 static void (*RETURN_SCREEN)(RenderTarget* rt) = nullptr;
-
-RenderTargetMgr::RenderTargetMgr()
-{
-}
 
 RenderTarget* RenderTargetMgr::Fetch()
 {

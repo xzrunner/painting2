@@ -1,5 +1,9 @@
 #include "painting2/PrimitiveDraw.h"
 #include "painting2/config.h"
+#include "painting2/Color.h"
+#include "painting2/CameraMgr.h"
+#include "painting2/Blackboard.h"
+#include "painting2/Context.h"
 
 #ifndef PT2_DISABLE_RVG
 #include <rvg.h>
@@ -13,8 +17,6 @@
 #ifndef PT2_DISABLE_DEFERRED
 #include <cooking/Facade.h>
 #endif // PT2_DISABLE_DEFERRED
-#include <painting2/Color.h>
-#include <painting2/CameraMgr.h>
 
 #include <assert.h>
 
@@ -28,10 +30,10 @@ void PrimitiveDraw::Init()
 #endif // PT2_DISABLE_RVG
 }
 
-void PrimitiveDraw::SetColor(const pt2::Color& color)
+void PrimitiveDraw::SetColor(const Color& color)
 {
 	auto& shader_mgr = sl::Blackboard::Instance()->GetRenderContext().GetShaderMgr();
-	if (pt2::CameraMgr::Instance()->IsType(pt2::CameraMgr::ORTHO)) {
+	if (Blackboard::Instance()->GetContext().GetCamMgr().IsType(CameraMgr::ORTHO)) {
 		sl::Shape2Shader* shader = static_cast<sl::Shape2Shader*>(shader_mgr.GetShader(sl::SHAPE2));
 		shader->SetColor(color.ToABGR());
 	} else {
@@ -57,7 +59,7 @@ void PrimitiveDraw::LineWidth(float width)
 void PrimitiveDraw::Point(cooking::DisplayList* dlist, const sm::vec2& vertex)
 {
 #ifndef PT2_DISABLE_RVG
-	if (pt2::CameraMgr::Instance()->IsType(pt2::CameraMgr::ORTHO)) {
+	if (Blackboard::Instance()->GetContext().GetCamMgr().IsType(CameraMgr::ORTHO)) {
 		SetShader(dlist, sl::SHAPE2);
 		rvg_point(vertex.x, vertex.y);
 	} else {
@@ -70,7 +72,7 @@ void PrimitiveDraw::Point(cooking::DisplayList* dlist, const sm::vec2& vertex)
 void PrimitiveDraw::Points(cooking::DisplayList* dlist, const CU_VEC<sm::vec2>& vertices)
 {
 #ifndef PT2_DISABLE_RVG
-	if (pt2::CameraMgr::Instance()->IsType(pt2::CameraMgr::ORTHO)) {
+	if (Blackboard::Instance()->GetContext().GetCamMgr().IsType(CameraMgr::ORTHO)) {
 		SetShader(dlist, sl::SHAPE2);
 		for (int i = 0, n = vertices.size(); i < n; ++i) {
 			rvg_point(vertices[i].x, vertices[i].y);
@@ -89,7 +91,7 @@ void PrimitiveDraw::Line(cooking::DisplayList* dlist, const sm::vec2& p0, const 
 #ifndef PT2_DISABLE_RVG
 	rvg_line_style(LS_DEFAULT);
 
-	if (pt2::CameraMgr::Instance()->IsType(pt2::CameraMgr::ORTHO)) {
+	if (Blackboard::Instance()->GetContext().GetCamMgr().IsType(CameraMgr::ORTHO)) {
 		SetShader(dlist, sl::SHAPE2);
 		rvg_line(p0.x, p0.y, p1.x, p1.y);
 	} else {
@@ -103,7 +105,7 @@ void PrimitiveDraw::DotLine(cooking::DisplayList* dlist, const sm::vec2& p0, con
 {
 #ifndef PT2_DISABLE_RVG
 	rvg_line_style(LS_DOT);
-	if (pt2::CameraMgr::Instance()->IsType(pt2::CameraMgr::ORTHO)) {
+	if (Blackboard::Instance()->GetContext().GetCamMgr().IsType(CameraMgr::ORTHO)) {
 		SetShader(dlist, sl::SHAPE2);
 		rvg_line(p0.x, p0.y, p1.x, p1.y);
 	} else {
@@ -117,7 +119,7 @@ void PrimitiveDraw::DashLine(cooking::DisplayList* dlist, const sm::vec2& p0, co
 {
 #ifndef PT2_DISABLE_RVG
 	rvg_line_style(LS_DASH);
-	if (pt2::CameraMgr::Instance()->IsType(pt2::CameraMgr::ORTHO)) {
+	if (Blackboard::Instance()->GetContext().GetCamMgr().IsType(CameraMgr::ORTHO)) {
 		SetShader(dlist, sl::SHAPE2);
 		rvg_line(p0.x, p0.y, p1.x, p1.y);
 	} else {
@@ -131,7 +133,7 @@ void PrimitiveDraw::DotDashLine(cooking::DisplayList* dlist, const sm::vec2& p0,
 {
 #ifndef PT2_DISABLE_RVG
 	rvg_line_style(LS_DOT_DASH);
-	if (pt2::CameraMgr::Instance()->IsType(pt2::CameraMgr::ORTHO)) {
+	if (Blackboard::Instance()->GetContext().GetCamMgr().IsType(CameraMgr::ORTHO)) {
 		SetShader(dlist, sl::SHAPE2);
 		rvg_line(p0.x, p0.y, p1.x, p1.y);
 	} else {
@@ -149,7 +151,7 @@ void PrimitiveDraw::Lines(cooking::DisplayList* dlist, const CU_VEC<sm::vec2>& v
 	}
 
 	rvg_line_style(LS_DEFAULT);
-	if (pt2::CameraMgr::Instance()->IsType(pt2::CameraMgr::ORTHO)) {
+	if (Blackboard::Instance()->GetContext().GetCamMgr().IsType(CameraMgr::ORTHO)) {
 		SetShader(dlist, sl::SHAPE2);
 		rvg_lines(&vertices[0].x, vertices.size());
 	} else {
@@ -171,7 +173,7 @@ void PrimitiveDraw::Polyline(cooking::DisplayList* dlist, const CU_VEC<sm::vec2>
 	}
 
 	rvg_line_style(LS_DEFAULT);
-	if (pt2::CameraMgr::Instance()->IsType(pt2::CameraMgr::ORTHO)) {
+	if (Blackboard::Instance()->GetContext().GetCamMgr().IsType(CameraMgr::ORTHO)) {
 		SetShader(dlist, sl::SHAPE2);
 		rvg_polyline(&vertices[0].x, vertices.size(), loop);
 	} else {
@@ -193,7 +195,7 @@ void PrimitiveDraw::Polyline(cooking::DisplayList* dlist, const float* vertices,
 	}
 
 	rvg_line_style(LS_DEFAULT);
-	if (pt2::CameraMgr::Instance()->IsType(pt2::CameraMgr::ORTHO)) {
+	if (Blackboard::Instance()->GetContext().GetCamMgr().IsType(CameraMgr::ORTHO)) {
 		SetShader(dlist, sl::SHAPE2);
 		rvg_polyline(vertices, count, loop);
 	} else {
@@ -213,7 +215,7 @@ void PrimitiveDraw::Triangles(cooking::DisplayList* dlist, const CU_VEC<sm::vec2
 #ifndef PT2_DISABLE_RVG
 	if (triangles.size() < 3) return;
 
-	if (pt2::CameraMgr::Instance()->IsType(pt2::CameraMgr::ORTHO)) {
+	if (Blackboard::Instance()->GetContext().GetCamMgr().IsType(CameraMgr::ORTHO)) {
 		SetShader(dlist, sl::SHAPE2);
 		rvg_triangles(&triangles[0].x, triangles.size());
 	} else {
@@ -227,7 +229,7 @@ void PrimitiveDraw::Triangles(cooking::DisplayList* dlist, const CU_VEC<sm::vec2
 #endif // PT2_DISABLE_RVG
 }
 
-void PrimitiveDraw::Triangles(cooking::DisplayList* dlist, const CU_VEC<sm::vec2>& triangles, const CU_VEC<pt2::Color>& colors)
+void PrimitiveDraw::Triangles(cooking::DisplayList* dlist, const CU_VEC<sm::vec2>& triangles, const CU_VEC<Color>& colors)
 {
 	// todo
 }
@@ -237,7 +239,7 @@ void PrimitiveDraw::TriangleStrip(cooking::DisplayList* dlist, const CU_VEC<sm::
 #ifndef PT2_DISABLE_RVG
 	if (triangles.size() < 3) return;
 
-	if (pt2::CameraMgr::Instance()->IsType(pt2::CameraMgr::ORTHO)) {
+	if (Blackboard::Instance()->GetContext().GetCamMgr().IsType(CameraMgr::ORTHO)) {
 		SetShader(dlist, sl::SHAPE2);
 		rvg_triangle_strip(&triangles[0].x, triangles.size());
 	} else {
@@ -259,7 +261,7 @@ void PrimitiveDraw::Rect(cooking::DisplayList* dlist, const sm::vec2& center, fl
 void PrimitiveDraw::Rect(cooking::DisplayList* dlist, const sm::vec2& p0, const sm::vec2& p1, bool filling)
 {
 #ifndef PT2_DISABLE_RVG
-	if (pt2::CameraMgr::Instance()->IsType(pt2::CameraMgr::ORTHO)) {
+	if (Blackboard::Instance()->GetContext().GetCamMgr().IsType(CameraMgr::ORTHO)) {
 		SetShader(dlist, sl::SHAPE2);
 		rvg_rect(p0.x, p0.y, p1.x, p1.y, filling);
 		sl::Blackboard::Instance()->GetRenderContext().GetShaderMgr().GetShader()->Commit();
@@ -278,7 +280,7 @@ void PrimitiveDraw::Rect(cooking::DisplayList* dlist, const sm::rect& r, bool fi
 void PrimitiveDraw::Circle(cooking::DisplayList* dlist, const sm::vec2& center, float radius, bool filling, int segments)
 {
 #ifndef PT2_DISABLE_RVG
-	if (pt2::CameraMgr::Instance()->IsType(pt2::CameraMgr::ORTHO)) {
+	if (Blackboard::Instance()->GetContext().GetCamMgr().IsType(CameraMgr::ORTHO)) {
 		SetShader(dlist, sl::SHAPE2);
 		rvg_circle(center.x, center.y, radius, filling, segments);
 	} else {

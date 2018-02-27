@@ -28,7 +28,7 @@ protected:
 	virtual RenderReturn DrawNode(const T& node, const Params& params) const = 0;
 
 	virtual bool IsNodeImage(const T& node) const = 0;
-	virtual pt2::RenderReturn PrepareDrawOnePass(cooking::DisplayList* dlist, 
+	virtual RenderReturn PrepareDrawOnePass(cooking::DisplayList* dlist, 
 		const T& node, const Params& params, float* texcoords, int* tex_id) const = 0;
 
 private:
