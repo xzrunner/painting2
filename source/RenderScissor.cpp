@@ -2,6 +2,7 @@
 #include "painting2/RenderScreen.h"
 
 #include <unirender/RenderContext.h>
+#include <unirender/Blackboard.h>
 #include <shaderlab/Blackboard.h>
 #include <shaderlab/ShaderMgr.h>
 #include <shaderlab/RenderContext.h>
@@ -17,7 +18,7 @@ void RenderScissor::Push(float x, float y, float w, float h, bool use_render_scr
 	auto& rc = sl::Blackboard::Instance()->GetRenderContext();
 	rc.GetShaderMgr().FlushShader();
 
-	ur::RenderContext& ur_rc = rc.GetContext();
+	auto& ur_rc = ur::Blackboard::Instance()->GetRenderContext();
 	ur_rc.EnableScissor(true);
 
 	if (!no_intersect && !m_stack.empty() && !m_stack.back().IsInvalid()) {
@@ -46,7 +47,7 @@ void RenderScissor::Pop()
 	auto& rc = sl::Blackboard::Instance()->GetRenderContext();
 	rc.GetShaderMgr().FlushShader();
 	m_stack.pop_back();
-	ur::RenderContext& ur_rc = rc.GetContext();
+	auto& ur_rc = ur::Blackboard::Instance()->GetRenderContext();
 	if (m_stack.empty()) {
 		ur_rc.EnableScissor(false);
 		return;
@@ -73,7 +74,7 @@ bool RenderScissor::IsEmpty() const
 
 void RenderScissor::Disable()
 {
-	auto& ur_rc = sl::Blackboard::Instance()->GetRenderContext().GetContext();
+	auto& ur_rc = ur::Blackboard::Instance()->GetRenderContext();
 	ur_rc.EnableScissor(false);
 	Rect r;
 	r.MakeInvalid();

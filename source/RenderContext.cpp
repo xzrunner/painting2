@@ -1,6 +1,7 @@
 #include "painting2/RenderContext.h"
 
 #include <unirender/RenderContext.h>
+#include <unirender/Blackboard.h>
 #include <shaderlab/SubjectMVP2.h>
 #include <shaderlab/Blackboard.h>
 #include <shaderlab/ShaderMgr.h>
@@ -108,7 +109,7 @@ void RenderContext::UpdateViewport() const
 		return;
 	}
 
-	auto& ur_rc = sl::Blackboard::Instance()->GetRenderContext().GetContext();
+	auto& ur_rc = ur::Blackboard::Instance()->GetRenderContext();
 	ur_rc.SetViewport(m_vp_x, m_vp_y, m_vp_w, m_vp_h);
 }
 

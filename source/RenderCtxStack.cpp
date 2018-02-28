@@ -1,6 +1,7 @@
 #include "painting2/RenderCtxStack.h"
 
 #include <unirender/RenderContext.h>
+#include <unirender/Blackboard.h>
 #include <shaderlab/SubjectMVP2.h>
 #include <shaderlab/ShaderMgr.h>
 

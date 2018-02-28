@@ -1,6 +1,7 @@
 #include "painting2/RenderTarget.h"
 
 #include <unirender/RenderContext.h>
+#include <unirender/Blackboard.h>
 #include <unirender/RenderTarget.h>
 #include <unirender/Texture.h>
 #include <shaderlab/Blackboard.h>
@@ -15,7 +16,7 @@ static const int IMG_ID = -2;
 
 RenderTarget::RenderTarget(int width, int height)
 {
-	auto& ur_rc = sl::Blackboard::Instance()->GetRenderContext().GetContext();
+	auto& ur_rc = ur::Blackboard::Instance()->GetRenderContext();
 	m_impl = new ur::RenderTarget(&ur_rc, width, height);
 
 	st::StatImages::Instance()->Add(IMG_ID, width, height, ur::TEXTURE_RGBA8);

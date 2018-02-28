@@ -16,6 +16,7 @@
 #include <shaderlab/Sprite2Shader.h>
 #ifdef PT2_DISABLE_DEFERRED
 #include <unirender/RenderContext.h>
+#include <unirender/Blackboard.h>
 #else
 #include <cooking/Facade.h>
 #include <cooking/DisplayList.h>
@@ -388,8 +389,7 @@ DrawMesh2RT(cooking::DisplayList* dlist, RenderTarget* rt, const Params& params,
 	rt->Bind();
 
 #ifdef PT2_DISABLE_DEFERRED
-	auto& rc = sl::Blackboard::Instance()->GetRenderContext();
-	rc.GetContext().Clear(0);
+	ur::Blackboard::Instance()->GetRenderContext().Clear(0);
 #else
 	cooking::render_clear(dlist, 0);
 #endif // PT2_DISABLE_DEFERRED
@@ -397,7 +397,7 @@ DrawMesh2RT(cooking::DisplayList* dlist, RenderTarget* rt, const Params& params,
 	RenderReturn ret = DrawNode(node, params);
 
 #ifdef PT2_DISABLE_DEFERRED
-	rc.GetShaderMgr().FlushShader();
+	sl::Blackboard::Instance()->GetRenderContext().GetShaderMgr().FlushShader();
 #else
 	cooking::flush_shader(dlist);
 #endif // PT2_DISABLE_DEFERRED

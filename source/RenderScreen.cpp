@@ -4,6 +4,7 @@
 #include "painting2/Context.h"
 
 #include <unirender/RenderContext.h>
+#include <unirender/Blackboard.h>
 #include <shaderlab/Blackboard.h>
 #include <shaderlab/RenderContext.h>
 
@@ -15,7 +16,7 @@ void RenderScreen::Scissor(float x, float y, float w, float h)
 	auto& ctx = Blackboard::Instance()->GetContext();
 	const RenderContext* rc = ctx.GetCtxStack().Top();
 	if (!rc) {
-		auto& ur_rc = sl::Blackboard::Instance()->GetRenderContext().GetContext();
+		auto& ur_rc = ur::Blackboard::Instance()->GetRenderContext();
 		ur_rc.SetScissor(0, 0, 0, 0);
 		return;
 	}
@@ -51,7 +52,7 @@ void RenderScreen::Scissor(float x, float y, float w, float h)
 		w = h = 0;
 	}
 
-	auto& ur_rc = sl::Blackboard::Instance()->GetRenderContext().GetContext();
+	auto& ur_rc = ur::Blackboard::Instance()->GetRenderContext();
 	ur_rc.SetScissor(static_cast<int>(x), static_cast<int>(y), static_cast<int>(w), static_cast<int>(h));
 }
 
