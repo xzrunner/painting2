@@ -9,19 +9,23 @@ namespace pt2
 {
 
 class RenderContext;
-class ShaderMgr;
+class WindowContext;
 
 class Blackboard
 {
 public:
-	void SetContext(const std::shared_ptr<RenderContext>& ctx) { m_ctx = ctx; }
-	RenderContext& GetContext() {
-		GD_ASSERT(m_ctx, "null ctx");
-		return *m_ctx;
+	void SetRenderContext(const std::shared_ptr<RenderContext>& rc) { m_rc = rc; }
+	RenderContext& GetRenderContext() {
+		GD_ASSERT(m_rc, "null rc");
+		return *m_rc;
 	}
 
+	void SetWindowContext(const std::shared_ptr<WindowContext>& wc) { m_wc = wc; }
+	const std::shared_ptr<WindowContext>& GetWindowContext() { return m_wc; }
+
 private:
-	std::shared_ptr<RenderContext> m_ctx = nullptr;
+	std::shared_ptr<RenderContext> m_rc = nullptr;
+	std::shared_ptr<WindowContext> m_wc = nullptr;
 
 	CU_SINGLETON_DECLARATION(Blackboard);
 

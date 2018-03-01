@@ -4,9 +4,9 @@
 #include "painting2/RenderTargetMgr.h"
 #include "painting2/RenderTarget.h"
 #include "painting2/RenderScissor.h"
-#include "painting2/WndCtxStack.h"
 #include "painting2/Blackboard.h"
 #include "painting2/RenderContext.h"
+#include "painting2/WindowContext.h"
 
 #include <stat/StatPingPong.h>
 #include <stat/StatOverdraw.h>
@@ -48,32 +48,47 @@ RenderReturn DrawMask<Type, Params>::DrawImpl(cooking::DisplayList* dlist) const
 	cooking::flush_shader(dlist);
 #endif // PT2_DISABLE_DEFERRED
 
-	auto& ctx = Blackboard::Instance()->GetContext();
-	auto& rt_mgr = ctx.GetRTMgr();
+	auto& rc = Blackboard::Instance()->GetRenderContext();
+	auto& rt_mgr = rc.GetRTMgr();
 
-	ctx.GetScissor().Disable();
-	ctx.GetCtxStack().Push(WindowContext(
-		static_cast<float>(rt_mgr.WIDTH), static_cast<float>(rt_mgr.HEIGHT), rt_mgr.WIDTH, rt_mgr.HEIGHT));
+	rc.GetScissor().Disable();
+
+	auto old_wc = pt2::Blackboard::Instance()->GetWindowContext();
+	auto new_wc = std::make_shared<pt2::WindowContext>(
+		static_cast<float>(rt_mgr.WIDTH), static_cast<float>(rt_mgr.HEIGHT), rt_mgr.WIDTH, rt_mgr.HEIGHT);
+	new_wc->Bind();
+	pt2::Blackboard::Instance()->SetWindowContext(new_wc);
 
 	RenderTarget* rt_base = rt_mgr.Fetch();
-	if (!rt_base) {
-		ctx.GetCtxStack().Pop();
-		ctx.GetScissor().Enable();
+	if (!rt_base) 
+	{
+		old_wc->Bind();
+		pt2::Blackboard::Instance()->SetWindowContext(old_wc);
+
+		rc.GetScissor().Enable();
+
 		return RENDER_NO_RT;
 	}
 	ret |= DrawBaseToRT(dlist, rt_base);
 
 	RenderTarget* rt_mask = rt_mgr.Fetch();
-	if (!rt_mask) {
+	if (!rt_mask) 
+	{
 		rt_mgr.Return(rt_base);
-		ctx.GetCtxStack().Pop();
-		ctx.GetScissor().Enable();
+
+		old_wc->Bind();
+		pt2::Blackboard::Instance()->SetWindowContext(old_wc);
+
+		rc.GetScissor().Enable();
+
 		return RENDER_NO_RT;
 	}
 	ret |= DrawMaskToRT(dlist, rt_mask);
 
-	ctx.GetCtxStack().Pop();
-	ctx.GetScissor().Enable();
+	old_wc->Bind();
+	pt2::Blackboard::Instance()->SetWindowContext(old_wc);
+
+	rc.GetScissor().Enable();
 
 	ret |= DrawMaskFromRT(dlist, rt_base, rt_mask);
 
@@ -145,8 +160,8 @@ template<typename Type, typename Params>
 RenderReturn DrawMask<Type, Params>::
 DrawMaskFromRT(cooking::DisplayList* dlist, RenderTarget* rt_base, RenderTarget* rt_mask) const
 {
-	auto& ctx = pt2::Blackboard::Instance()->GetContext();
-	auto& rt_mgr = ctx.GetRTMgr();
+	auto& rc = pt2::Blackboard::Instance()->GetRenderContext();
+	auto& rt_mgr = rc.GetRTMgr();
 
 	sm::vec2 vertices[4];
 	sm::rect r = GetBounding(m_mask);;
@@ -184,7 +199,7 @@ DrawMaskFromRT(cooking::DisplayList* dlist, RenderTarget* rt_base, RenderTarget*
 		if (pos.y < ymin) ymin = pos.y;
 		if (pos.y > ymax) ymax = pos.y;
 	}
-	auto wc = ctx.GetCtxStack().Top();
+	auto& wc = pt2::Blackboard::Instance()->GetWindowContext();
 	if (wc) {
 		float area = (xmax - xmin) * (ymax - ymin) / wc->GetScreenWidth() / wc->GetScreenHeight();
 		st::StatOverdraw::Instance()->AddArea(area);

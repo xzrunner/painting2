@@ -1,6 +1,5 @@
 #include "painting2/OrthoCamera.h"
 #include "painting2/WindowContext.h"
-#include "painting2/WndCtxStack.h"
 #include "painting2/Blackboard.h"
 #include "painting2/RenderContext.h"
 
@@ -16,8 +15,7 @@ OrthoCamera::OrthoCamera()
 
 void OrthoCamera::OnSize(int width, int height)
 {
-	auto& ctx = Blackboard::Instance()->GetContext();
-	auto wc = const_cast<WindowContext*>(ctx.GetCtxStack().Top());
+	auto& wc = pt2::Blackboard::Instance()->GetWindowContext();
 	if (wc) {
 		wc->SetProjection(width, height);
 		wc->SetScreen(width, height);
@@ -89,8 +87,7 @@ void OrthoCamera::Set(const sm::vec2& pos, float scale)
 
 void OrthoCamera::UpdateRender() const
 {
-	auto& ctx = Blackboard::Instance()->GetContext();
-	auto wc = const_cast<WindowContext*>(ctx.GetCtxStack().Top());
+	auto& wc = pt2::Blackboard::Instance()->GetWindowContext();
 	if (!wc) {
 		return;
 	}

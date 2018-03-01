@@ -4,10 +4,10 @@
 #include "painting2/PrimitiveDraw.h"
 #include "painting2/RenderTargetMgr.h"
 #include "painting2/RenderTarget.h"
-#include "painting2/WndCtxStack.h"
 #include "painting2/RenderScissor.h"
 #include "painting2/Blackboard.h"
 #include "painting2/RenderContext.h"
+#include "painting2/WindowContext.h"
 #include "painting2/Color.h"
 
 #include <shaderlab/Blackboard.h>
@@ -209,7 +209,7 @@ DrawOnlyMesh(cooking::DisplayList* dlist, const sm::Matrix2D& mt, int tex_id)
 	cooking::set_color_sprite(dlist, 0xffffffff, 0, 0x000000ff, 0x0000ff00, 0x00ff0000);
 #endif // PT2_DISABLE_DEFERRED
 
-	auto& rt_mgr = Blackboard::Instance()->GetContext().GetRTMgr();
+	auto& rt_mgr = Blackboard::Instance()->GetRenderContext().GetRTMgr();
 	int w = rt_mgr.WIDTH,
 		h = rt_mgr.HEIGHT;
 	float ori_w = m_mesh.GetWidth(),
@@ -351,8 +351,8 @@ template<typename T, typename Params>
 RenderReturn DrawMesh<T, Params>::
 DrawTwoPass(cooking::DisplayList* dlist, const Params& params, const T& node)
 {
-	auto& ctx = Blackboard::Instance()->GetContext();
-	auto& rt_mgr = ctx.GetRTMgr();
+	auto& rc = Blackboard::Instance()->GetRenderContext();
+	auto& rt_mgr = rc.GetRTMgr();
 	RenderTarget* rt = rt_mgr.Fetch();
 	if (!rt) {
 		return RENDER_NO_RT;
@@ -366,14 +366,20 @@ DrawTwoPass(cooking::DisplayList* dlist, const Params& params, const T& node)
 
 	sl::Blackboard::Instance()->GetRenderContext().GetShaderMgr().FlushShader();
 
-	ctx.GetScissor().Disable();
-	ctx.GetCtxStack().Push(WindowContext(
-		static_cast<float>(rt_mgr.WIDTH), static_cast<float>(rt_mgr.HEIGHT), rt_mgr.WIDTH, rt_mgr.HEIGHT));
+	rc.GetScissor().Disable();
+
+	auto old_wc = pt2::Blackboard::Instance()->GetWindowContext();
+	auto new_wc = std::make_shared<pt2::WindowContext>(
+		static_cast<float>(rt_mgr.WIDTH), static_cast<float>(rt_mgr.HEIGHT), rt_mgr.WIDTH, rt_mgr.HEIGHT);
+	new_wc->Bind();
+	pt2::Blackboard::Instance()->SetWindowContext(new_wc);
 
 	ret |= DrawMesh2RT(dlist, rt, params, node);
 
-	ctx.GetCtxStack().Pop();
-	ctx.GetScissor().Enable();
+	old_wc->Bind();
+	pt2::Blackboard::Instance()->SetWindowContext(old_wc);
+
+	rc.GetScissor().Enable();
 
 	ret |= DrawRT2Screen(dlist, rt, params.mt);
 

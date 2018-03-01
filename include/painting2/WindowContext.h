@@ -21,6 +21,11 @@ public:
 	void UpdateProjection() const;
 	void UpdateViewport() const;
 
+	void Bind() {
+		UpdateMVP();
+		UpdateViewport();
+	}
+
 	const sm::vec2& GetMVOffset() const { return m_mv_offset; }
 	float GetMVScale() const { return m_mv_scale; }
 

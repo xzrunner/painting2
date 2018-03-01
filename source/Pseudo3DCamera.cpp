@@ -1,6 +1,5 @@
 #include "painting2/Pseudo3DCamera.h"
 #include "painting2/WindowContext.h"
-#include "painting2/WndCtxStack.h"
 #include "painting2/Blackboard.h"
 #include "painting2/RenderContext.h"
 
@@ -21,8 +20,7 @@ static const float ANGLE = -20;
 Pseudo3DCamera::Pseudo3DCamera()
 	: m_cam(nullptr)
 {
-	auto& ctx = Blackboard::Instance()->GetContext();
-	auto wc = ctx.GetCtxStack().Top();
+	auto& wc = pt2::Blackboard::Instance()->GetWindowContext();
 	if (wc) {
 		OnSize(wc->GetScreenWidth(), wc->GetScreenHeight());
 	}
@@ -46,8 +44,7 @@ Pseudo3DCamera::~Pseudo3DCamera()
 
 void Pseudo3DCamera::OnSize(int width, int height)
 {
-	auto& ctx = Blackboard::Instance()->GetContext();
-	auto wc = const_cast<WindowContext*>(ctx.GetCtxStack().Top());
+	auto& wc = pt2::Blackboard::Instance()->GetWindowContext();
 	if (wc) {
 		wc->SetProjection(width, height);
 	}
@@ -144,8 +141,7 @@ const sm_mat4* Pseudo3DCamera::GetProjectMat() const
 
 void Pseudo3DCamera::Init(const Pseudo3DCamera& cam)
 {
-	auto& ctx = Blackboard::Instance()->GetContext();
-	auto wc = ctx.GetCtxStack().Top();
+	auto& wc = pt2::Blackboard::Instance()->GetWindowContext();
 	if (!wc) {
 		return;
 	}

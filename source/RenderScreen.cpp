@@ -1,7 +1,7 @@
 #include "painting2/RenderScreen.h"
-#include "painting2/WndCtxStack.h"
 #include "painting2/Blackboard.h"
 #include "painting2/RenderContext.h"
+#include "painting2/WindowContext.h"
 
 #include <unirender/RenderContext.h>
 #include <unirender/Blackboard.h>
@@ -13,8 +13,7 @@ namespace pt2
 
 void RenderScreen::Scissor(float x, float y, float w, float h)
 {
-	auto& ctx = Blackboard::Instance()->GetContext();
-	auto wc = ctx.GetCtxStack().Top();
+	auto& wc = pt2::Blackboard::Instance()->GetWindowContext();
 	if (!wc) {
 		auto& ur_rc = ur::Blackboard::Instance()->GetRenderContext();
 		ur_rc.SetScissor(0, 0, 0, 0);

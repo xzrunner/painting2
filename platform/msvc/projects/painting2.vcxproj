@@ -26,7 +26,6 @@
     <ClCompile Include="..\..\..\source\RenderColorCommon.cpp" />
     <ClCompile Include="..\..\..\source\RenderColorMap.cpp" />
     <ClCompile Include="..\..\..\source\WindowContext.cpp" />
-    <ClCompile Include="..\..\..\source\WndCtxStack.cpp" />
     <ClCompile Include="..\..\..\source\RenderFilter.cpp" />
     <ClCompile Include="..\..\..\source\RenderScissor.cpp" />
     <ClCompile Include="..\..\..\source\RenderScreen.cpp" />
@@ -65,7 +64,6 @@
     <ClInclude Include="..\..\..\include\painting2\RenderColorCommon.h" />
     <ClInclude Include="..\..\..\include\painting2\RenderColorMap.h" />
     <ClInclude Include="..\..\..\include\painting2\WindowContext.h" />
-    <ClInclude Include="..\..\..\include\painting2\WndCtxStack.h" />
     <ClInclude Include="..\..\..\include\painting2\RenderFilter.h" />
     <ClInclude Include="..\..\..\include\painting2\RenderReturn.h" />
     <ClInclude Include="..\..\..\include\painting2\RenderScissor.h" />

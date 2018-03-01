@@ -66,9 +66,6 @@
     <ClCompile Include="..\..\..\source\WindowContext.cpp">
       <Filter>ctx</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\WndCtxStack.cpp">
-      <Filter>ctx</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\painting2\RenderSystem.h" />
@@ -217,9 +214,6 @@
       <Filter>ctx</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\painting2\WindowContext.h">
-      <Filter>ctx</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\painting2\WndCtxStack.h">
       <Filter>ctx</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\painting2\RenderContext.h">
