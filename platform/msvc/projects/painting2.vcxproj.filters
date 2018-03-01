@@ -48,12 +48,6 @@
     <ClCompile Include="..\..\..\source\RenderScissor.cpp">
       <Filter>scissor</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\RenderCtxStack.cpp">
-      <Filter>ctx</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\source\RenderContext.cpp">
-      <Filter>ctx</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\source\CameraMgr.cpp">
       <Filter>camera</Filter>
     </ClCompile>
@@ -66,10 +60,13 @@
     <ClCompile Include="..\..\..\source\PrimitiveDraw.cpp">
       <Filter>draw</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\Context.cpp">
+    <ClCompile Include="..\..\..\source\Blackboard.cpp">
       <Filter>ctx</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\Blackboard.cpp">
+    <ClCompile Include="..\..\..\source\WindowContext.cpp">
+      <Filter>ctx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\WndCtxStack.cpp">
       <Filter>ctx</Filter>
     </ClCompile>
   </ItemGroup>
@@ -186,12 +183,6 @@
     <ClInclude Include="..\..\..\include\painting2\RenderScissor.h">
       <Filter>scissor</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\painting2\RenderCtxStack.h">
-      <Filter>ctx</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\painting2\RenderContext.h">
-      <Filter>ctx</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\painting2\RenderReturn.h">
       <Filter>render</Filter>
     </ClInclude>
@@ -222,10 +213,16 @@
     <ClInclude Include="..\..\..\include\painting2\Mesh.h">
       <Filter>render\mesh</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\painting2\Context.h">
+    <ClInclude Include="..\..\..\include\painting2\Blackboard.h">
       <Filter>ctx</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\painting2\Blackboard.h">
+    <ClInclude Include="..\..\..\include\painting2\WindowContext.h">
+      <Filter>ctx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\painting2\WndCtxStack.h">
+      <Filter>ctx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\painting2\RenderContext.h">
       <Filter>ctx</Filter>
     </ClInclude>
   </ItemGroup>

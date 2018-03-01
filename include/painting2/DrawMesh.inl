@@ -4,10 +4,10 @@
 #include "painting2/PrimitiveDraw.h"
 #include "painting2/RenderTargetMgr.h"
 #include "painting2/RenderTarget.h"
-#include "painting2/RenderCtxStack.h"
+#include "painting2/WndCtxStack.h"
 #include "painting2/RenderScissor.h"
 #include "painting2/Blackboard.h"
-#include "painting2/Context.h"
+#include "painting2/RenderContext.h"
 #include "painting2/Color.h"
 
 #include <shaderlab/Blackboard.h>
@@ -367,7 +367,7 @@ DrawTwoPass(cooking::DisplayList* dlist, const Params& params, const T& node)
 	sl::Blackboard::Instance()->GetRenderContext().GetShaderMgr().FlushShader();
 
 	ctx.GetScissor().Disable();
-	ctx.GetCtxStack().Push(RenderContext(
+	ctx.GetCtxStack().Push(WindowContext(
 		static_cast<float>(rt_mgr.WIDTH), static_cast<float>(rt_mgr.HEIGHT), rt_mgr.WIDTH, rt_mgr.HEIGHT));
 
 	ret |= DrawMesh2RT(dlist, rt, params, node);

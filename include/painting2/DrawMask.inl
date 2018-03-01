@@ -4,9 +4,9 @@
 #include "painting2/RenderTargetMgr.h"
 #include "painting2/RenderTarget.h"
 #include "painting2/RenderScissor.h"
-#include "painting2/RenderCtxStack.h"
+#include "painting2/WndCtxStack.h"
 #include "painting2/Blackboard.h"
-#include "painting2/Context.h"
+#include "painting2/RenderContext.h"
 
 #include <stat/StatPingPong.h>
 #include <stat/StatOverdraw.h>
@@ -52,7 +52,7 @@ RenderReturn DrawMask<Type, Params>::DrawImpl(cooking::DisplayList* dlist) const
 	auto& rt_mgr = ctx.GetRTMgr();
 
 	ctx.GetScissor().Disable();
-	ctx.GetCtxStack().Push(RenderContext(
+	ctx.GetCtxStack().Push(WindowContext(
 		static_cast<float>(rt_mgr.WIDTH), static_cast<float>(rt_mgr.HEIGHT), rt_mgr.WIDTH, rt_mgr.HEIGHT));
 
 	RenderTarget* rt_base = rt_mgr.Fetch();
@@ -184,9 +184,9 @@ DrawMaskFromRT(cooking::DisplayList* dlist, RenderTarget* rt_base, RenderTarget*
 		if (pos.y < ymin) ymin = pos.y;
 		if (pos.y > ymax) ymax = pos.y;
 	}
-	const RenderContext* rc = ctx.GetCtxStack().Top();
-	if (rc) {
-		float area = (xmax - xmin) * (ymax - ymin) / rc->GetScreenWidth() / rc->GetScreenHeight();
+	auto wc = ctx.GetCtxStack().Top();
+	if (wc) {
+		float area = (xmax - xmin) * (ymax - ymin) / wc->GetScreenWidth() / wc->GetScreenHeight();
 		st::StatOverdraw::Instance()->AddArea(area);
 	}
 #endif // PT2_DISABLE_STATISTICS

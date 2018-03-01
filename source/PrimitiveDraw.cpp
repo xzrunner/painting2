@@ -3,7 +3,7 @@
 #include "painting2/Color.h"
 #include "painting2/CameraMgr.h"
 #include "painting2/Blackboard.h"
-#include "painting2/Context.h"
+#include "painting2/RenderContext.h"
 
 #ifndef PT2_DISABLE_RVG
 #include <rvg.h>

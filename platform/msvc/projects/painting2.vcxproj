@@ -16,7 +16,6 @@
     <ClCompile Include="..\..\..\source\BoundingBox.cpp" />
     <ClCompile Include="..\..\..\source\Callback.cpp" />
     <ClCompile Include="..\..\..\source\CameraMgr.cpp" />
-    <ClCompile Include="..\..\..\source\Context.cpp" />
     <ClCompile Include="..\..\..\source\FilterFactory.cpp" />
     <ClCompile Include="..\..\..\source\GeoTransform.cpp" />
     <ClCompile Include="..\..\..\source\OBB.cpp" />
@@ -26,8 +25,8 @@
     <ClCompile Include="..\..\..\source\RenderCamera.cpp" />
     <ClCompile Include="..\..\..\source\RenderColorCommon.cpp" />
     <ClCompile Include="..\..\..\source\RenderColorMap.cpp" />
-    <ClCompile Include="..\..\..\source\RenderContext.cpp" />
-    <ClCompile Include="..\..\..\source\RenderCtxStack.cpp" />
+    <ClCompile Include="..\..\..\source\WindowContext.cpp" />
+    <ClCompile Include="..\..\..\source\WndCtxStack.cpp" />
     <ClCompile Include="..\..\..\source\RenderFilter.cpp" />
     <ClCompile Include="..\..\..\source\RenderScissor.cpp" />
     <ClCompile Include="..\..\..\source\RenderScreen.cpp" />
@@ -49,7 +48,7 @@
     <ClInclude Include="..\..\..\include\painting2\CameraType.h" />
     <ClInclude Include="..\..\..\include\painting2\Color.h" />
     <ClInclude Include="..\..\..\include\painting2\config.h" />
-    <ClInclude Include="..\..\..\include\painting2\Context.h" />
+    <ClInclude Include="..\..\..\include\painting2\RenderContext.h" />
     <ClInclude Include="..\..\..\include\painting2\DrawMask.h" />
     <ClInclude Include="..\..\..\include\painting2\DrawMesh.h" />
     <ClInclude Include="..\..\..\include\painting2\DrawPingPong.h" />
@@ -65,8 +64,8 @@
     <ClInclude Include="..\..\..\include\painting2\RenderCamera.h" />
     <ClInclude Include="..\..\..\include\painting2\RenderColorCommon.h" />
     <ClInclude Include="..\..\..\include\painting2\RenderColorMap.h" />
-    <ClInclude Include="..\..\..\include\painting2\RenderContext.h" />
-    <ClInclude Include="..\..\..\include\painting2\RenderCtxStack.h" />
+    <ClInclude Include="..\..\..\include\painting2\WindowContext.h" />
+    <ClInclude Include="..\..\..\include\painting2\WndCtxStack.h" />
     <ClInclude Include="..\..\..\include\painting2\RenderFilter.h" />
     <ClInclude Include="..\..\..\include\painting2\RenderReturn.h" />
     <ClInclude Include="..\..\..\include\painting2\RenderScissor.h" />

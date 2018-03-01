@@ -1,6 +1,9 @@
 #pragma once
 
-#include <SM_Vector.h>
+#include "painting2/WndCtxStack.h"
+#include "painting2/RenderScissor.h"
+#include "painting2/CameraMgr.h"
+#include "painting2/RenderTargetMgr.h"
 
 namespace pt2
 {
@@ -8,40 +11,23 @@ namespace pt2
 class RenderContext
 {
 public:
-	RenderContext();
-	RenderContext(float proj_width, float proj_height, int screen_width, int screen_height);
 
-	void SetModelView(const sm::vec2& offset, float scale);
-	void SetProjection(int width, int height);
-	void SetScreen(int width, int height);
-	void SetViewport(int x, int y, int w, int h);
+	WndCtxStack& GetCtxStack() { return m_ctx_stack; }
 
-	void UpdateMVP() const;
-	void UpdateModelView() const;
-	void UpdateProjection() const;
-	void UpdateViewport() const;
+	RenderScissor& GetScissor() { return m_scissor; }
 
-	const sm::vec2& GetMVOffset() const { return m_mv_offset; }
-	float GetMVScale() const { return m_mv_scale; }
+	CameraMgr& GetCamMgr() { return m_cam_mgr; }
 
-	int  GetScreenWidth() const { return m_screen_width; }
-	int  GetScreenHeight() const { return m_screen_height; }
-
-	void GetViewport(int& x, int& y, int& w, int& h) const {
-		x = m_vp_x; y = m_vp_y; w = m_vp_w; h = m_vp_h; 
-	}
+	RenderTargetMgr& GetRTMgr() { return m_rt_mgr; }
 
 private:
-	sm::vec2 m_mv_offset;
-	float    m_mv_scale;
+	WndCtxStack m_ctx_stack;
 
-	float m_proj_width;
-	float m_proj_height;
+	RenderScissor m_scissor;
 
-	int m_screen_width;
-	int m_screen_height;
+	CameraMgr m_cam_mgr;
 
-	int m_vp_x, m_vp_y, m_vp_w, m_vp_h;
+	RenderTargetMgr m_rt_mgr;
 
 }; // RenderContext
 

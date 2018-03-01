@@ -8,20 +8,20 @@
 namespace pt2
 {
 
-class Context;
+class RenderContext;
 class ShaderMgr;
 
 class Blackboard
 {
 public:
-	void SetContext(const std::shared_ptr<Context>& ctx) { m_ctx = ctx; }
-	Context& GetContext() {
+	void SetContext(const std::shared_ptr<RenderContext>& ctx) { m_ctx = ctx; }
+	RenderContext& GetContext() {
 		GD_ASSERT(m_ctx, "null ctx");
 		return *m_ctx;
 	}
 
 private:
-	std::shared_ptr<Context> m_ctx = nullptr;
+	std::shared_ptr<RenderContext> m_ctx = nullptr;
 
 	CU_SINGLETON_DECLARATION(Blackboard);
 

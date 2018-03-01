@@ -1,16 +1,14 @@
-#include "painting2/RenderContext.h"
+#include "painting2/WindowContext.h"
 
-#include <unirender/RenderContext.h>
 #include <unirender/Blackboard.h>
-#include <shaderlab/SubjectMVP2.h>
+#include <unirender/RenderContext.h>
 #include <shaderlab/Blackboard.h>
-#include <shaderlab/ShaderMgr.h>
 #include <shaderlab/RenderContext.h>
 
 namespace pt2
 {
 
-RenderContext::RenderContext() 
+WindowContext::WindowContext() 
 	: m_mv_scale(0)
 	, m_proj_width(0)
 	, m_proj_height(0)
@@ -22,7 +20,7 @@ RenderContext::RenderContext()
 	, m_vp_h(0)
 {}
 
-RenderContext::RenderContext(float proj_width, float proj_height, int screen_width, int screen_height)
+WindowContext::WindowContext(float proj_width, float proj_height, int screen_width, int screen_height)
 	: m_mv_offset(0, 0)
 	, m_mv_scale(1)
 	, m_proj_width(proj_width)
@@ -35,7 +33,7 @@ RenderContext::RenderContext(float proj_width, float proj_height, int screen_wid
 	, m_vp_h(screen_height)
 {}
 
-void RenderContext::SetModelView(const sm::vec2& offset, float scale)
+void WindowContext::SetModelView(const sm::vec2& offset, float scale)
 {
 	if (offset == m_mv_offset && scale == m_mv_scale) {
 		return;
@@ -47,7 +45,7 @@ void RenderContext::SetModelView(const sm::vec2& offset, float scale)
 	UpdateModelView();
 }
 
-void RenderContext::SetProjection(int width, int height)
+void WindowContext::SetProjection(int width, int height)
 {
 	if (m_proj_width == width && m_proj_height == height) {
 		return;
@@ -59,13 +57,13 @@ void RenderContext::SetProjection(int width, int height)
 	UpdateProjection();
 }
 
-void RenderContext::SetScreen(int width, int height)
+void WindowContext::SetScreen(int width, int height)
 {
 	m_screen_width  = width;
 	m_screen_height = height;
 }
 
-void RenderContext::SetViewport(int x, int y, int w, int h)
+void WindowContext::SetViewport(int x, int y, int w, int h)
 {
 	if (m_vp_x == x &&
 		m_vp_y == y &&
@@ -85,25 +83,25 @@ void RenderContext::SetViewport(int x, int y, int w, int h)
 	UpdateProjection();
 }
 
-void RenderContext::UpdateMVP() const
+void WindowContext::UpdateMVP() const
 {
 	UpdateModelView();
 	UpdateProjection();
 }
 
-void RenderContext::UpdateModelView() const
+void WindowContext::UpdateModelView() const
 {
 	sl::Blackboard::Instance()->GetRenderContext().GetSubMVP2().
 		NotifyModelview(m_mv_offset.x, m_mv_offset.y, m_mv_scale, m_mv_scale);
 }
 
-void RenderContext::UpdateProjection() const
+void WindowContext::UpdateProjection() const
 {
 	sl::Blackboard::Instance()->GetRenderContext().GetSubMVP2().
 		NotifyProjection(static_cast<int>(m_proj_width), static_cast<int>(m_proj_height));
 }
 
-void RenderContext::UpdateViewport() const
+void WindowContext::UpdateViewport() const
 {
 	if (m_vp_w == 0 && m_vp_h == 0) {
 		return;

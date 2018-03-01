@@ -1,8 +1,8 @@
 #include "painting2/Pseudo3DCamera.h"
-#include "painting2/RenderContext.h"
-#include "painting2/RenderCtxStack.h"
+#include "painting2/WindowContext.h"
+#include "painting2/WndCtxStack.h"
 #include "painting2/Blackboard.h"
-#include "painting2/Context.h"
+#include "painting2/RenderContext.h"
 
 #ifndef PT2_DISABLE_CAMERA25
 
@@ -22,9 +22,9 @@ Pseudo3DCamera::Pseudo3DCamera()
 	: m_cam(nullptr)
 {
 	auto& ctx = Blackboard::Instance()->GetContext();
-	const RenderContext* rc = ctx.GetCtxStack().Top();
-	if (rc) {
-		OnSize(rc->GetScreenWidth(), rc->GetScreenHeight());
+	auto wc = ctx.GetCtxStack().Top();
+	if (wc) {
+		OnSize(wc->GetScreenWidth(), wc->GetScreenHeight());
 	}
 }
 
@@ -47,9 +47,9 @@ Pseudo3DCamera::~Pseudo3DCamera()
 void Pseudo3DCamera::OnSize(int width, int height)
 {
 	auto& ctx = Blackboard::Instance()->GetContext();
-	RenderContext* rc = const_cast<RenderContext*>(ctx.GetCtxStack().Top());
-	if (rc) {
-		rc->SetProjection(width, height);
+	auto wc = const_cast<WindowContext*>(ctx.GetCtxStack().Top());
+	if (wc) {
+		wc->SetProjection(width, height);
 	}
 
 	c25_cam_release(m_cam);
@@ -145,15 +145,15 @@ const sm_mat4* Pseudo3DCamera::GetProjectMat() const
 void Pseudo3DCamera::Init(const Pseudo3DCamera& cam)
 {
 	auto& ctx = Blackboard::Instance()->GetContext();
-	const RenderContext* rc = ctx.GetCtxStack().Top();
-	if (!rc) {
+	auto wc = ctx.GetCtxStack().Top();
+	if (!wc) {
 		return;
 	}
 
 	const sm_vec3* pos = c25_cam_get_pos(cam.m_cam);
 	float angle = c25_cam_get_angle(cam.m_cam);
-	int w = rc->GetScreenWidth(),
-		h = rc->GetScreenHeight();
+	int w = wc->GetScreenWidth(),
+		h = wc->GetScreenHeight();
 	m_cam = c25_cam_create(pos, angle, (float)w / h);
 }
 
