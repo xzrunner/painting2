@@ -11,6 +11,7 @@ public:
 	OBB();
 
 	virtual BoundingBox* Clone() const override;
+	virtual std::unique_ptr<BoundingBox> Clone2() const override;
 
 	virtual size_t Size() const override { return sizeof(OBB); }
 

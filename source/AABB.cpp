@@ -11,4 +11,9 @@ BoundingBox* AABB::Clone() const
 	return new (ptr) AABB(*this);
 }
 
+std::unique_ptr<BoundingBox> AABB::Clone2() const
+{
+	return std::make_unique<AABB>(*this);
+}
+
 }

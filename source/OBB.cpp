@@ -11,4 +11,9 @@ BoundingBox* OBB::Clone() const
 	return new (ptr) OBB(*this);
 }
 
+std::unique_ptr<BoundingBox> OBB::Clone2() const
+{
+	return std::make_unique<OBB>(*this);
+}
+
 }

@@ -13,6 +13,7 @@ public:
 	virtual ~BoundingBox() {}
 
 	virtual BoundingBox* Clone() const = 0;
+	virtual std::unique_ptr<BoundingBox> Clone2() const = 0;
 
 	virtual size_t Size() const = 0;
 
