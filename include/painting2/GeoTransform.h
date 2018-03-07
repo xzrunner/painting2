@@ -25,13 +25,13 @@ public:
 	const SRT& GetSRT() const             { return m_srt; }
 	const sm::Matrix2D& GetMatrix() const { return m_mat; }
 
-	void SetPosition(const sm::vec2& pos);
-	void SetAngle(float angle);
-	void SetScale(const sm::vec2& scale);
-	void SetShear(const sm::vec2& shear);
-	void SetOffset(const sm::vec2& offset);
+	bool SetPosition(const sm::vec2& pos);
+	bool SetAngle(float angle);
+	bool SetScale(const sm::vec2& scale);
+	bool SetShear(const sm::vec2& shear);
+	bool SetOffset(const sm::vec2& offset);
 
-	void SetSRT(const SRT& srt);
+	bool SetSRT(const SRT& srt);
 
 private:
 	void UpdateSrt();

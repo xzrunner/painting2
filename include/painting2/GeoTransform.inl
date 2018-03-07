@@ -4,58 +4,89 @@ namespace pt2
 {
 
 inline
-void GeoTransform::SetPosition(const sm::vec2& pos) 
+bool GeoTransform::SetPosition(const sm::vec2& pos)
 {
-	if (pos != m_srt.position) {
+	if (pos != m_srt.position) 
+	{
 		m_srt.position = pos;
 		UpdateSrt();
 		UpdateMatrix();
+		return true;
+	}
+	else
+	{
+		return false;
 	}
 }
 
 inline
-void GeoTransform::SetAngle(float angle) 
+bool GeoTransform::SetAngle(float angle) 
 {
-	if (angle != m_srt.angle) {
+	if (angle != m_srt.angle) 
+	{
 		m_srt.angle = angle;
 		UpdateSrt();
 		UpdateMatrix();
+		return true;
+	}
+	else
+	{
+		return false;
 	}
 }
 
 inline
-void GeoTransform::SetScale(const sm::vec2& scale) 
+bool GeoTransform::SetScale(const sm::vec2& scale) 
 { 
-	if (scale != m_srt.scale) {
+	if (scale != m_srt.scale) 
+	{
 		m_srt.scale = scale;
 		UpdateMatrix();
+		return true;
+	}
+	else
+	{
+		return false;
 	}
 }
 
 inline
-void GeoTransform::SetShear(const sm::vec2& shear) 
+bool GeoTransform::SetShear(const sm::vec2& shear) 
 {
-	if (shear != m_srt.shear) {
+	if (shear != m_srt.shear) 
+	{
 		m_srt.shear = shear;
 		UpdateMatrix();
+		return true;
+	}
+	else
+	{
+		return false;
 	}
 }
 
 inline
-void GeoTransform::SetOffset(const sm::vec2& offset) 
+bool GeoTransform::SetOffset(const sm::vec2& offset) 
 { 
-	if (offset != m_srt.offset) {
+	if (offset != m_srt.offset) 
+	{
 		m_srt.offset = offset;
 		UpdateSrt();
 		UpdateMatrix();
+		return true;
+	}
+	else
+	{
+		return false;
 	}
 }
 
 inline
-void GeoTransform::SetSRT(const SRT& srt)
+bool GeoTransform::SetSRT(const SRT& srt)
 {
 	m_srt = srt;
 	UpdateMatrix();
+	return true;
 }
 
 inline
