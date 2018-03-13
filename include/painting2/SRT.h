@@ -21,6 +21,7 @@ public:
 
 	SRT operator + (const SRT& srt) const;
 	SRT operator - (const SRT& srt) const;
+	SRT operator * (const SRT& srt) const;
 	SRT operator * (float f) const;
 	SRT operator / (float f) const;
 

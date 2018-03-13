@@ -22,7 +22,7 @@ SRT SRT::operator + (const SRT& srt) const
 	ret.shear    = shear + srt.shear;
 
 	ret.offset   = offset + srt.offset;
-	Update();
+	ret.Update();
 
 	return ret;
 }
@@ -38,7 +38,7 @@ SRT SRT::operator - (const SRT& srt) const
 	ret.shear    = shear - srt.shear;
 
 	ret.offset   = offset - srt.offset;
-	Update();
+	ret.Update();
 
 	return ret;
 }
@@ -54,7 +54,23 @@ SRT SRT::operator * (float f) const
 	ret.shear    = shear * f;
 
 	ret.offset   = offset * f;
-	Update();
+	ret.Update();
+
+	return ret;
+}
+
+inline
+SRT SRT::operator * (const SRT& srt) const
+{
+	SRT ret;
+
+	ret.position = position + srt.position;
+	ret.angle    = angle + srt.angle;
+	ret.scale    = scale * srt.scale;
+	ret.shear    = shear + srt.shear;
+
+	ret.offset.Set(0, 0);
+	ret.Update();
 
 	return ret;
 }
@@ -70,7 +86,7 @@ SRT SRT::operator / (float f) const
 	ret.shear    = shear / f;
 
 	ret.offset   = offset / f;
-	Update();
+	ret.Update();
 
 	return ret;
 }
