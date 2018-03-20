@@ -62,6 +62,12 @@ bool RenderSystem::CalcVertices(const sm::rect& pos, const sm::Matrix2D& mat, fl
 
 	const float* mt = mat.x;
 
+	// Vertices are ordered for use with triangle strips:
+	// 3----2
+	// |  / |
+	// | /  |
+	// 0----1
+
 	float x, y;
 
 	float* ptr_dst = &vertices[0];
