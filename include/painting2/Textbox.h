@@ -1,6 +1,7 @@
 #pragma once
 
 #include "painting2/Color.h"
+#include "painting2/GradientColor.h"
 
 namespace pt2
 {
@@ -31,6 +32,7 @@ public:
 	int       font_type;
 	int       font_size;
 	Color     font_color;
+	GradientColor font_color_gradient;
 
 	bool      has_edge;
 	float     edge_size;

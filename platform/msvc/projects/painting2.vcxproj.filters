@@ -219,6 +219,9 @@
     <ClInclude Include="..\..\..\include\painting2\RenderContext.h">
       <Filter>ctx</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\painting2\GradientColor.h">
+      <Filter>color</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="transform">

@@ -47,6 +47,7 @@
     <ClInclude Include="..\..\..\include\painting2\CameraType.h" />
     <ClInclude Include="..\..\..\include\painting2\Color.h" />
     <ClInclude Include="..\..\..\include\painting2\config.h" />
+    <ClInclude Include="..\..\..\include\painting2\GradientColor.h" />
     <ClInclude Include="..\..\..\include\painting2\RenderContext.h" />
     <ClInclude Include="..\..\..\include\painting2\DrawMask.h" />
     <ClInclude Include="..\..\..\include\painting2\DrawMesh.h" />
