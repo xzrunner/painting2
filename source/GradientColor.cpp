@@ -6,7 +6,7 @@ namespace pt2
 bool GradientColor::operator == (const GradientColor& col) const
 {
 	if (items.size() != col.items.size() ||
-		angle != col.angle) {
+		fabs(angle - col.angle) > FLT_EPSILON) {
 		return false;
 	}
 

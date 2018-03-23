@@ -26,7 +26,7 @@ public:
 
 	std::vector<Item> items;
 
-	int angle;
+	float angle;
 
 	GradientColor() : angle(0) {
 		items.resize(1);
