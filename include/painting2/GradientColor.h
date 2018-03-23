@@ -18,9 +18,21 @@ public:
 
 		Color col;
 		float pos;
+
+		bool operator == (const Item& item) const {
+			return col == item.col && pos == item.pos;
+		}
 	};
 
-	Item begin, mid, end;
+	std::vector<Item> items;
+
+	int angle;
+
+	GradientColor() : angle(0) {
+		items.resize(1);
+	}
+
+	bool operator == (const GradientColor& col) const;
 
 }; // GradientColor
 

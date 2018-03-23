@@ -1,6 +1,5 @@
 #pragma once
 
-#include "painting2/Color.h"
 #include "painting2/GradientColor.h"
 
 namespace pt2
@@ -26,27 +25,26 @@ public:
 	};
 
 public:
-	int       width;
-	int       height;
+	int           width;
+	int           height;
 
-	int       font_type;
-	int       font_size;
-	Color     font_color;
-	GradientColor font_color_gradient;
+	int           font_type;
+	int           font_size;
+	GradientColor font_color;
 
-	bool      has_edge;
-	float     edge_size;
-	Color     edge_color;
+	bool          has_edge;
+	float         edge_size;
+	GradientColor edge_color;
 
-	HoriAlign align_hori;
-	VertAlign align_vert;
+	HoriAlign     align_hori;
+	VertAlign     align_vert;
 
-	float     space_hori;
-	float     space_vert;
+	float         space_hori;
+	float         space_vert;
 
-	bool      overflow;
+	bool          overflow;
 
-	bool      richtext;
+	bool          richtext;
 
 public:
 	Textbox() 
@@ -55,11 +53,9 @@ public:
 
 		, font_type(0)
 		, font_size(16)
-		, font_color(255, 255, 255, 255)
 
 		, has_edge(false)
 		, edge_size(1)
-		, edge_color(0, 0, 0, 0)
 
 		, align_hori(HA_LEFT)
 		, align_vert(VA_TOP)
@@ -71,6 +67,8 @@ public:
 
 		, richtext(true)
 	{
+		font_color.items[0].col.FromRGBA(0xffffffff);
+		edge_color.items[0].col.FromRGBA(0);
 	}
 
 	bool operator == (const Textbox& tb) const

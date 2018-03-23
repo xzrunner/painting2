@@ -18,6 +18,7 @@
     <ClCompile Include="..\..\..\source\CameraMgr.cpp" />
     <ClCompile Include="..\..\..\source\FilterFactory.cpp" />
     <ClCompile Include="..\..\..\source\GeoTransform.cpp" />
+    <ClCompile Include="..\..\..\source\GradientColor.cpp" />
     <ClCompile Include="..\..\..\source\OBB.cpp" />
     <ClCompile Include="..\..\..\source\OrthoCamera.cpp" />
     <ClCompile Include="..\..\..\source\PrimitiveDraw.cpp" />

@@ -66,6 +66,9 @@
     <ClCompile Include="..\..\..\source\WindowContext.cpp">
       <Filter>ctx</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\source\GradientColor.cpp">
+      <Filter>color</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\painting2\RenderSystem.h" />
