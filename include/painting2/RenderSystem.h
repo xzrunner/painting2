@@ -17,7 +17,8 @@ public:
 	static void DrawTexture(const Texture& tex, const sm::rect& pos, 
 		const sm::Matrix2D& mat);
 
-	static void DrawText(const Text& text, const sm::Matrix2D& mat);
+	static void DrawText(const Text& text, const sm::Matrix2D& mat,
+		const RenderColorCommon& col);
 
 	static void SetColor(const RenderColorCommon& col);
 	static void SetColorMap(const RenderColorMap& col);

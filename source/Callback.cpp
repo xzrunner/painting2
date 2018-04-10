@@ -10,9 +10,10 @@ void Callback::RegisterCallback(const Callback::Funs& funs)
 	FUNS = funs;
 }
 
-void Callback::DrawText(const Text& text, const sm::Matrix2D& mat)
+void Callback::DrawText(const Text& text, const sm::Matrix2D& mat,
+	                    const RenderColorCommon& col)
 {
-	FUNS.draw_text(text, mat);
+	FUNS.draw_text(text, mat, col);
 }
 
 }
