@@ -14,7 +14,8 @@ class GradientColor
 public:
 	struct Item
 	{
-		Item() : pos(-1) {}
+		Item() : pos(0) {}
+		Item(float p) : pos(p) {}
 
 		Color col;
 		float pos;
