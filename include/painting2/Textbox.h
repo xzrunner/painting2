@@ -24,6 +24,13 @@ public:
 		VA_AUTO		= 3
 	};
 
+	enum OverLabel
+	{
+		OL_OVERFLOW = 0,
+		OL_CUT_OFF  = 1,
+		OL_CONDENSE = 2,
+	};
+
 public:
 	int           width;
 	int           height;
@@ -42,7 +49,7 @@ public:
 	float         space_hori;
 	float         space_vert;
 
-	bool          overflow;
+	OverLabel     overlabel;
 
 	bool          richtext;
 
@@ -63,7 +70,7 @@ public:
 		, space_hori(1)
 		, space_vert(1)
 
-		, overflow(true)
+		, overlabel(OL_OVERFLOW)
 
 		, richtext(true)
 	{
@@ -91,7 +98,7 @@ public:
 			space_hori	== tb.space_hori &&
 			space_vert	== tb.space_vert &&
 
-			overflow	== tb.overflow &&
+			overlabel   == tb.overlabel &&
 
 			richtext	== tb.richtext;
 	}
