@@ -353,7 +353,7 @@ DrawTwoPass(cooking::DisplayList* dlist, const Params& params, const T& node)
 {
 	auto& rc = Blackboard::Instance()->GetRenderContext();
 	auto& rt_mgr = rc.GetRTMgr();
-	RenderTarget* rt = rt_mgr.Fetch();
+	auto rt = rt_mgr.Fetch();
 	if (!rt) {
 		return RENDER_NO_RT;
 	}
@@ -367,18 +367,10 @@ DrawTwoPass(cooking::DisplayList* dlist, const Params& params, const T& node)
 	sl::Blackboard::Instance()->GetRenderContext().GetShaderMgr().FlushShader();
 
 	rc.GetScissor().Disable();
-
-	auto old_wc = pt2::Blackboard::Instance()->GetWindowContext();
-	auto new_wc = std::make_shared<pt2::WindowContext>(
-		static_cast<float>(rt_mgr.WIDTH), static_cast<float>(rt_mgr.HEIGHT), rt_mgr.WIDTH, rt_mgr.HEIGHT);
-	new_wc->Bind();
-	pt2::Blackboard::Instance()->SetWindowContext(new_wc);
-
-	ret |= DrawMesh2RT(dlist, rt, params, node);
-
-	old_wc->Bind();
-	pt2::Blackboard::Instance()->SetWindowContext(old_wc);
-
+	{
+		pt2::WindowCtxRegion wcr(static_cast<float>(rt_mgr.WIDTH), static_cast<float>(rt_mgr.HEIGHT));
+		ret |= DrawMesh2RT(dlist, rt, params, node);
+	}
 	rc.GetScissor().Enable();
 
 	ret |= DrawRT2Screen(dlist, rt, params.mt);
@@ -390,9 +382,9 @@ DrawTwoPass(cooking::DisplayList* dlist, const Params& params, const T& node)
 
 template<typename T, typename Params>
 RenderReturn DrawMesh<T, Params>::
-DrawMesh2RT(cooking::DisplayList* dlist, RenderTarget* rt, const Params& params, const T& node)
+DrawMesh2RT(cooking::DisplayList* dlist, RenderTarget& rt, const Params& params, const T& node)
 {
-	rt->Bind();
+	rt.Bind();
 
 #ifdef PT2_DISABLE_DEFERRED
 	ur::Blackboard::Instance()->GetRenderContext().Clear(0);
@@ -408,16 +400,16 @@ DrawMesh2RT(cooking::DisplayList* dlist, RenderTarget* rt, const Params& params,
 	cooking::flush_shader(dlist);
 #endif // PT2_DISABLE_DEFERRED
 
-	rt->Unbind();
+	rt.Unbind();
 
 	return ret;
 }
 
 template<typename T, typename Params>
 RenderReturn DrawMesh<T, Params>::
-DrawRT2Screen(cooking::DisplayList* dlist, RenderTarget* rt, const sm::Matrix2D& mt)
+DrawRT2Screen(cooking::DisplayList* dlist, RenderTarget& rt, const sm::Matrix2D& mt)
 {
-	return DrawOnlyMesh(dlist, mt, rt->GetTexID());
+	return DrawOnlyMesh(dlist, mt, rt.GetTexID());
 }
 
 }

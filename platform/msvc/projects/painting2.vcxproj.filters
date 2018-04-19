@@ -69,6 +69,12 @@
     <ClCompile Include="..\..\..\source\GradientColor.cpp">
       <Filter>color</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\source\WindowCtxRegion.cpp">
+      <Filter>ctx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\DrawRT.cpp">
+      <Filter>draw</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\painting2\RenderSystem.h" />
@@ -225,6 +231,12 @@
     <ClInclude Include="..\..\..\include\painting2\GradientColor.h">
       <Filter>color</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\painting2\DrawRT.h">
+      <Filter>draw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\painting2\WindowCtxRegion.h">
+      <Filter>ctx</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="transform">
@@ -306,6 +318,9 @@
     </None>
     <None Include="..\..\..\include\painting2\Mesh.inl">
       <Filter>render\mesh</Filter>
+    </None>
+    <None Include="..\..\..\include\painting2\DrawRT.inl">
+      <Filter>draw</Filter>
     </None>
   </ItemGroup>
 </Project>

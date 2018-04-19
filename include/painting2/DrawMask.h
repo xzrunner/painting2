@@ -32,10 +32,10 @@ protected:
 	virtual const sm::Matrix2D& GetMat(const Params& params) const = 0;
 	
 private:
-	RenderReturn DrawBaseToRT(cooking::DisplayList* dlist, RenderTarget* rt) const;
-	RenderReturn DrawMaskToRT(cooking::DisplayList* dlist, RenderTarget* rt) const;
+	RenderReturn DrawBaseToRT(cooking::DisplayList* dlist, RenderTarget& rt) const;
+	RenderReturn DrawMaskToRT(cooking::DisplayList* dlist, RenderTarget& rt) const;
 
-	RenderReturn DrawMaskFromRT(cooking::DisplayList* dlist, RenderTarget* rt_base, RenderTarget* rt_mask) const;
+	RenderReturn DrawMaskFromRT(cooking::DisplayList* dlist, RenderTarget& rt_base, RenderTarget& rt_mask) const;
 
 protected:
 	const Type&   m_base;

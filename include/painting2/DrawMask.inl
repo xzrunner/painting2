@@ -7,6 +7,7 @@
 #include "painting2/Blackboard.h"
 #include "painting2/RenderContext.h"
 #include "painting2/WindowContext.h"
+#include "painting2/WindowCtxRegion.h"
 
 #include <stat/StatPingPong.h>
 #include <stat/StatOverdraw.h>
@@ -50,47 +51,32 @@ RenderReturn DrawMask<Type, Params>::DrawImpl(cooking::DisplayList* dlist) const
 
 	auto& rc = Blackboard::Instance()->GetRenderContext();
 	auto& rt_mgr = rc.GetRTMgr();
+	std::shared_ptr<RenderTarget> rt_base, rt_mask;
 
 	rc.GetScissor().Disable();
-
-	auto old_wc = pt2::Blackboard::Instance()->GetWindowContext();
-	auto new_wc = std::make_shared<pt2::WindowContext>(
-		static_cast<float>(rt_mgr.WIDTH), static_cast<float>(rt_mgr.HEIGHT), rt_mgr.WIDTH, rt_mgr.HEIGHT);
-	new_wc->Bind();
-	pt2::Blackboard::Instance()->SetWindowContext(new_wc);
-
-	RenderTarget* rt_base = rt_mgr.Fetch();
-	if (!rt_base) 
 	{
-		old_wc->Bind();
-		pt2::Blackboard::Instance()->SetWindowContext(old_wc);
+		pt2::WindowCtxRegion wcr(static_cast<float>(rt_mgr.WIDTH), static_cast<float>(rt_mgr.HEIGHT));
+		
+		rt_base = rt_mgr.Fetch();
+		if (!rt_base)
+		{
+			rc.GetScissor().Enable();
+			return RENDER_NO_RT;
+		}
+		ret |= DrawBaseToRT(dlist, *rt_base);
 
-		rc.GetScissor().Enable();
-
-		return RENDER_NO_RT;
+		rt_mask = rt_mgr.Fetch();
+		if (!rt_mask)
+		{
+			rt_mgr.Return(rt_base);
+			rc.GetScissor().Enable();
+			return RENDER_NO_RT;
+		}
+		ret |= DrawMaskToRT(dlist, *rt_mask);
 	}
-	ret |= DrawBaseToRT(dlist, rt_base);
-
-	RenderTarget* rt_mask = rt_mgr.Fetch();
-	if (!rt_mask) 
-	{
-		rt_mgr.Return(rt_base);
-
-		old_wc->Bind();
-		pt2::Blackboard::Instance()->SetWindowContext(old_wc);
-
-		rc.GetScissor().Enable();
-
-		return RENDER_NO_RT;
-	}
-	ret |= DrawMaskToRT(dlist, rt_mask);
-
-	old_wc->Bind();
-	pt2::Blackboard::Instance()->SetWindowContext(old_wc);
-
 	rc.GetScissor().Enable();
 
-	ret |= DrawMaskFromRT(dlist, rt_base, rt_mask);
+	ret |= DrawMaskFromRT(dlist, *rt_base, *rt_mask);
 
 	rt_mgr.Return(rt_base);
 	rt_mgr.Return(rt_mask);
@@ -99,9 +85,9 @@ RenderReturn DrawMask<Type, Params>::DrawImpl(cooking::DisplayList* dlist) const
 }
 
 template<typename Type, typename Params>
-RenderReturn DrawMask<Type, Params>::DrawBaseToRT(cooking::DisplayList* dlist, RenderTarget* rt) const
+RenderReturn DrawMask<Type, Params>::DrawBaseToRT(cooking::DisplayList* dlist, RenderTarget& rt) const
 {
-	rt->Bind();
+	rt.Bind();
 
 #ifdef PT2_DISABLE_DEFERRED
 	ur::Blackboard::Instance()->GetRenderContext().Clear(0);
@@ -122,15 +108,15 @@ RenderReturn DrawMask<Type, Params>::DrawBaseToRT(cooking::DisplayList* dlist, R
 	cooking::flush_shader(dlist);
 #endif // PT2_DISABLE_DEFERRED
 
-	rt->Unbind();
+	rt.Unbind();
 
 	return ret;
 }
 
 template<typename Type, typename Params>
-RenderReturn DrawMask<Type, Params>::DrawMaskToRT(cooking::DisplayList* dlist, RenderTarget* rt) const
+RenderReturn DrawMask<Type, Params>::DrawMaskToRT(cooking::DisplayList* dlist, RenderTarget& rt) const
 {
-	rt->Bind();
+	rt.Bind();
 
 #ifdef PT2_DISABLE_DEFERRED
 	ur::Blackboard::Instance()->GetRenderContext().Clear(0);
@@ -151,14 +137,14 @@ RenderReturn DrawMask<Type, Params>::DrawMaskToRT(cooking::DisplayList* dlist, R
 	cooking::flush_shader(dlist);
 #endif // PT2_DISABLE_DEFERRED
 
-	rt->Unbind();
+	rt.Unbind();
 
 	return ret;
 }
 
 template<typename Type, typename Params>
 RenderReturn DrawMask<Type, Params>::
-DrawMaskFromRT(cooking::DisplayList* dlist, RenderTarget* rt_base, RenderTarget* rt_mask) const
+DrawMaskFromRT(cooking::DisplayList* dlist, RenderTarget& rt_base, RenderTarget& rt_mask) const
 {
 	auto& rc = pt2::Blackboard::Instance()->GetRenderContext();
 	auto& rt_mgr = rc.GetRTMgr();
@@ -210,10 +196,10 @@ DrawMaskFromRT(cooking::DisplayList* dlist, RenderTarget* rt_base, RenderTarget*
 	auto& shader_mgr = sl::Blackboard::Instance()->GetRenderContext().GetShaderMgr();
 	shader_mgr.SetShader(sl::MASK);
 	sl::MaskShader* shader = static_cast<sl::MaskShader*>(shader_mgr.GetShader());
-	shader->Draw(&vertices[0].x, &texcoords[0].x, &texcoords_mask[0].x, rt_base->GetTexID(), rt_mask->GetTexID());
+	shader->Draw(&vertices[0].x, &texcoords[0].x, &texcoords_mask[0].x, rt_base.GetTexID(), rt_mask.GetTexID());
 #else
 	cooking::change_shader(dlist, sl::MASK);
-	cooking::draw_quad_mask(dlist, &vertices[0].x, &texcoords[0].x, &texcoords_mask[0].x, rt_base->GetTexID(), rt_mask->GetTexID());
+	cooking::draw_quad_mask(dlist, &vertices[0].x, &texcoords[0].x, &texcoords_mask[0].x, rt_base.GetTexID(), rt_mask.GetTexID());
 #endif // PT2_DISABLE_DEFERRED
 
 	return RENDER_OK;

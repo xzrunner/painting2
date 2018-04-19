@@ -35,8 +35,8 @@ private:
 	RenderReturn DrawOnePass(cooking::DisplayList* dlist, const Params& params, const float* texcoords, int tex_id);
 
 	RenderReturn DrawTwoPass(cooking::DisplayList* dlist, const Params& params, const T& node);
-	RenderReturn DrawMesh2RT(cooking::DisplayList* dlist, RenderTarget* rt, const Params& params, const T& node);
-	RenderReturn DrawRT2Screen(cooking::DisplayList* dlist, RenderTarget* rt, const sm::Matrix2D& mt);
+	RenderReturn DrawMesh2RT(cooking::DisplayList* dlist, RenderTarget& rt, const Params& params, const T& node);
+	RenderReturn DrawRT2Screen(cooking::DisplayList* dlist, RenderTarget& rt, const sm::Matrix2D& mt);
 
 protected:
 	const Mesh<T>& m_mesh;

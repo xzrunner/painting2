@@ -12,7 +12,7 @@ const int RenderTargetMgr::HEIGHT = 1024;
 static RenderTarget* (*FETCH_SCREEN)() = nullptr;
 static void (*RETURN_SCREEN)(RenderTarget* rt) = nullptr;
 
-RenderTarget* RenderTargetMgr::Fetch()
+std::shared_ptr<RenderTarget> RenderTargetMgr::Fetch()
 {
 	for (int i = 0, n = m_items.size(); i < n; ++i) 
 	{
@@ -25,13 +25,13 @@ RenderTarget* RenderTargetMgr::Fetch()
 	}
 
 	Item item;
-	item.rt = new RenderTarget(WIDTH, HEIGHT);
+	item.rt = std::make_shared<RenderTarget>(WIDTH, HEIGHT);
 	item.available = false;
 	m_items.push_back(item);
 	return item.rt;
 }
 
-void RenderTargetMgr::Return(RenderTarget* rt)
+void RenderTargetMgr::Return(std::shared_ptr<RenderTarget>& rt)
 {
 	if (!rt) {
 		return;
@@ -54,26 +54,26 @@ int RenderTargetMgr::GetTexID(int idx) const
 	}
 }
 
-void RenderTargetMgr::InitScreenCB(RenderTarget* (*fetch_screen)(), void (*return_screen)(RenderTarget* rt))
-{
-	FETCH_SCREEN = fetch_screen;
-	RETURN_SCREEN = return_screen;
-}
-
-RenderTarget* RenderTargetMgr::FetchScreen()
-{
-	if (FETCH_SCREEN) {
-		return FETCH_SCREEN();
-	} else {
-		return nullptr;
-	}
-}
-
-void RenderTargetMgr::ReturnScreen(RenderTarget* rt)
-{
-	if (RETURN_SCREEN) {
-		RETURN_SCREEN(rt);
-	}
-}
+//void RenderTargetMgr::InitScreenCB(RenderTarget* (*fetch_screen)(), void (*return_screen)(RenderTarget* rt))
+//{
+//	FETCH_SCREEN = fetch_screen;
+//	RETURN_SCREEN = return_screen;
+//}
+//
+//std::shared_ptr<RenderTarget> RenderTargetMgr::FetchScreen()
+//{
+//	if (FETCH_SCREEN) {
+//		return FETCH_SCREEN();
+//	} else {
+//		return nullptr;
+//	}
+//}
+//
+//void RenderTargetMgr::ReturnScreen(std::shared_ptr<RenderTarget>& rt)
+//{
+//	if (RETURN_SCREEN) {
+//		RETURN_SCREEN(rt);
+//	}
+//}
 
 }

@@ -2,6 +2,8 @@
 
 #include <cu/cu_stl.h>
 
+#include <memory>
+
 namespace pt2
 {
 
@@ -10,14 +12,14 @@ class RenderTarget;
 class RenderTargetMgr
 {
 public:
-	RenderTarget* Fetch();
-	void Return(RenderTarget* rt);
+	std::shared_ptr<RenderTarget> Fetch();
+	void Return(std::shared_ptr<RenderTarget>& rt);
 
 	int GetTexID(int idx) const;
 
 	void InitScreenCB(RenderTarget* (*fetch_screen)(), void (*return_screen)(RenderTarget* rt));
-	RenderTarget* FetchScreen();
-	void ReturnScreen(RenderTarget* rt);
+	std::shared_ptr<RenderTarget> FetchScreen();
+	void ReturnScreen(std::shared_ptr<RenderTarget>& rt);
 
 public:
 	static const int WIDTH;
@@ -26,7 +28,7 @@ public:
 private:
 	struct Item
 	{
-		RenderTarget* rt;
+		std::shared_ptr<RenderTarget> rt;
 		bool available;
 
 		Item() : rt(nullptr), available(true) {}
