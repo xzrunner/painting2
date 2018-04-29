@@ -6,6 +6,7 @@
 #include "painting2/RenderTarget.h"
 #include "painting2/RenderContext.h"
 #include "painting2/WindowCtxRegion.h"
+#include "painting2/Callback.h"
 
 #include <unirender/Blackboard.h>
 #include <unirender/RenderContext.h>
@@ -35,8 +36,8 @@ inline void DrawRT::Draw(const Type& obj, std::function<void(const Type&, const 
 	}
 	ur_rc.Clear(clear_color);
 
-	sm::rect rect = obj.GetBounding();
-	sm::vec2 sz = rect.Size();
+	auto rect = Callback::GetBounding(obj);
+	auto sz = rect.Size();
 	int w = static_cast<int>(sz.x * scale),
 		h = static_cast<int>(sz.y * scale);
 
@@ -46,7 +47,7 @@ inline void DrawRT::Draw(const Type& obj, std::function<void(const Type&, const 
 		WindowCtxRegion wcr(static_cast<float>(w), static_cast<float>(h));
 
 		sm::Matrix2D mt;
-		sm::vec2 center = rect.Center();
+		auto center = rect.Center();
 		mt.SetTransformation(-center.x, center.y, 0, scale, -scale, 0, 0, 0, 0);
 		draw_func(obj, mt);
 	}

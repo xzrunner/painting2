@@ -16,4 +16,9 @@ void Callback::DrawText(const Text& text, const sm::Matrix2D& mat,
 	FUNS.draw_text(text, mat, col);
 }
 
+sm::rect Callback::GetBounding(const n0::CompAsset& casset)
+{
+	return FUNS.get_bounding(casset);
+}
+
 }
