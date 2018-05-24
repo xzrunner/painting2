@@ -19,7 +19,7 @@ namespace pt2
 
 template<typename Type>
 inline void DrawRT::Draw(const Type& obj, std::function<void(const Type&, const sm::Matrix2D&)> draw_func,
-	                     bool whitebg, float scale) const
+	                     bool whitebg, float scale_x, float scale_y) const
 {
 	m_rt->Bind();
 
@@ -38,8 +38,8 @@ inline void DrawRT::Draw(const Type& obj, std::function<void(const Type&, const 
 
 	auto rect = Callback::GetBounding(obj);
 	auto sz = rect.Size();
-	int w = static_cast<int>(sz.x * scale),
-		h = static_cast<int>(sz.y * scale);
+	int w = static_cast<int>(sz.x * scale_x),
+		h = static_cast<int>(sz.y * scale_y);
 
 	auto& rc = Blackboard::Instance()->GetRenderContext();
 	rc.GetScissor().Disable();
@@ -48,7 +48,7 @@ inline void DrawRT::Draw(const Type& obj, std::function<void(const Type&, const 
 
 		sm::Matrix2D mt;
 		auto center = rect.Center();
-		mt.SetTransformation(-center.x, center.y, 0, scale, -scale, 0, 0, 0, 0);
+		mt.SetTransformation(-center.x, center.y, 0, 1, -1, 0, 0, 0, 0);
 		draw_func(obj, mt);
 	}
 	rc.GetScissor().Enable();

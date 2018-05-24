@@ -15,6 +15,14 @@ DrawRT::DrawRT()
 	m_rt = rt_mgr.Fetch();
 }
 
+DrawRT::~DrawRT()
+{
+	if (m_rt) {
+		auto& rc = Blackboard::Instance()->GetRenderContext();
+		rc.GetRTMgr().Return(m_rt);
+	}
+}
+
 uint8_t* DrawRT::StoreToMemory(int width, int height, int channels)
 {
 	if (channels != 3 && channels != 4) {
