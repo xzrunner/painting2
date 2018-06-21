@@ -11,7 +11,7 @@ WindowCtxRegion::WindowCtxRegion(float width, float height)
 	m_old = Blackboard::Instance()->GetWindowContext();
 
 	auto new_wc = std::make_shared<pt2::WindowContext>(
-		static_cast<float>(width), static_cast<float>(height), width, height);
+		static_cast<float>(width), static_cast<float>(height), 0, 0);
 	new_wc->Bind();
 	Blackboard::Instance()->SetWindowContext(new_wc);
 }
