@@ -16,6 +16,7 @@
     <ClCompile Include="..\..\..\source\BoundingBox.cpp" />
     <ClCompile Include="..\..\..\source\Callback.cpp" />
     <ClCompile Include="..\..\..\source\CameraMgr.cpp" />
+    <ClCompile Include="..\..\..\source\DebugDraw.cpp" />
     <ClCompile Include="..\..\..\source\DrawRT.cpp" />
     <ClCompile Include="..\..\..\source\FilterFactory.cpp" />
     <ClCompile Include="..\..\..\source\GeoTransform.cpp" />
@@ -50,6 +51,7 @@
     <ClInclude Include="..\..\..\include\painting2\CameraType.h" />
     <ClInclude Include="..\..\..\include\painting2\Color.h" />
     <ClInclude Include="..\..\..\include\painting2\config.h" />
+    <ClInclude Include="..\..\..\include\painting2\DebugDraw.h" />
     <ClInclude Include="..\..\..\include\painting2\DrawRT.h" />
     <ClInclude Include="..\..\..\include\painting2\GradientColor.h" />
     <ClInclude Include="..\..\..\include\painting2\RenderContext.h" />

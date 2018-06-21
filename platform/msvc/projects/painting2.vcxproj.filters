@@ -75,6 +75,9 @@
     <ClCompile Include="..\..\..\source\DrawRT.cpp">
       <Filter>draw</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\source\DebugDraw.cpp">
+      <Filter>draw</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\painting2\RenderSystem.h" />
@@ -236,6 +239,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\painting2\WindowCtxRegion.h">
       <Filter>ctx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\painting2\DebugDraw.h">
+      <Filter>draw</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
