@@ -8,7 +8,7 @@ namespace pt2
 class RenderTarget
 {
 public:
-	RenderTarget(int width, int height);
+	RenderTarget(int width, int height, bool has_depth = false);
 	virtual ~RenderTarget();
 
 	virtual void Bind();
@@ -22,7 +22,7 @@ public:
 	void Resize(int width, int height);
 
 private:
-	ur::RenderTarget* m_impl;	
+	ur::RenderTarget* m_impl;
 
 }; // RenderTarget
 

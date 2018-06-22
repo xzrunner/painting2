@@ -14,10 +14,10 @@ namespace pt2
 
 static const int IMG_ID = -2;
 
-RenderTarget::RenderTarget(int width, int height)
+RenderTarget::RenderTarget(int width, int height, bool has_depth)
 {
 	auto& ur_rc = ur::Blackboard::Instance()->GetRenderContext();
-	m_impl = new ur::RenderTarget(&ur_rc, width, height);
+	m_impl = new ur::RenderTarget(&ur_rc, width, height, has_depth);
 
 	st::StatImages::Instance()->Add(IMG_ID, width, height, ur::TEXTURE_RGBA8);
 }
