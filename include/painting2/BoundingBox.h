@@ -4,12 +4,14 @@
 #include <SM_Rect.h>
 #include <cu/cu_stl.h>
 
+#include <memory>
+
 namespace pt2
 {
 
 class BoundingBox
 {
-public:	
+public:
 	virtual ~BoundingBox() {}
 
 	virtual BoundingBox* Clone() const = 0;

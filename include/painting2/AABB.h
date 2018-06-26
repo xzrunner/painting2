@@ -2,6 +2,8 @@
 
 #include "painting2/BoundingBox.h"
 
+#include <memory>
+
 namespace pt2
 {
 
