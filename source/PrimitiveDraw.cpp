@@ -42,6 +42,18 @@ void PrimitiveDraw::SetColor(const Color& color)
 	}
 }
 
+void PrimitiveDraw::SetColor(uint32_t abgr)
+{
+	auto& shader_mgr = sl::Blackboard::Instance()->GetRenderContext().GetShaderMgr();
+	if (Blackboard::Instance()->GetRenderContext().GetCamMgr().IsType(CameraMgr::ORTHO)) {
+		sl::Shape2Shader* shader = static_cast<sl::Shape2Shader*>(shader_mgr.GetShader(sl::SHAPE2));
+		shader->SetColor(abgr);
+	} else {
+		sl::Shape3Shader* shader = static_cast<sl::Shape3Shader*>(shader_mgr.GetShader(sl::SHAPE3));
+		shader->SetColor(abgr);
+	}
+}
+
 void PrimitiveDraw::PointSize(float size)
 {
 #ifndef PT2_DISABLE_RVG

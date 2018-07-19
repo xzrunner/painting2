@@ -18,6 +18,7 @@ public:
 	static void Init();	
 
 	static void SetColor(const Color& color);
+	static void SetColor(uint32_t abgr);
 	static void PointSize(float size);
 	static void LineWidth(float width);
 
