@@ -276,7 +276,6 @@ void PrimitiveDraw::Rect(cooking::DisplayList* dlist, const sm::vec2& p0, const 
 	if (Blackboard::Instance()->GetRenderContext().GetCamMgr().IsType(CameraMgr::ORTHO)) {
 		SetShader(dlist, sl::SHAPE2);
 		rvg_rect(p0.x, p0.y, p1.x, p1.y, filling);
-		sl::Blackboard::Instance()->GetRenderContext().GetShaderMgr().GetShader()->Commit();
 	} else {
 		SetShader(dlist, sl::SHAPE3);
 		rvg_rect3_on_z(p0.x, p0.y, p1.x, p1.y, 0, filling);
