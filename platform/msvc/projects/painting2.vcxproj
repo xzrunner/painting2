@@ -45,10 +45,8 @@
     <ClInclude Include="..\..\..\include\painting2\BlendMode.h" />
     <ClInclude Include="..\..\..\include\painting2\BoundingBox.h" />
     <ClInclude Include="..\..\..\include\painting2\Callback.h" />
-    <ClInclude Include="..\..\..\include\painting2\Camera.h" />
     <ClInclude Include="..\..\..\include\painting2\CameraMgr.h" />
     <ClInclude Include="..\..\..\include\painting2\CameraMode.h" />
-    <ClInclude Include="..\..\..\include\painting2\CameraType.h" />
     <ClInclude Include="..\..\..\include\painting2\Color.h" />
     <ClInclude Include="..\..\..\include\painting2\config.h" />
     <ClInclude Include="..\..\..\include\painting2\DebugDraw.h" />
@@ -153,7 +151,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\sm\src\sm;..\..\..\..\cu\src;..\..\..\..\gimg\src\gimg;..\..\..\..\camera25\src\camera25;..\..\..\..\rapidvg\src\rapidvg;..\..\..\..\rigging\src\rigging;..\..\..\..\guard\include;..\..\..\..\polymesh\include;..\..\..\..\cooking\include;..\..\..\..\unirender\include;..\..\..\..\shaderlab\include;..\..\..\..\memmgr\include;..\..\..\..\stat\include;..\..\..\..\external\boost\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\sm\src\sm;..\..\..\..\cu\src;..\..\..\..\gimg\src\gimg;..\..\..\..\camera25\src\camera25;..\..\..\..\rapidvg\src\rapidvg;..\..\..\..\rigging\src\rigging;..\..\..\..\guard\include;..\..\..\..\polymesh\include;..\..\..\..\cooking\include;..\..\..\..\unirender\include;..\..\..\..\shaderlab\include;..\..\..\..\painting0\include;..\..\..\..\memmgr\include;..\..\..\..\stat\include;..\..\..\..\external\boost\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;__STDC_LIMIT_MACROS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -167,7 +165,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\sm\src\sm;..\..\..\..\cu\src;..\..\..\..\gimg\src\gimg;..\..\..\..\camera25\src\camera25;..\..\..\..\rapidvg\src\rapidvg;..\..\..\..\rigging\src\rigging;..\..\..\..\guard\include;..\..\..\..\polymesh\include;..\..\..\..\cooking\include;..\..\..\..\unirender\include;..\..\..\..\shaderlab\include;..\..\..\..\memmgr\include;..\..\..\..\stat\include;..\..\..\..\external\boost\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\sm\src\sm;..\..\..\..\cu\src;..\..\..\..\gimg\src\gimg;..\..\..\..\camera25\src\camera25;..\..\..\..\rapidvg\src\rapidvg;..\..\..\..\rigging\src\rigging;..\..\..\..\guard\include;..\..\..\..\polymesh\include;..\..\..\..\cooking\include;..\..\..\..\unirender\include;..\..\..\..\shaderlab\include;..\..\..\..\painting0\include;..\..\..\..\memmgr\include;..\..\..\..\stat\include;..\..\..\..\external\boost\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;__STDC_LIMIT_MACROS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>

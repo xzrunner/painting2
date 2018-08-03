@@ -4,8 +4,7 @@
 
 #ifndef PT2_DISABLE_CAMERA25
 
-#include "painting2/Camera.h"
-#include "painting2/CameraType.h"
+#include <painting0/Camera.h>
 
 #include <SM_Vector.h>
 #include <SM_Matrix.h>
@@ -17,7 +16,7 @@ union sm_mat4;
 namespace pt2
 {
 
-class Pseudo3DCamera : public Camera
+class Pseudo3DCamera : public pt0::Camera
 {
 public:
 	Pseudo3DCamera();
@@ -25,10 +24,18 @@ public:
 	Pseudo3DCamera& operator = (const Pseudo3DCamera& cam);
 	virtual ~Pseudo3DCamera();
 
-	virtual CameraType Type() const override { return CAM_PSEUDO3D; }
-	virtual void OnSize(int width, int height) override;
-	virtual void Reset() override;
+	virtual pt0::CamTypeID TypeID() const override {
+		return pt0::GetCamTypeID<Pseudo3DCamera>();
+	}
+
+	virtual void OnSize(float width, float height) override;
+
 	virtual void Bind() const override;
+
+	virtual sm::mat4 GetModelViewMat() const override;
+	virtual sm::mat4 GetProjectionMat() const override;
+
+	virtual void Reset() override;
 
 	sm::vec2 TransPosScreenToProject(int x, int y, int width, int height) const;
 	sm::vec2 TransPosProjectToScreen(const sm::vec3& proj, int width, int height) const;
@@ -38,9 +45,6 @@ public:
 
 	float GetAngle() const;
 	const sm_vec3* GetPos() const;
-
- 	const sm_mat4* GetModelViewMat() const;
- 	const sm_mat4* GetProjectMat() const;
 
 private:
 	void Init(const Pseudo3DCamera& cam);

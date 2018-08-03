@@ -195,13 +195,7 @@
     <ClInclude Include="..\..\..\include\painting2\RenderReturn.h">
       <Filter>render</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\painting2\CameraType.h">
-      <Filter>camera</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\painting2\CameraMgr.h">
-      <Filter>camera</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\painting2\Camera.h">
       <Filter>camera</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\painting2\Pseudo3DCamera.h">

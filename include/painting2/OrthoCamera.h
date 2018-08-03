@@ -1,22 +1,29 @@
 #pragma once
 
-#include "painting2/Camera.h"
-#include "painting2/CameraType.h"
+#include <painting0/Camera.h>
 
 #include <SM_Vector.h>
 
 namespace pt2
 {
 
-class OrthoCamera : public Camera
+class OrthoCamera : public pt0::Camera
 {
 public:
 	OrthoCamera();
 	
-	virtual CameraType Type() const override { return CAM_ORTHO2D; }
-	virtual void OnSize(int width, int height) override;
-	virtual void Reset() override;
+	virtual pt0::CamTypeID TypeID() const override {
+		return pt0::GetCamTypeID<OrthoCamera>();
+	}
+
+	virtual void OnSize(float width, float height) override;
+
 	virtual void Bind() const override;
+
+	virtual sm::mat4 GetModelViewMat() const override { return sm::mat4(); }
+	virtual sm::mat4 GetProjectionMat() const override { return sm::mat4(); }
+
+	virtual void Reset() override;
 
 	sm::vec2 TransPosScreenToProject(int x, int y, int width, int height) const;
 	sm::vec2 TransPosProjectToScreen(const sm::vec2& proj, int width, int height) const;

@@ -21,8 +21,11 @@ Pseudo3DCamera::Pseudo3DCamera()
 	: m_cam(nullptr)
 {
 	auto& wc = pt2::Blackboard::Instance()->GetWindowContext();
-	if (wc) {
-		OnSize(wc->GetScreenWidth(), wc->GetScreenHeight());
+	if (wc) 
+	{
+		float w = static_cast<float>(wc->GetScreenWidth());
+		float h = static_cast<float>(wc->GetScreenHeight());
+		OnSize(w, h);
 	}
 }
 
@@ -42,11 +45,11 @@ Pseudo3DCamera::~Pseudo3DCamera()
 	c25_cam_release(m_cam);
 }
 
-void Pseudo3DCamera::OnSize(int width, int height)
+void Pseudo3DCamera::OnSize(float width, float height)
 {
 	auto& wc = pt2::Blackboard::Instance()->GetWindowContext();
 	if (wc) {
-		wc->SetProjection(width, height);
+		wc->SetProjection(static_cast<int>(width), static_cast<int>(height));
 	}
 
 	c25_cam_release(m_cam);
@@ -62,6 +65,22 @@ void Pseudo3DCamera::OnSize(int width, int height)
 void Pseudo3DCamera::Bind() const
 {
 	UpdateRender();
+}
+
+sm::mat4 Pseudo3DCamera::GetModelViewMat() const
+{
+	auto ptr = c25_cam_get_modelview_mat(m_cam);
+	sm::mat4 ret;
+	memcpy(ret.x, ptr, sizeof(ret.x));
+	return ret;
+}
+
+sm::mat4 Pseudo3DCamera::GetProjectionMat() const
+{
+	auto ptr = c25_cam_get_project_mat(m_cam);
+	sm::mat4 ret;
+	memcpy(ret.x, ptr, sizeof(ret.x));
+	return ret;
 }
 
 void Pseudo3DCamera::Reset()
@@ -127,16 +146,6 @@ float Pseudo3DCamera::GetAngle() const
 const sm_vec3* Pseudo3DCamera::GetPos() const
 {
 	return c25_cam_get_pos(m_cam);
-}
-
-const sm_mat4* Pseudo3DCamera::GetModelViewMat() const
-{
-	return c25_cam_get_modelview_mat(m_cam);
-}
-
-const sm_mat4* Pseudo3DCamera::GetProjectMat() const
-{
-	return c25_cam_get_project_mat(m_cam);
 }
 
 void Pseudo3DCamera::Init(const Pseudo3DCamera& cam)

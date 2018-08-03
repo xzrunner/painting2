@@ -13,15 +13,20 @@ OrthoCamera::OrthoCamera()
 	UpdateRender();
 }
 
-void OrthoCamera::OnSize(int width, int height)
+void OrthoCamera::OnSize(float width, float height)
 {
 	auto& wc = pt2::Blackboard::Instance()->GetWindowContext();
 	if (wc) {
-		wc->SetProjection(width, height);
-		wc->SetScreen(width, height);
+		wc->SetProjection(static_cast<int>(width), static_cast<int>(height));
+		wc->SetScreen(static_cast<int>(width), static_cast<int>(height));
 		// todo: set viewport single
 //		wc->SetViewport(0, 0, width, height);
 	}
+}
+
+void OrthoCamera::Bind() const
+{
+	UpdateRender();
 }
 
 void OrthoCamera::Reset()
@@ -29,11 +34,6 @@ void OrthoCamera::Reset()
 	m_position.Set(0, 0);
 	m_scale = 1;
 
-	UpdateRender();
-}
-
-void OrthoCamera::Bind() const
-{
 	UpdateRender();
 }
 
