@@ -11,6 +11,7 @@ class OrthoCamera : public pt0::Camera
 {
 public:
 	OrthoCamera();
+	OrthoCamera(const sm::vec2& pos, float scale);
 	
 	virtual pt0::CamTypeID TypeID() const override {
 		return pt0::GetCamTypeID<OrthoCamera>();

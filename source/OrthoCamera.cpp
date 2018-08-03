@@ -13,6 +13,13 @@ OrthoCamera::OrthoCamera()
 	UpdateRender();
 }
 
+OrthoCamera::OrthoCamera(const sm::vec2& pos, float scale)
+	: m_position(pos)
+	, m_scale(scale)
+{
+	UpdateRender();
+}
+
 void OrthoCamera::OnSize(float width, float height)
 {
 	auto& wc = pt2::Blackboard::Instance()->GetWindowContext();
