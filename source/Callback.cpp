@@ -14,6 +14,10 @@ void Callback::DrawText(const Text& text, const sm::Matrix2D& mat,
 	                    const RenderColorCommon& col)
 {
 	FUNS.draw_text(text, mat, col);
+
+sm::vec2 Callback::CalcLabelSize(const std::string& text, const Textbox& style)
+{
+	return FUNS.calc_label_size(text, style);
 }
 
 sm::rect Callback::GetBounding(const n0::CompAsset& casset)
