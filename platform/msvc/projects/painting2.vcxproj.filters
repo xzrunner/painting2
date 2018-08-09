@@ -78,6 +78,9 @@
     <ClCompile Include="..\..\..\source\DebugDraw.cpp">
       <Filter>draw</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\source\BezierShape.cpp">
+      <Filter>shape</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\painting2\RenderSystem.h" />
@@ -237,6 +240,9 @@
     <ClInclude Include="..\..\..\include\painting2\DebugDraw.h">
       <Filter>draw</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\painting2\BezierShape.h">
+      <Filter>shape</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="transform">
@@ -289,6 +295,9 @@
     </Filter>
     <Filter Include="render\mesh">
       <UniqueIdentifier>{75545928-d3bb-47d9-aab9-0cd8a73af9e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shape">
+      <UniqueIdentifier>{9106bf30-b140-4a42-b613-d1f4c5c3e26f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
