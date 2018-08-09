@@ -34,10 +34,10 @@ void RenderSystem::DrawTexture(const Texture& tex, const sm::rect& pos,
 	shader->DrawQuad(vertices, texcoords, tex.GetTexID());
 }
 
-void RenderSystem::DrawText(const Text& text, const sm::Matrix2D& mat,
-	                        const RenderColorCommon& col)
+void RenderSystem::DrawText(const std::string& text, const Textbox& style, 
+		                    const sm::Matrix2D& mat, const Color& mul_col, const Color& add_col)
 {
-	Callback::DrawText(text, mat, col);
+	Callback::DrawText(text, style, mat, mul_col, add_col);
 }
 
 void RenderSystem::SetColor(const RenderColorCommon& col)
