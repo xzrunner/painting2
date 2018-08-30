@@ -10,14 +10,12 @@ OrthoCamera::OrthoCamera()
 	: m_position(0, 0)
 	, m_scale(1)
 {
-	UpdateRender();
 }
 
 OrthoCamera::OrthoCamera(const sm::vec2& pos, float scale)
 	: m_position(pos)
 	, m_scale(scale)
 {
-	UpdateRender();
 }
 
 void OrthoCamera::OnSize(float width, float height)
