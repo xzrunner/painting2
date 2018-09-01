@@ -16,7 +16,7 @@ void RenderSystem::DrawTexture(const Texture& tex, const sm::rect& pos,
 {
 	auto& shader_mgr = sl::Blackboard::Instance()->GetRenderContext().GetShaderMgr();
 	shader_mgr.SetShader(sl::SPRITE2);
-	
+
 	float vertices[8];
 	CalcVertices(pos, mat, vertices);
 
@@ -31,10 +31,12 @@ void RenderSystem::DrawTexture(const Texture& tex, const sm::rect& pos,
 	};
 
 	auto shader = static_cast<sl::Sprite2Shader*>(shader_mgr.GetShader());
-	shader->DrawQuad(vertices, texcoords, tex.GetTexID());
+	shader->SetColor(0xffffffff, 0);
+	shader->SetColorMap(0x000000ff, 0x0000ff00, 0x00ff0000);
+	shader->DrawQuad(vertices, texcoords, tex.TexID());
 }
 
-void RenderSystem::DrawText(const std::string& text, const Textbox& style, 
+void RenderSystem::DrawText(const std::string& text, const Textbox& style,
 		                    const sm::Matrix2D& mat, const Color& mul_col, const Color& add_col)
 {
 	Callback::DrawText(text, style, mat, mul_col, add_col);
