@@ -3,20 +3,21 @@
 namespace pt2
 {
 
-Texture::Texture(uint16_t w, uint16_t h, uint32_t id, int format)
+Texture::Texture(ur::RenderContext* rc, uint16_t w, uint16_t h, uint32_t id, int format)
 	: m_ori_w(0)
 	, m_ori_h(0)
 	, m_load_finished(true)
 {
-	Init(w, h, id, format);
+	Init(rc, w, h, id, format);
 }
 
-void Texture::Init(uint16_t w, uint16_t h, uint32_t id, int format)
+void Texture::Init(ur::RenderContext* rc, uint16_t w, uint16_t h, uint32_t id, int format)
 {
+	m_rc     = rc;
 	m_width  = w;
 	m_height = h;
-	m_tex_id = id;
-	m_format = format;
+	m_texid  = id;
+	m_format = static_cast<ur::TEXTURE_FORMAT>(format);
 }
 
 void Texture::InitOri(uint16_t ori_w, uint16_t ori_h)
