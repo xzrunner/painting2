@@ -15,7 +15,7 @@ class PrimitiveDraw
 {
 public:
 	// config
-	static void Init();	
+	static void Init();
 
 	static void SetColor(const Color& color);
 	static void SetColor(uint32_t abgr);
@@ -34,6 +34,7 @@ public:
 
 	static void Lines(cooking::DisplayList* dlist, const CU_VEC<sm::vec2>& vertices);
 	static void Polyline(cooking::DisplayList* dlist, const CU_VEC<sm::vec2>& vertices, bool loop);
+	static void Polyline(cooking::DisplayList* dlist, const CU_VEC<sm::vec2>& vertices, const CU_VEC<uint32_t>& colors, bool loop);
 	static void Polyline(cooking::DisplayList* dlist, const float* vertices, int count, bool loop);
 
 	// face
@@ -51,7 +52,7 @@ public:
 	// compose
 	static void Cross(cooking::DisplayList* dlist, const sm::vec2& center, float edge);
 	static void Cross(cooking::DisplayList* dlist, const sm::vec2& center, float xedge, float yedge);
-	
+
 	static void Arrow(cooking::DisplayList* dlist, const sm::vec2& p0, const sm::vec2& p1, float len = 20);
 
 private:

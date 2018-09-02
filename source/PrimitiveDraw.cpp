@@ -199,6 +199,22 @@ void PrimitiveDraw::Polyline(cooking::DisplayList* dlist, const CU_VEC<sm::vec2>
 #endif // PT2_DISABLE_RVG
 }
 
+void PrimitiveDraw::Polyline(cooking::DisplayList* dlist, const CU_VEC<sm::vec2>& vertices, const CU_VEC<uint32_t>& colors, bool loop)
+{
+#ifndef PT2_DISABLE_RVG
+	if (vertices.size() < 2) {
+		return;
+	}
+
+	rvg_line_style(LS_DEFAULT);
+	if (Blackboard::Instance()->GetRenderContext().GetCamMgr().IsType(CameraMgr::ORTHO))
+	{
+		SetShader(dlist, sl::SHAPE2);
+		rvg_polyline_with_color(&vertices[0].x, colors.data(), vertices.size(), loop);
+	}
+#endif // PT2_DISABLE_RVG
+}
+
 void PrimitiveDraw::Polyline(cooking::DisplayList* dlist, const float* vertices, int count, bool loop)
 {
 #ifndef PT2_DISABLE_RVG
