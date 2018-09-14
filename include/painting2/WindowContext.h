@@ -2,14 +2,23 @@
 
 #include <SM_Vector.h>
 
+#include <boost/signals2.hpp>
+
 namespace pt2
 {
 
 class WindowContext
 {
 public:
+	typedef boost::signals2::signal<void(const sm::vec2& offset, float scale)> OnView;
+	typedef boost::signals2::signal<void(int width, int height)>               OnProj;
+
+public:
 	WindowContext();
 	WindowContext(float proj_width, float proj_height, int screen_width, int screen_height);
+
+	boost::signals2::connection DoOnView(const OnView::slot_type& slot);
+	boost::signals2::connection DoOnProj(const OnProj::slot_type& slot);
 
 	void SetModelView(const sm::vec2& offset, float scale);
 	void SetProjection(int width, int height);
@@ -21,10 +30,7 @@ public:
 	void UpdateProjection() const;
 	void UpdateViewport() const;
 
-	void Bind() {
-		UpdateMVP();
-		UpdateViewport();
-	}
+	void Bind();
 
 	const sm::vec2& GetMVOffset() const { return m_mv_offset; }
 	float GetMVScale() const { return m_mv_scale; }
@@ -32,11 +38,17 @@ public:
 	int  GetScreenWidth() const { return m_screen_width; }
 	int  GetScreenHeight() const { return m_screen_height; }
 
+	float GetProjWidth() const { return m_proj_width; }
+	float GetProjHeight() const { return m_proj_height; }
+
 	void GetViewport(int& x, int& y, int& w, int& h) const {
-		x = m_vp_x; y = m_vp_y; w = m_vp_w; h = m_vp_h; 
+		x = m_vp_x; y = m_vp_y; w = m_vp_w; h = m_vp_h;
 	}
 
 private:
+	OnView m_on_view;
+	OnProj m_on_proj;
+
 	sm::vec2 m_mv_offset;
 	float    m_mv_scale;
 

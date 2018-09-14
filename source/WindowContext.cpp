@@ -8,36 +8,48 @@
 namespace pt2
 {
 
-WindowContext::WindowContext() 
+WindowContext::WindowContext()
 	: m_mv_scale(0)
 	, m_proj_width(0)
 	, m_proj_height(0)
 	, m_screen_width(0)
 	, m_screen_height(0)
 	, m_vp_x(0)
-	, m_vp_y(0) 
+	, m_vp_y(0)
 	, m_vp_w(0)
 	, m_vp_h(0)
-{}
+{
+}
 
 WindowContext::WindowContext(float proj_width, float proj_height, int screen_width, int screen_height)
 	: m_mv_offset(0, 0)
 	, m_mv_scale(1)
 	, m_proj_width(proj_width)
-	, m_proj_height(proj_height) 
+	, m_proj_height(proj_height)
 	, m_screen_width(screen_width)
 	, m_screen_height(screen_height)
 	, m_vp_x(0)
-	, m_vp_y(0) 
+	, m_vp_y(0)
 	, m_vp_w(screen_width)
 	, m_vp_h(screen_height)
-{}
+{
+}
+
+boost::signals2::connection WindowContext::DoOnView(const OnView::slot_type& slot)
+{
+	return m_on_view.connect(slot);
+}
+
+boost::signals2::connection WindowContext::DoOnProj(const OnProj::slot_type& slot)
+{
+	return m_on_proj.connect(slot);
+}
 
 void WindowContext::SetModelView(const sm::vec2& offset, float scale)
 {
 	if (offset == m_mv_offset && scale == m_mv_scale) {
 		return;
-	} 
+	}
 
 	m_mv_offset = offset;
 	m_mv_scale  = scale;
@@ -93,12 +105,16 @@ void WindowContext::UpdateModelView() const
 {
 	sl::Blackboard::Instance()->GetRenderContext().GetSubMVP2().
 		NotifyModelview(m_mv_offset.x, m_mv_offset.y, m_mv_scale, m_mv_scale);
+
+	m_on_view(m_mv_offset, m_mv_scale);
 }
 
 void WindowContext::UpdateProjection() const
 {
 	sl::Blackboard::Instance()->GetRenderContext().GetSubMVP2().
 		NotifyProjection(static_cast<int>(m_proj_width), static_cast<int>(m_proj_height));
+
+	m_on_proj(m_proj_width, m_proj_height);
 }
 
 void WindowContext::UpdateViewport() const
@@ -109,6 +125,12 @@ void WindowContext::UpdateViewport() const
 
 	auto& ur_rc = ur::Blackboard::Instance()->GetRenderContext();
 	ur_rc.SetViewport(m_vp_x, m_vp_y, m_vp_w, m_vp_h);
+}
+
+void WindowContext::Bind()
+{
+	UpdateMVP();
+	UpdateViewport();
 }
 
 }
