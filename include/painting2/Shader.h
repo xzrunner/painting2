@@ -13,16 +13,36 @@ class WindowContext;
 class Shader : public ur::Shader
 {
 public:
-	Shader(WindowContext& wc, ur::RenderContext* rc, const char* vs, const char* fs,
-		const std::vector<std::string>& textures, const CU_VEC<ur::VertexAttrib>& va_list,
-		const std::string& view_name, const std::string& proj_name);
+	struct ShaderParams
+	{
+		ShaderParams(const std::vector<std::string>& textures,
+			const std::vector<ur::VertexAttrib>& va_list)
+			: textures(textures), va_list(va_list) {}
+
+		const char* vs = nullptr;
+		const char* fs = nullptr;
+		const std::vector<std::string>& textures;
+		const std::vector<ur::VertexAttrib>& va_list;
+
+		// uniform matrix
+		std::string model_name;
+		std::string view_name;
+		std::string proj_name;
+	};
+
+public:
+	Shader(WindowContext& wc, ur::RenderContext* rc, const ShaderParams& sp);
 	virtual ~Shader();
+
+	auto& GetModelUniformName() const { return m_model_name; }
 
 private:
 	void UpdateViewMat(const sm::vec2& offset, float scale);
 	void UpdateProjMat(int width, int height);
 
 private:
+	// uniform matrix
+	std::string m_model_name;
 	std::string m_view_name;
 	std::string m_proj_name;
 

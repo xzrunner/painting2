@@ -38,7 +38,7 @@ void RenderSystem::DrawTexture(const Texture& tex, const sm::rect& pos,
 	shader->DrawQuad(vertices, texcoords, tex.TexID());
 }
 
-void RenderSystem::DrawTexture(const std::shared_ptr<ur::Shader>& shader,
+void RenderSystem::DrawTexture(const std::shared_ptr<Shader>& shader,
 	                           const Texture& tex, const sm::mat4& mat)
 {
 	static std::unique_ptr<SpriteRenderer> sr = nullptr;

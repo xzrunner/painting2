@@ -6,8 +6,6 @@
 
 #include <string>
 
-namespace ur { class Shader; }
-
 namespace pt2
 {
 
@@ -17,13 +15,14 @@ class Textbox;
 class RenderColorCommon;
 class RenderColorMap;
 class Color;
+class Shader;
 
 class RenderSystem
 {
 public:
 	static void DrawTexture(const Texture& tex, const sm::rect& pos,
 		const sm::Matrix2D& mat);
-	static void DrawTexture(const std::shared_ptr<ur::Shader>& shader,
+	static void DrawTexture(const std::shared_ptr<Shader>& shader,
 		const Texture& tex, const sm::mat4& mat);
 
 	static void DrawText(const std::string& text, const Textbox& style,

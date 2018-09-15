@@ -9,12 +9,11 @@
 namespace pt2
 {
 
-Shader::Shader(WindowContext& wc, ur::RenderContext* rc, const char* vs, const char* fs,
-	           const std::vector<std::string>& textures, const CU_VEC<ur::VertexAttrib>& va_list,
-               const std::string& view_name, const std::string& proj_name)
-	: ur::Shader(rc, vs, fs, textures, va_list)
-	, m_view_name(view_name)
-	, m_proj_name(proj_name)
+Shader::Shader(WindowContext& wc, ur::RenderContext* rc, const ShaderParams& sp)
+	: ur::Shader(rc, sp.vs, sp.fs, sp.textures, sp.va_list)
+	, m_model_name(sp.model_name)
+	, m_view_name(sp.view_name)
+	, m_proj_name(sp.proj_name)
 {
 	m_conn_view = wc.DoOnView(boost::bind(&Shader::UpdateViewMat, this, _1, _2));
 	m_conn_proj = wc.DoOnProj(boost::bind(&Shader::UpdateProjMat, this, _1, _2));

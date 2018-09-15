@@ -2,11 +2,11 @@
 #include "painting2/Texture.h"
 #include "painting2/Blackboard.h"
 #include "painting2/WindowContext.h"
+#include "painting2/Shader.h"
 
 #include <SM_Matrix.h>
 #include <unirender/RenderContext.h>
 #include <unirender/Blackboard.h>
-#include <unirender/Shader.h>
 #include <shaderlab/Blackboard.h>
 #include <shaderlab/RenderContext.h>
 #include <shaderlab/ShaderMgr.h>
@@ -24,14 +24,14 @@ SpriteRenderer::~SpriteRenderer()
 	ur::Blackboard::Instance()->GetRenderContext().ReleaseVAO(m_vao, m_vbo, m_ebo);
 }
 
-void SpriteRenderer::Draw(const std::shared_ptr<ur::Shader>& shader,
+void SpriteRenderer::Draw(const std::shared_ptr<Shader>& shader,
 	                      const Texture& tex, const sm::mat4& mat)
 {
 	FlushShaderlabStatus();
 
 	shader->Use();
 
-	shader->SetMat4("u_model", mat.x);
+	shader->SetMat4(shader->GetModelUniformName().c_str(), mat.x);
 
 	auto& rc = ur::Blackboard::Instance()->GetRenderContext();
 	rc.BindTexture(tex.TexID(), 0);
