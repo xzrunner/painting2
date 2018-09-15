@@ -1,5 +1,10 @@
 #pragma once
 
+#if defined(_MSC_VER) && _MSC_VER >= 1400
+#pragma warning(push)
+#pragma warning(disable:4996)
+#endif
+
 #include <SM_Vector.h>
 
 #include <boost/signals2.hpp>
@@ -63,3 +68,7 @@ private:
 }; // WindowContext
 
 }
+
+#if defined(_MSC_VER) && _MSC_VER >= 1400 
+#pragma warning(pop) 
+#endif 
