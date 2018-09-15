@@ -4,7 +4,9 @@
 #include "painting2/RenderColorMap.h"
 #include "painting2/Callback.h"
 #include "painting2/DrawMask.h"
+#include "painting2/SpriteRenderer.h"
 
+#include <unirender/Shader.h>
 #include <shaderlab/ShaderMgr.h>
 #include <shaderlab/Sprite2Shader.h>
 
@@ -34,6 +36,17 @@ void RenderSystem::DrawTexture(const Texture& tex, const sm::rect& pos,
 	shader->SetColor(0xffffffff, 0);
 	shader->SetColorMap(0x000000ff, 0x0000ff00, 0x00ff0000);
 	shader->DrawQuad(vertices, texcoords, tex.TexID());
+}
+
+void RenderSystem::DrawTexture(const std::shared_ptr<ur::Shader>& shader,
+	                           const Texture& tex, const sm::mat4& mat)
+{
+	static std::unique_ptr<SpriteRenderer> sr = nullptr;
+	if (!sr) {
+		sr = std::make_unique<SpriteRenderer>();
+	}
+
+	sr->Draw(shader, tex, mat);
 }
 
 void RenderSystem::DrawText(const std::string& text, const Textbox& style,
