@@ -20,7 +20,7 @@ void RenderScreen::Scissor(float x, float y, float w, float h)
 		return;
 	}
 
-	float mv_scale = wc->GetMVScale();
+	float mv_scale = wc->GetViewScale();
 	x *= mv_scale;
 	y *= mv_scale;
 	w *= mv_scale;
@@ -31,8 +31,8 @@ void RenderScreen::Scissor(float x, float y, float w, float h)
 	x += screen_w * 0.5f;
 	y += screen_h * 0.5f;
 
-	x += wc->GetMVOffset().x * mv_scale;
-	y += wc->GetMVOffset().y * mv_scale;
+	x += wc->GetViewOffset().x * mv_scale;
+	y += wc->GetViewOffset().y * mv_scale;
 
 	if (x < 0) {
 		w += x;

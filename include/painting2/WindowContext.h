@@ -25,20 +25,19 @@ public:
 	boost::signals2::connection DoOnView(const OnView::slot_type& slot);
 	boost::signals2::connection DoOnProj(const OnProj::slot_type& slot);
 
-	void SetModelView(const sm::vec2& offset, float scale);
+	void SetView(const sm::vec2& offset, float scale);
 	void SetProjection(int width, int height);
 	void SetScreen(int width, int height);
 	void SetViewport(int x, int y, int w, int h);
 
-	void UpdateMVP() const;
-	void UpdateModelView() const;
+	void UpdateView() const;
 	void UpdateProjection() const;
 	void UpdateViewport() const;
 
 	void Bind();
 
-	const sm::vec2& GetMVOffset() const { return m_mv_offset; }
-	float GetMVScale() const { return m_mv_scale; }
+	const sm::vec2& GetViewOffset() const { return m_view_offset; }
+	float GetViewScale() const { return m_view_scale; }
 
 	int  GetScreenWidth() const { return m_screen_width; }
 	int  GetScreenHeight() const { return m_screen_height; }
@@ -54,8 +53,8 @@ private:
 	OnView m_on_view;
 	OnProj m_on_proj;
 
-	sm::vec2 m_mv_offset;
-	float    m_mv_scale;
+	sm::vec2 m_view_offset;
+	float    m_view_scale;
 
 	float m_proj_width;
 	float m_proj_height;
@@ -69,6 +68,6 @@ private:
 
 }
 
-#if defined(_MSC_VER) && _MSC_VER >= 1400 
-#pragma warning(pop) 
-#endif 
+#if defined(_MSC_VER) && _MSC_VER >= 1400
+#pragma warning(pop)
+#endif

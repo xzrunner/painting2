@@ -21,7 +21,7 @@ public:
 
 	virtual void Bind() const override;
 
-	virtual sm::mat4 GetModelViewMat() const override { return sm::mat4(); }
+	virtual sm::mat4 GetViewMat() const override { return sm::mat4(); }
 	virtual sm::mat4 GetProjectionMat() const override { return sm::mat4(); }
 
 	virtual void Reset() override;

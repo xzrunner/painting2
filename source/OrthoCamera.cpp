@@ -99,7 +99,7 @@ void OrthoCamera::UpdateRender() const
 
 	sm::vec2 mv_offset = - m_position;
 	float mv_scale = 1 / m_scale;
-	wc->SetModelView(mv_offset, mv_scale);
+	wc->SetView(mv_offset, mv_scale);
 }
 
 }

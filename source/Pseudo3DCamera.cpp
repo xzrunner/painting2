@@ -67,7 +67,7 @@ void Pseudo3DCamera::Bind() const
 	UpdateRender();
 }
 
-sm::mat4 Pseudo3DCamera::GetModelViewMat() const
+sm::mat4 Pseudo3DCamera::GetViewMat() const
 {
 	auto ptr = c25_cam_get_modelview_mat(m_cam);
 	sm::mat4 ret;

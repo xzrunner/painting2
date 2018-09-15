@@ -9,7 +9,7 @@ namespace pt2
 {
 
 WindowContext::WindowContext()
-	: m_mv_scale(0)
+	: m_view_scale(0)
 	, m_proj_width(0)
 	, m_proj_height(0)
 	, m_screen_width(0)
@@ -22,8 +22,8 @@ WindowContext::WindowContext()
 }
 
 WindowContext::WindowContext(float proj_width, float proj_height, int screen_width, int screen_height)
-	: m_mv_offset(0, 0)
-	, m_mv_scale(1)
+	: m_view_offset(0, 0)
+	, m_view_scale(1)
 	, m_proj_width(proj_width)
 	, m_proj_height(proj_height)
 	, m_screen_width(screen_width)
@@ -45,16 +45,16 @@ boost::signals2::connection WindowContext::DoOnProj(const OnProj::slot_type& slo
 	return m_on_proj.connect(slot);
 }
 
-void WindowContext::SetModelView(const sm::vec2& offset, float scale)
+void WindowContext::SetView(const sm::vec2& offset, float scale)
 {
-	if (offset == m_mv_offset && scale == m_mv_scale) {
+	if (offset == m_view_offset && scale == m_view_scale) {
 		return;
 	}
 
-	m_mv_offset = offset;
-	m_mv_scale  = scale;
+	m_view_offset = offset;
+	m_view_scale  = scale;
 
-	UpdateModelView();
+	UpdateView();
 }
 
 void WindowContext::SetProjection(int width, int height)
@@ -95,18 +95,12 @@ void WindowContext::SetViewport(int x, int y, int w, int h)
 	UpdateProjection();
 }
 
-void WindowContext::UpdateMVP() const
-{
-	UpdateModelView();
-	UpdateProjection();
-}
-
-void WindowContext::UpdateModelView() const
+void WindowContext::UpdateView() const
 {
 	sl::Blackboard::Instance()->GetRenderContext().GetSubMVP2().
-		NotifyModelview(m_mv_offset.x, m_mv_offset.y, m_mv_scale, m_mv_scale);
+		NotifyModelview(m_view_offset.x, m_view_offset.y, m_view_scale, m_view_scale);
 
-	m_on_view(m_mv_offset, m_mv_scale);
+	m_on_view(m_view_offset, m_view_scale);
 }
 
 void WindowContext::UpdateProjection() const
@@ -129,7 +123,8 @@ void WindowContext::UpdateViewport() const
 
 void WindowContext::Bind()
 {
-	UpdateMVP();
+	UpdateView();
+	UpdateProjection();
 	UpdateViewport();
 }
 
