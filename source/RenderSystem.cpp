@@ -39,15 +39,14 @@ void RenderSystem::DrawTexture(const Texture& tex, const sm::rect& pos,
 	shader->DrawQuad(vertices, texcoords, tex.TexID());
 }
 
-void RenderSystem::DrawTexture(const std::shared_ptr<Shader>& shader,
-	                           const Texture& tex, const sm::mat4& mat)
+void RenderSystem::DrawTexture(const std::shared_ptr<Shader>& shader, const sm::mat4& mat)
 {
 	static std::unique_ptr<SpriteRenderer> sr = nullptr;
 	if (!sr) {
 		sr = std::make_unique<SpriteRenderer>();
 	}
 
-	sr->Draw(shader, tex, mat);
+	sr->Draw(shader, mat);
 }
 
 void RenderSystem::DrawColor(const std::shared_ptr<Shader>& shader, const sm::mat4& mat)

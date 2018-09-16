@@ -8,7 +8,6 @@
 namespace pt2
 {
 
-class Texture;
 class Shader;
 
 class SpriteRenderer
@@ -17,8 +16,7 @@ public:
 	SpriteRenderer();
 	~SpriteRenderer();
 
-	void Draw(const std::shared_ptr<Shader>& shader,
-		const Texture& tex, const sm::mat4& mat);
+	void Draw(const std::shared_ptr<Shader>& shader, const sm::mat4& mat);
 
 private:
 	void InitRenderData();

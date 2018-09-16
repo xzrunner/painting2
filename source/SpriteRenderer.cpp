@@ -24,8 +24,7 @@ SpriteRenderer::~SpriteRenderer()
 	ur::Blackboard::Instance()->GetRenderContext().ReleaseVAO(m_vao, m_vbo, m_ebo);
 }
 
-void SpriteRenderer::Draw(const std::shared_ptr<Shader>& shader,
-	                      const Texture& tex, const sm::mat4& mat)
+void SpriteRenderer::Draw(const std::shared_ptr<Shader>& shader, const sm::mat4& mat)
 {
 	FlushShaderlabStatus();
 
@@ -34,8 +33,6 @@ void SpriteRenderer::Draw(const std::shared_ptr<Shader>& shader,
 	shader->SetMat4(shader->GetModelUniformName().c_str(), mat.x);
 
 	auto& rc = ur::Blackboard::Instance()->GetRenderContext();
-	rc.BindTexture(tex.TexID(), 0);
-
 	rc.DrawElementsVAO(ur::DRAW_TRIANGLES, 0, 6, m_vao);
 }
 
