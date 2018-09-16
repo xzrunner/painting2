@@ -25,6 +25,9 @@ public:
 	static void DrawTexture(const std::shared_ptr<Shader>& shader,
 		const Texture& tex, const sm::mat4& mat);
 
+	static void DrawColor(const std::shared_ptr<Shader>& shader,
+		const sm::mat4& mat);
+
 	static void DrawText(const std::string& text, const Textbox& style,
 		const sm::Matrix2D& mat, const Color& mul_col, const Color& add_col);
 

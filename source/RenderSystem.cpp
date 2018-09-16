@@ -5,6 +5,7 @@
 #include "painting2/Callback.h"
 #include "painting2/DrawMask.h"
 #include "painting2/SpriteRenderer.h"
+#include "painting2/ShapeRenderer.h"
 
 #include <unirender/Shader.h>
 #include <shaderlab/ShaderMgr.h>
@@ -47,6 +48,16 @@ void RenderSystem::DrawTexture(const std::shared_ptr<Shader>& shader,
 	}
 
 	sr->Draw(shader, tex, mat);
+}
+
+void RenderSystem::DrawColor(const std::shared_ptr<Shader>& shader, const sm::mat4& mat)
+{
+	static std::unique_ptr<ShapeRenderer> sr = nullptr;
+	if (!sr) {
+		sr = std::make_unique<ShapeRenderer>();
+	}
+
+	sr->Draw(shader, mat);
 }
 
 void RenderSystem::DrawText(const std::string& text, const Textbox& style,
