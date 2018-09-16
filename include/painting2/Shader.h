@@ -53,7 +53,7 @@ private:
 
 	// view
 	sm::vec2 m_offset;
-	float    m_scale = 1;
+	float    m_scale = 0;
 	// proj
 	int m_width = 0;
 	int m_height = 0;
