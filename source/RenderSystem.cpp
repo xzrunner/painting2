@@ -15,7 +15,7 @@ namespace pt2
 {
 
 void RenderSystem::DrawTexture(const Texture& tex, const sm::rect& pos,
-	                           const sm::Matrix2D& mat)
+                               const sm::Matrix2D& mat)
 {
 	auto& shader_mgr = sl::Blackboard::Instance()->GetRenderContext().GetShaderMgr();
 	shader_mgr.SetShader(sl::SPRITE2);
@@ -37,6 +37,16 @@ void RenderSystem::DrawTexture(const Texture& tex, const sm::rect& pos,
 	shader->SetColor(0xffffffff, 0);
 	shader->SetColorMap(0x000000ff, 0x0000ff00, 0x00ff0000);
 	shader->DrawQuad(vertices, texcoords, tex.TexID());
+}
+
+void RenderSystem::DrawTexture(const Texture& tex, const sm::mat4& mat)
+{
+	static std::unique_ptr<SpriteRenderer> sr = nullptr;
+	if (!sr) {
+		sr = std::make_unique<SpriteRenderer>();
+	}
+
+	sr->Draw(tex.TexID(), mat);
 }
 
 void RenderSystem::DrawTexture(const std::shared_ptr<Shader>& shader, const sm::mat4& mat)

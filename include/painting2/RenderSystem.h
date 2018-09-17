@@ -22,6 +22,7 @@ class RenderSystem
 public:
 	static void DrawTexture(const Texture& tex, const sm::rect& pos,
 		const sm::Matrix2D& mat);
+	static void DrawTexture(const Texture& tex, const sm::mat4& mat);
 	static void DrawTexture(const std::shared_ptr<Shader>& shader,
 		const sm::mat4& mat);
 
