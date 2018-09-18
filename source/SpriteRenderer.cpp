@@ -10,13 +10,13 @@
 #include <shaderlab/Blackboard.h>
 #include <shaderlab/RenderContext.h>
 #include <shaderlab/ShaderMgr.h>
-#include <sw/typedef.h>
-#include <sw/Evaluator.h>
-#include <sw/node/Uniform.h>
-#include <sw/node/Input.h>
-#include <sw/node/Output.h>
-#include <sw/node/PositionTrans.h>
-#include <sw/node/Tex2DSample.h>
+#include <shaderweaver/typedef.h>
+#include <shaderweaver/Evaluator.h>
+#include <shaderweaver/node/Uniform.h>
+#include <shaderweaver/node/Input.h>
+#include <shaderweaver/node/Output.h>
+#include <shaderweaver/node/PositionTrans.h>
+#include <shaderweaver/node/SampleTex2D.h>
 
 namespace pt2
 {
@@ -92,11 +92,11 @@ void SpriteRenderer::InitDefaultShader()
 	vert_nodes.push_back(vert_out_uv);
 
 	// frag
-	auto tex_sample = std::make_shared<sw::node::Tex2DSample>();
+	auto tex_sample = std::make_shared<sw::node::SampleTex2D>();
 	auto frag_in_tex = std::make_shared<sw::node::Uniform>("u_texture0", sw::t_tex2d);
 	auto frag_in_uv = std::make_shared<sw::node::Input>("v_texcoord", sw::t_uv);
-	sw::make_connecting({ frag_in_tex, 0 }, { tex_sample, sw::node::Tex2DSample::IN_TEX });
-	sw::make_connecting({ frag_in_uv,  0 }, { tex_sample, sw::node::Tex2DSample::IN_UV });
+	sw::make_connecting({ frag_in_tex, 0 }, { tex_sample, sw::node::SampleTex2D::IN_TEX });
+	sw::make_connecting({ frag_in_uv,  0 }, { tex_sample, sw::node::SampleTex2D::IN_UV });
 
 	// end
 	sw::Evaluator vert(vert_nodes, sw::ST_VERT);
