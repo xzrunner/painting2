@@ -102,19 +102,19 @@ void SpriteRenderer::InitDefaultShader()
 	sw::Evaluator vert(vert_nodes, sw::ST_VERT);
 	sw::Evaluator frag({ tex_sample }, sw::ST_FRAG);
 
-	printf("//////////////////////////////////////////////////////////////////////////\n");
-	printf("%s\n", vert.GetShaderStr().c_str());
-	printf("//////////////////////////////////////////////////////////////////////////\n");
-	printf("%s\n", frag.GetShaderStr().c_str());
-	printf("//////////////////////////////////////////////////////////////////////////\n");
+	//printf("//////////////////////////////////////////////////////////////////////////\n");
+	//printf("%s\n", vert.GetShaderStr().c_str());
+	//printf("//////////////////////////////////////////////////////////////////////////\n");
+	//printf("%s\n", frag.GetShaderStr().c_str());
+	//printf("//////////////////////////////////////////////////////////////////////////\n");
 
 	std::vector<std::string> texture_names;
-	pt2::Shader::ShaderParams sp(texture_names, layout);
+	pt2::Shader::Params sp(texture_names, layout);
 	sp.vs = vert.GetShaderStr().c_str();
 	sp.fs = frag.GetShaderStr().c_str();
-	sp.model_name = "u_model";
-	sp.view_name  = "u_view";
-	sp.proj_name  = "u_projection";
+	sp.uniform_names.model_mat = "u_model";
+	sp.uniform_names.view_mat  = "u_view";
+	sp.uniform_names.proj_mat  = "u_projection";
 	auto& wc = Blackboard::Instance()->GetWindowContext();
 	m_default_shader = std::make_shared<pt2::Shader>(*wc, &rc, sp);
 }

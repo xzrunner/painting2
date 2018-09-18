@@ -9,11 +9,8 @@
 namespace pt2
 {
 
-Shader::Shader(WindowContext& wc, ur::RenderContext* rc, const ShaderParams& sp)
-	: ur::Shader(rc, sp.vs, sp.fs, sp.textures, sp.va_list)
-	, m_model_name(sp.model_name)
-	, m_view_name(sp.view_name)
-	, m_proj_name(sp.proj_name)
+Shader::Shader(WindowContext& wc, ur::RenderContext* rc, const pt0::Shader::Params& params)
+	: pt0::Shader(rc, params)
 {
 	m_conn_view = wc.DoOnView(boost::bind(&Shader::UpdateViewMat, this, _1, _2));
 	m_conn_proj = wc.DoOnProj(boost::bind(&Shader::UpdateProjMat, this, _1, _2));
@@ -41,7 +38,7 @@ void Shader::UpdateViewMat(const sm::vec2& offset, float scale)
 
 	auto mat = sm::mat4::Scaled(scale, scale, 1);
 	mat.Translate(offset.x * scale, offset.y * scale, 0);
-	SetMat4(m_view_name.c_str(), mat.x);
+	SetMat4(m_uniform_names.view_mat.c_str(), mat.x);
 }
 
 void Shader::UpdateProjMat(int width, int height)
@@ -61,7 +58,7 @@ void Shader::UpdateProjMat(int width, int height)
 	float hw = width * 0.5f;
 	float hh = height * 0.5f;
 	auto mat = sm::mat4::Orthographic(-hw, hw, -hh, hh, 1, -1);
-	SetMat4(m_proj_name.c_str(), mat.x);
+	SetMat4(m_uniform_names.proj_mat.c_str(), mat.x);
 }
 
 }
