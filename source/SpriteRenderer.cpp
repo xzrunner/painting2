@@ -79,10 +79,10 @@ void SpriteRenderer::InitDefaultShader()
 	auto position   = std::make_shared<sw::node::Input>  ("position",     sw::t_pos2);
 
 	auto pos_trans = std::make_shared<sw::node::PositionTrans>(2);
-	sw::make_connecting({ projection, 0 }, { pos_trans, sw::node::PositionTrans::IN_PROJ });
-	sw::make_connecting({ view,       0 }, { pos_trans, sw::node::PositionTrans::IN_VIEW });
-	sw::make_connecting({ model,      0 }, { pos_trans, sw::node::PositionTrans::IN_MODEL });
-	sw::make_connecting({ position,   0 }, { pos_trans, sw::node::PositionTrans::IN_POS });
+	sw::make_connecting({ projection, 0 }, { pos_trans, sw::node::PositionTrans::ID_PROJ });
+	sw::make_connecting({ view,       0 }, { pos_trans, sw::node::PositionTrans::ID_VIEW });
+	sw::make_connecting({ model,      0 }, { pos_trans, sw::node::PositionTrans::ID_MODEL });
+	sw::make_connecting({ position,   0 }, { pos_trans, sw::node::PositionTrans::ID_POS });
 	vert_nodes.push_back(pos_trans);
 
 	// varying
@@ -95,8 +95,8 @@ void SpriteRenderer::InitDefaultShader()
 	auto tex_sample = std::make_shared<sw::node::SampleTex2D>();
 	auto frag_in_tex = std::make_shared<sw::node::Uniform>("u_texture0", sw::t_tex2d);
 	auto frag_in_uv = std::make_shared<sw::node::Input>("v_texcoord", sw::t_uv);
-	sw::make_connecting({ frag_in_tex, 0 }, { tex_sample, sw::node::SampleTex2D::IN_TEX });
-	sw::make_connecting({ frag_in_uv,  0 }, { tex_sample, sw::node::SampleTex2D::IN_UV });
+	sw::make_connecting({ frag_in_tex, 0 }, { tex_sample, sw::node::SampleTex2D::ID_TEX });
+	sw::make_connecting({ frag_in_uv,  0 }, { tex_sample, sw::node::SampleTex2D::ID_UV });
 
 	// end
 	sw::Evaluator vert(vert_nodes, sw::ST_VERT);
