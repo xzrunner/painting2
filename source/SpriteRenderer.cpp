@@ -60,6 +60,11 @@ void SpriteRenderer::Draw(unsigned int tex_id, const sm::mat4& mat) const
 
 void SpriteRenderer::InitDefaultShader()
 {
+	// flush shader status
+	auto& shader_mgr = sl::Blackboard::Instance()->GetRenderContext().GetShaderMgr();
+	shader_mgr.SetShader(sl::EXTERN_SHADER);
+	shader_mgr.BindRenderShader(nullptr, sl::EXTERN_SHADER);
+
 	auto& rc = ur::Blackboard::Instance()->GetRenderContext();
 
 	// layout
