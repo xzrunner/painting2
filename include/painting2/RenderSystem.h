@@ -5,6 +5,7 @@
 #include <SM_Matrix.h>
 
 #include <string>
+#include <memory>
 
 namespace pt2
 {
