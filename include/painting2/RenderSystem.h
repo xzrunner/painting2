@@ -7,6 +7,8 @@
 #include <string>
 #include <memory>
 
+namespace pd { class DrawList; }
+
 namespace pt2
 {
 
@@ -26,6 +28,9 @@ public:
 	static void DrawTexture(const Texture& tex, const sm::mat4& mat);
 	static void DrawTexture(const std::shared_ptr<Shader>& shader,
 		const sm::mat4& mat);
+
+	static void DrawPrimitive(const pd::DrawList& dlist,
+		uint32_t tex_id, const sm::mat4& mat);
 
 	static void DrawColor(const std::shared_ptr<Shader>& shader,
 		const sm::mat4& mat);

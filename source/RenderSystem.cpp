@@ -6,6 +6,7 @@
 #include "painting2/DrawMask.h"
 #include "painting2/SpriteRenderer.h"
 #include "painting2/ShapeRenderer.h"
+#include "painting2/PrimitiveRenderer.h"
 
 #include <unirender/Shader.h>
 #include <shaderlab/ShaderMgr.h>
@@ -57,6 +58,16 @@ void RenderSystem::DrawTexture(const std::shared_ptr<Shader>& shader, const sm::
 	}
 
 	sr->Draw(shader, mat);
+}
+
+void RenderSystem::DrawPrimitive(const pd::DrawList& dlist, uint32_t tex_id, const sm::mat4& mat)
+{
+	static std::unique_ptr<PrimitiveRenderer> pr = nullptr;
+	if (!pr) {
+		pr = std::make_unique<PrimitiveRenderer>();
+	}
+
+	pr->Draw(dlist, tex_id, mat);
 }
 
 void RenderSystem::DrawColor(const std::shared_ptr<Shader>& shader, const sm::mat4& mat)
