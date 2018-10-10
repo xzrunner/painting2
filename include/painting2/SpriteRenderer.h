@@ -23,8 +23,6 @@ private:
 	void InitDefaultShader();
 	void InitRenderData();
 
-	void FlushShaderlabStatus() const;
-
 private:
 	std::shared_ptr<Shader> m_default_shader = nullptr;
 

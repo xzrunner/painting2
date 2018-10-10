@@ -22,9 +22,6 @@ public:
 private:
 	void InitDefaultShader();
 
-	// fixme
-	void FlushShaderlabStatus() const;
-
 private:
 	std::shared_ptr<pt0::Shader> m_default_shader = nullptr;
 

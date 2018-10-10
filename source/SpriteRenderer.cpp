@@ -3,13 +3,11 @@
 #include "painting2/Blackboard.h"
 #include "painting2/WindowContext.h"
 #include "painting2/Shader.h"
+#include "painting2/Utility.h"
 
 #include <SM_Matrix.h>
 #include <unirender/RenderContext.h>
 #include <unirender/Blackboard.h>
-#include <shaderlab/Blackboard.h>
-#include <shaderlab/RenderContext.h>
-#include <shaderlab/ShaderMgr.h>
 #include <shaderweaver/typedef.h>
 #include <shaderweaver/Evaluator.h>
 #include <shaderweaver/node/Uniform.h>
@@ -23,6 +21,8 @@ namespace pt2
 
 SpriteRenderer::SpriteRenderer()
 {
+	Utility::FlushShaderlabStatus();
+
 	InitRenderData();
 	InitDefaultShader();
 }
@@ -34,7 +34,7 @@ SpriteRenderer::~SpriteRenderer()
 
 void SpriteRenderer::Draw(const std::shared_ptr<Shader>& shader, const sm::mat4& mat) const
 {
-	FlushShaderlabStatus();
+	Utility::FlushShaderlabStatus();
 
 	shader->Use();
 
@@ -46,7 +46,7 @@ void SpriteRenderer::Draw(const std::shared_ptr<Shader>& shader, const sm::mat4&
 
 void SpriteRenderer::Draw(unsigned int tex_id, const sm::mat4& mat) const
 {
-	FlushShaderlabStatus();
+	Utility::FlushShaderlabStatus();
 
 	auto& rc = ur::Blackboard::Instance()->GetRenderContext();
 
@@ -60,11 +60,6 @@ void SpriteRenderer::Draw(unsigned int tex_id, const sm::mat4& mat) const
 
 void SpriteRenderer::InitDefaultShader()
 {
-	// flush shader status
-	auto& shader_mgr = sl::Blackboard::Instance()->GetRenderContext().GetShaderMgr();
-	shader_mgr.SetShader(sl::EXTERN_SHADER);
-	shader_mgr.BindRenderShader(nullptr, sl::EXTERN_SHADER);
-
 	auto& rc = ur::Blackboard::Instance()->GetRenderContext();
 
 	// layout
@@ -147,14 +142,6 @@ void SpriteRenderer::InitRenderData()
 	vi.va_list.push_back(ur::VertexAttrib("tex", 2, 4, 16, 8));
 
 	ur::Blackboard::Instance()->GetRenderContext().CreateVAO(vi, m_vao, m_vbo, m_ebo);
-}
-
-void SpriteRenderer::FlushShaderlabStatus() const
-{
-	auto& shader_mgr = sl::Blackboard::Instance()->GetRenderContext().GetShaderMgr();
-	shader_mgr.SetShader(sl::EXTERN_SHADER);
-	shader_mgr.BindRenderShader(nullptr, sl::EXTERN_SHADER);
-
 }
 
 }

@@ -2,13 +2,11 @@
 #include "painting2/Blackboard.h"
 #include "painting2/WindowContext.h"
 #include "painting2/Shader.h"
+#include "painting2/Utility.h"
 
 #include <SM_Matrix.h>
 #include <unirender/RenderContext.h>
 #include <unirender/Blackboard.h>
-#include <shaderlab/Blackboard.h>
-#include <shaderlab/RenderContext.h>
-#include <shaderlab/ShaderMgr.h>
 
 namespace pt2
 {
@@ -25,7 +23,7 @@ ShapeRenderer::~ShapeRenderer()
 
 void ShapeRenderer::Draw(const std::shared_ptr<Shader>& shader, const sm::mat4& mat)
 {
-	FlushShaderlabStatus();
+	Utility::FlushShaderlabStatus();
 
 	shader->Use();
 
@@ -56,14 +54,6 @@ void ShapeRenderer::InitRenderData()
 	vi.va_list.push_back(ur::VertexAttrib("pos", 2, 4, 8, 0));
 
 	ur::Blackboard::Instance()->GetRenderContext().CreateVAO(vi, m_vao, m_vbo, m_ebo);
-}
-
-void ShapeRenderer::FlushShaderlabStatus() const
-{
-	auto& shader_mgr = sl::Blackboard::Instance()->GetRenderContext().GetShaderMgr();
-	shader_mgr.SetShader(sl::EXTERN_SHADER);
-	shader_mgr.BindRenderShader(nullptr, sl::EXTERN_SHADER);
-
 }
 
 }

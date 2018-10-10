@@ -33,6 +33,7 @@
     <ClCompile Include="..\..\..\source\Shader.cpp" />
     <ClCompile Include="..\..\..\source\ShapeRenderer.cpp" />
     <ClCompile Include="..\..\..\source\SpriteRenderer.cpp" />
+    <ClCompile Include="..\..\..\source\Utility.cpp" />
     <ClCompile Include="..\..\..\source\WindowContext.cpp" />
     <ClCompile Include="..\..\..\source\RenderFilter.cpp" />
     <ClCompile Include="..\..\..\source\RenderScissor.cpp" />
@@ -78,6 +79,7 @@
     <ClInclude Include="..\..\..\include\painting2\Shader.h" />
     <ClInclude Include="..\..\..\include\painting2\ShapeRenderer.h" />
     <ClInclude Include="..\..\..\include\painting2\SpriteRenderer.h" />
+    <ClInclude Include="..\..\..\include\painting2\Utility.h" />
     <ClInclude Include="..\..\..\include\painting2\WindowContext.h" />
     <ClInclude Include="..\..\..\include\painting2\RenderFilter.h" />
     <ClInclude Include="..\..\..\include\painting2\RenderReturn.h" />

@@ -1,5 +1,6 @@
 #include "painting2/PrimitiveRenderer.h"
 #include "painting2/Blackboard.h"
+#include "painting2/Utility.h"
 
 #include <unirender/Blackboard.h>
 #include <unirender/VertexAttrib.h>
@@ -26,7 +27,7 @@ namespace pt2
 
 PrimitiveRenderer::PrimitiveRenderer()
 {
-	FlushShaderlabStatus();
+	Utility::FlushShaderlabStatus();
 
 	InitDefaultShader();
 
@@ -46,7 +47,7 @@ void PrimitiveRenderer::Draw(const pd::DrawList& dlist,
 	                         unsigned int tex_id,
 	                         const sm::mat4& mat) const
 {
-	FlushShaderlabStatus();
+	Utility::FlushShaderlabStatus();
 
 	auto& rc = ur::Blackboard::Instance()->GetRenderContext();
 
@@ -131,13 +132,6 @@ void PrimitiveRenderer::InitDefaultShader()
 	sp.uniform_names.proj_mat  = "u_projection";
 	auto& wc = Blackboard::Instance()->GetWindowContext();
 	m_default_shader = std::make_shared<Shader>(*wc, &rc, sp);
-}
-
-void PrimitiveRenderer::FlushShaderlabStatus() const
-{
-	auto& shader_mgr = sl::Blackboard::Instance()->GetRenderContext().GetShaderMgr();
-	shader_mgr.SetShader(sl::EXTERN_SHADER);
-	shader_mgr.BindRenderShader(nullptr, sl::EXTERN_SHADER);
 }
 
 }

@@ -21,8 +21,6 @@ public:
 private:
 	void InitRenderData();
 
-	void FlushShaderlabStatus() const;
-
 private:
 	uint32_t m_vao;
 	uint32_t m_vbo;
