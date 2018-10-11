@@ -5,7 +5,7 @@
 #include <memory>
 
 namespace pt0 { class Shader; }
-namespace pd { class DrawList; }
+namespace pd { class RenderNode; }
 
 namespace pt2
 {
@@ -16,7 +16,7 @@ public:
 	PrimitiveRenderer();
 	~PrimitiveRenderer();
 
-	void Draw(const pd::DrawList& dlist,
+	void Draw(const pd::RenderNode& rnode,
 		unsigned int tex_id, const sm::mat4& mat) const;
 
 private:

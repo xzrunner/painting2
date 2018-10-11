@@ -7,7 +7,7 @@
 #include <string>
 #include <memory>
 
-namespace pd { class DrawList; }
+namespace pd { class RenderNode; }
 
 namespace pt2
 {
@@ -29,7 +29,7 @@ public:
 	static void DrawTexture(const std::shared_ptr<Shader>& shader,
 		const sm::mat4& mat);
 
-	static void DrawPrimitive(const pd::DrawList& dlist,
+	static void DrawPrimitive(const pd::RenderNode& rn,
 		uint32_t tex_id, const sm::mat4& mat);
 
 	static void DrawColor(const std::shared_ptr<Shader>& shader,

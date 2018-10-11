@@ -13,7 +13,7 @@
 #include <shaderweaver/node/Output.h>
 #include <shaderweaver/node/PositionTrans.h>
 #include <shaderweaver/node/SampleTex2D.h>
-#include <primdraw/DrawList.h>
+#include <primdraw/RenderNode.h>
 #include <shaderlab/Blackboard.h>
 #include <shaderlab/RenderContext.h>
 #include <shaderlab/ShaderMgr.h>
@@ -43,7 +43,7 @@ PrimitiveRenderer::~PrimitiveRenderer()
 	rc.ReleaseBuffer(ur::INDEXBUFFER, m_ebo);
 }
 
-void PrimitiveRenderer::Draw(const pd::DrawList& dlist,
+void PrimitiveRenderer::Draw(const pd::RenderNode& rnode,
 	                         unsigned int tex_id,
 	                         const sm::mat4& mat) const
 {
@@ -56,10 +56,10 @@ void PrimitiveRenderer::Draw(const pd::DrawList& dlist,
 
 	m_default_shader->SetMat4("u_model", mat.x);
 
-	auto& buf = dlist.GetBuffer();
+	auto& buf = rnode.GetBuffer();
 
 	rc.BindBuffer(ur::VERTEXBUFFER, m_vbo);
-	size_t vbuf_sz = sizeof(pd::DrawList::Vertex) * buf.vertices.size();
+	size_t vbuf_sz = sizeof(pd::RenderNode::Vertex) * buf.vertices.size();
 	rc.UpdateBuffer(m_vbo, buf.vertices.data(), vbuf_sz);
 
 	rc.BindBuffer(ur::INDEXBUFFER, m_ebo);
