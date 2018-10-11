@@ -24,6 +24,8 @@ private:
 private:
 	std::shared_ptr<pt0::Shader> m_default_shader = nullptr;
 
+	std::unique_ptr<prim::Palette> m_palette = nullptr;
+
 	uint32_t m_vbo = 0, m_ebo = 0;
 
 }; // PrimitiveRenderer

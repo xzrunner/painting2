@@ -27,6 +27,9 @@ PrimitiveRenderer::PrimitiveRenderer()
 	InitDefaultShader();
 
 	auto& rc = ur::Blackboard::Instance()->GetRenderContext();
+
+	m_palette = std::make_unique<prim::Palette>(&rc);
+
 	m_vbo = rc.CreateBuffer(ur::VERTEXBUFFER, nullptr, 0);
 	m_ebo = rc.CreateBuffer(ur::INDEXBUFFER, nullptr, 0);
 }
@@ -46,7 +49,7 @@ void PrimitiveRenderer::Draw(const prim::RenderNode& rnode,
 	auto& rc = ur::Blackboard::Instance()->GetRenderContext();
 
 	m_default_shader->Use();
-	rc.BindTexture(tex_id, 0);
+	rc.BindTexture(m_palette->GetTexID(), 0);
 
 	m_default_shader->SetMat4("u_model", mat.x);
 
@@ -71,7 +74,7 @@ void PrimitiveRenderer::InitDefaultShader()
 	std::vector<ur::VertexAttrib> layout;
 	layout.push_back(ur::VertexAttrib("position", 2, sizeof(float),    20, 0));
 	layout.push_back(ur::VertexAttrib("texcoord", 2, sizeof(float),    20, 8));
-	layout.push_back(ur::VertexAttrib("color",    1, sizeof(uint32_t), 20, 16));
+	layout.push_back(ur::VertexAttrib("color",    4, sizeof(uint8_t),  20, 16));
 	auto layout_id = rc.CreateVertexLayout(layout);
 	rc.BindVertexLayout(layout_id);
 
@@ -97,6 +100,11 @@ void PrimitiveRenderer::InitDefaultShader()
 	sw::make_connecting({ vert_in_uv, 0 }, { vert_out_uv, 0 });
 	vert_nodes.push_back(vert_out_uv);
 
+	auto col_in_uv = std::make_shared<sw::node::Input>("color", sw::t_flt4);
+	auto col_out_uv = std::make_shared<sw::node::Output>("v_color", sw::t_flt4);
+	sw::make_connecting({ col_in_uv, 0 }, { col_out_uv, 0 });
+	vert_nodes.push_back(col_out_uv);
+
 	// frag
 	auto tex_sample = std::make_shared<sw::node::SampleTex2D>();
 	auto frag_in_tex = std::make_shared<sw::node::Uniform>("u_texture0", sw::t_tex2d);
@@ -104,12 +112,14 @@ void PrimitiveRenderer::InitDefaultShader()
 	sw::make_connecting({ frag_in_tex, 0 }, { tex_sample, sw::node::SampleTex2D::ID_TEX });
 	sw::make_connecting({ frag_in_uv,  0 }, { tex_sample, sw::node::SampleTex2D::ID_UV });
 
-	auto color_out = std::make_shared<sw::node::Vector4>("zz", sm::vec4(1, 0, 0, 1));
+	auto mul = std::make_shared<sw::node::Multiply>();
+	auto frag_in_col = std::make_shared<sw::node::Input>("v_color", sw::t_flt4);
+	sw::make_connecting({ tex_sample, 0 }, { mul, sw::node::Multiply::ID_A});
+	sw::make_connecting({ frag_in_col, 0 }, { mul, sw::node::Multiply::ID_B });
 
 	// end
 	sw::Evaluator vert(vert_nodes, sw::ST_VERT);
-//	sw::Evaluator frag({ tex_sample }, sw::ST_FRAG);
-	sw::Evaluator frag({ color_out }, sw::ST_FRAG);
+	sw::Evaluator frag({ mul }, sw::ST_FRAG);
 
 	//printf("//////////////////////////////////////////////////////////////////////////\n");
 	//printf("%s\n", vert.GetShaderStr().c_str());
@@ -121,6 +131,7 @@ void PrimitiveRenderer::InitDefaultShader()
 	Shader::Params sp(texture_names, layout);
 	sp.vs = vert.GetShaderStr().c_str();
 	sp.fs = frag.GetShaderStr().c_str();
+
 	sp.uniform_names.model_mat = "u_model";
 	sp.uniform_names.view_mat  = "u_view";
 	sp.uniform_names.proj_mat  = "u_projection";
