@@ -13,14 +13,9 @@
 #include <shaderweaver/node/Output.h>
 #include <shaderweaver/node/PositionTrans.h>
 #include <shaderweaver/node/SampleTex2D.h>
-#include <primdraw/RenderNode.h>
-#include <shaderlab/Blackboard.h>
-#include <shaderlab/RenderContext.h>
-#include <shaderlab/ShaderMgr.h>
-
-#include <shaderweaver/node/Vector4.h>
-
-#include <vector>
+#include <shaderweaver/node/Multiply.h>
+#include <primitive/RenderNode.h>
+#include <primitive/Palette.h>
 
 namespace pt2
 {
@@ -43,8 +38,7 @@ PrimitiveRenderer::~PrimitiveRenderer()
 	rc.ReleaseBuffer(ur::INDEXBUFFER, m_ebo);
 }
 
-void PrimitiveRenderer::Draw(const pd::RenderNode& rnode,
-	                         unsigned int tex_id,
+void PrimitiveRenderer::Draw(const prim::RenderNode& rnode,
 	                         const sm::mat4& mat) const
 {
 	Utility::FlushShaderlabStatus();
@@ -59,7 +53,7 @@ void PrimitiveRenderer::Draw(const pd::RenderNode& rnode,
 	auto& buf = rnode.GetBuffer();
 
 	rc.BindBuffer(ur::VERTEXBUFFER, m_vbo);
-	size_t vbuf_sz = sizeof(pd::RenderNode::Vertex) * buf.vertices.size();
+	size_t vbuf_sz = sizeof(prim::RenderNode::Vertex) * buf.vertices.size();
 	rc.UpdateBuffer(m_vbo, buf.vertices.data(), vbuf_sz);
 
 	rc.BindBuffer(ur::INDEXBUFFER, m_ebo);
