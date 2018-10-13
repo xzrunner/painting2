@@ -68,6 +68,9 @@ void RenderSystem::DrawPrimitive(const prim::RenderNode& rnode, const sm::mat4& 
 	}
 
 	pr->Draw(rnode, mat);
+void RenderSystem::DrawShape(const gs::Shape& shape, const sm::mat4& mat)
+{
+	ShapeRenderer::Draw(shape, mat);
 }
 
 void RenderSystem::DrawColor(const std::shared_ptr<Shader>& shader, const sm::mat4& mat)

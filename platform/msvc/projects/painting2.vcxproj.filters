@@ -86,13 +86,16 @@
     <ClCompile Include="..\..\..\source\SpriteRenderer.cpp">
       <Filter>render</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\ShapeRenderer.cpp">
-      <Filter>render</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\source\PrimitiveRenderer.cpp">
       <Filter>render</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\Utility.cpp" />
+    <ClCompile Include="..\..\..\source\ColorRenderer.cpp">
+      <Filter>render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\ShapeRenderer.cpp">
+      <Filter>render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\painting2\GeoTransform.h">
@@ -260,13 +263,16 @@
     <ClInclude Include="..\..\..\include\painting2\SpriteRenderer.h">
       <Filter>render</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\painting2\ShapeRenderer.h">
-      <Filter>render</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\painting2\PrimitiveRenderer.h">
       <Filter>render</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\painting2\Utility.h" />
+    <ClInclude Include="..\..\..\include\painting2\ColorRenderer.h">
+      <Filter>render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\painting2\ShapeRenderer.h">
+      <Filter>render</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="render">
@@ -289,9 +295,6 @@
     </Filter>
     <Filter Include="data\shader">
       <UniqueIdentifier>{14750c4d-2328-455b-b789-bcc97cd496c0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="data\shape">
-      <UniqueIdentifier>{9106bf30-b140-4a42-b613-d1f4c5c3e26f}</UniqueIdentifier>
     </Filter>
     <Filter Include="data\transform">
       <UniqueIdentifier>{f3abf220-4dc0-40e9-8919-76a6aa86425d}</UniqueIdentifier>
