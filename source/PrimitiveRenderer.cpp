@@ -14,8 +14,8 @@
 #include <shaderweaver/node/PositionTrans.h>
 #include <shaderweaver/node/SampleTex2D.h>
 #include <shaderweaver/node/Multiply.h>
-#include <primitive/RenderNode.h>
-#include <primitive/Palette.h>
+#include <tessellation/Painter.h>
+#include <tessellation/Palette.h>
 
 namespace pt2
 {
@@ -28,7 +28,7 @@ PrimitiveRenderer::PrimitiveRenderer()
 
 	auto& rc = ur::Blackboard::Instance()->GetRenderContext();
 
-	m_palette = std::make_unique<prim::Palette>(&rc);
+	m_palette = std::make_unique<tess::Palette>(&rc);
 
 	m_vbo = rc.CreateBuffer(ur::VERTEXBUFFER, nullptr, 0);
 	m_ebo = rc.CreateBuffer(ur::INDEXBUFFER, nullptr, 0);
@@ -41,7 +41,7 @@ PrimitiveRenderer::~PrimitiveRenderer()
 	rc.ReleaseBuffer(ur::INDEXBUFFER, m_ebo);
 }
 
-void PrimitiveRenderer::Draw(const prim::RenderNode& rnode,
+void PrimitiveRenderer::Draw(const tess::Painter& pt,
 	                         const sm::mat4& mat) const
 {
 	Utility::FlushShaderlabStatus();
@@ -53,10 +53,10 @@ void PrimitiveRenderer::Draw(const prim::RenderNode& rnode,
 
 	m_default_shader->SetMat4("u_model", mat.x);
 
-	auto& buf = rnode.GetBuffer();
+	auto& buf = pt.GetBuffer();
 
 	rc.BindBuffer(ur::VERTEXBUFFER, m_vbo);
-	size_t vbuf_sz = sizeof(prim::RenderNode::Vertex) * buf.vertices.size();
+	size_t vbuf_sz = sizeof(tess::Painter::Vertex) * buf.vertices.size();
 	rc.UpdateBuffer(m_vbo, buf.vertices.data(), vbuf_sz);
 
 	rc.BindBuffer(ur::INDEXBUFFER, m_ebo);

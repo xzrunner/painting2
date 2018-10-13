@@ -5,8 +5,9 @@
 #include "painting2/Callback.h"
 #include "painting2/DrawMask.h"
 #include "painting2/SpriteRenderer.h"
-#include "painting2/ShapeRenderer.h"
+#include "painting2/ColorRenderer.h"
 #include "painting2/PrimitiveRenderer.h"
+#include "painting2/ShapeRenderer.h"
 
 #include <unirender/Shader.h>
 #include <shaderlab/ShaderMgr.h>
@@ -60,14 +61,16 @@ void RenderSystem::DrawTexture(const std::shared_ptr<Shader>& shader, const sm::
 	sr->Draw(shader, mat);
 }
 
-void RenderSystem::DrawPrimitive(const prim::RenderNode& rnode, const sm::mat4& mat)
+void RenderSystem::DrawPrimitive(const tess::Painter& pt, const sm::mat4& mat)
 {
 	static std::unique_ptr<PrimitiveRenderer> pr = nullptr;
 	if (!pr) {
 		pr = std::make_unique<PrimitiveRenderer>();
 	}
 
-	pr->Draw(rnode, mat);
+	pr->Draw(pt, mat);
+}
+
 void RenderSystem::DrawShape(const gs::Shape& shape, const sm::mat4& mat)
 {
 	ShapeRenderer::Draw(shape, mat);
@@ -75,12 +78,12 @@ void RenderSystem::DrawShape(const gs::Shape& shape, const sm::mat4& mat)
 
 void RenderSystem::DrawColor(const std::shared_ptr<Shader>& shader, const sm::mat4& mat)
 {
-	static std::unique_ptr<ShapeRenderer> sr = nullptr;
-	if (!sr) {
-		sr = std::make_unique<ShapeRenderer>();
+	static std::unique_ptr<ColorRenderer> cr = nullptr;
+	if (!cr) {
+		cr = std::make_unique<ColorRenderer>();
 	}
 
-	sr->Draw(shader, mat);
+	cr->Draw(shader, mat);
 }
 
 void RenderSystem::DrawText(const std::string& text, const Textbox& style,

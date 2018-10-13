@@ -7,7 +7,7 @@
 #include <string>
 #include <memory>
 
-namespace prim { class RenderNode; }
+namespace tess { class Painter; }
 namespace gs { class Shape; }
 
 namespace pt2
@@ -30,7 +30,7 @@ public:
 	static void DrawTexture(const std::shared_ptr<Shader>& shader,
 		const sm::mat4& mat);
 
-	static void DrawPrimitive(const prim::RenderNode& rnode, const sm::mat4& mat);
+	static void DrawPrimitive(const tess::Painter& pt, const sm::mat4& mat);
 	static void DrawShape(const gs::Shape& shape, const sm::mat4& mat);
 
 	static void DrawColor(const std::shared_ptr<Shader>& shader,

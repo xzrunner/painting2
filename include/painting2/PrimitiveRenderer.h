@@ -5,7 +5,7 @@
 #include <memory>
 
 namespace pt0 { class Shader; }
-namespace prim { class RenderNode; class Palette; }
+namespace tess { class Painter; class Palette; }
 
 namespace pt2
 {
@@ -16,7 +16,7 @@ public:
 	PrimitiveRenderer();
 	~PrimitiveRenderer();
 
-	void Draw(const prim::RenderNode& rnode, const sm::mat4& mat) const;
+	void Draw(const tess::Painter& pt, const sm::mat4& mat) const;
 
 private:
 	void InitDefaultShader();
@@ -24,7 +24,7 @@ private:
 private:
 	std::shared_ptr<pt0::Shader> m_default_shader = nullptr;
 
-	std::unique_ptr<prim::Palette> m_palette = nullptr;
+	std::unique_ptr<tess::Palette> m_palette = nullptr;
 
 	uint32_t m_vbo = 0, m_ebo = 0;
 
