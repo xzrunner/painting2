@@ -77,9 +77,6 @@
     <ClCompile Include="..\..\..\source\DebugDraw.cpp">
       <Filter>render\draw</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\BezierShape.cpp">
-      <Filter>data\shape</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\source\Shader.cpp">
       <Filter>data\shader</Filter>
     </ClCompile>
@@ -250,9 +247,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\painting2\DebugDraw.h">
       <Filter>render\draw</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\painting2\BezierShape.h">
-      <Filter>data\shape</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\painting2\Shader.h">
       <Filter>data\shader</Filter>
