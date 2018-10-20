@@ -7,14 +7,62 @@
 #include "painting2/SpriteRenderer.h"
 #include "painting2/ColorRenderer.h"
 #include "painting2/PrimitiveRenderer.h"
-#include "painting2/ShapeRenderer.h"
 
 #include <unirender/Shader.h>
 #include <shaderlab/ShaderMgr.h>
 #include <shaderlab/Sprite2Shader.h>
+#include <tessellation/Painter.h>
+#include <geoshape/Shape2D.h>
 
 namespace pt2
 {
+
+CU_SINGLETON_DEFINITION(RenderSystem);
+
+RenderSystem::RenderSystem()
+{
+	m_painter = std::make_unique<tess::Painter>();
+}
+
+void RenderSystem::SetPainterMat(const sm::mat4& pt_mat)
+{
+	if (m_pt_mat != pt_mat) {
+		FlushPainter();
+		m_pt_mat = pt_mat;
+	}
+}
+
+void RenderSystem::FlushPainter() const
+{
+	static std::unique_ptr<PrimitiveRenderer> pr = nullptr;
+	if (!pr) {
+		pr = std::make_unique<PrimitiveRenderer>();
+	}
+
+	pr->Draw(*m_painter, m_pt_mat);
+	m_painter->Clear();
+}
+
+void RenderSystem::DrawShape(const gs::Shape& shape, const sm::mat4& mat)
+{
+	SetPainterMat(mat);
+
+	auto& s2 = static_cast<const gs::Shape2D&>(shape);
+	s2.Draw([&](const sm::vec2* vertices, size_t n, bool close, bool filling) {
+		if (close)
+		{
+			if (filling) {
+				m_painter->AddPolygonFilled(vertices, n, 0xff0000ff);
+			} else {
+				m_painter->AddPolygon(vertices, n, 0xff0000ff);
+			}
+		}
+		else
+		{
+			m_painter->AddPolyline(vertices, n, 0xff00ffff);
+		}
+	});
+}
 
 void RenderSystem::DrawTexture(const Texture& tex, const sm::rect& pos,
                                const sm::Matrix2D& mat)
@@ -59,21 +107,6 @@ void RenderSystem::DrawTexture(const std::shared_ptr<Shader>& shader, const sm::
 	}
 
 	sr->Draw(shader, mat);
-}
-
-void RenderSystem::DrawPrimitive(const tess::Painter& pt, const sm::mat4& mat)
-{
-	static std::unique_ptr<PrimitiveRenderer> pr = nullptr;
-	if (!pr) {
-		pr = std::make_unique<PrimitiveRenderer>();
-	}
-
-	pr->Draw(pt, mat);
-}
-
-void RenderSystem::DrawShape(const gs::Shape& shape, const sm::mat4& mat)
-{
-	ShapeRenderer::Draw(shape, mat);
 }
 
 void RenderSystem::DrawColor(const std::shared_ptr<Shader>& shader, const sm::mat4& mat)

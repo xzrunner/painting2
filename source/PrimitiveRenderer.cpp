@@ -48,6 +48,8 @@ void PrimitiveRenderer::Draw(const tess::Painter& pt,
 
 	auto& rc = ur::Blackboard::Instance()->GetRenderContext();
 
+	rc.SetBlend(ur::BLEND_SRC_ALPHA, ur::BLEND_ONE_MINUS_SRC_ALPHA);
+
 	m_default_shader->Use();
 	rc.BindTexture(m_palette->GetTexID(), 0);
 
@@ -64,6 +66,8 @@ void PrimitiveRenderer::Draw(const tess::Painter& pt,
 	rc.UpdateBuffer(m_ebo, buf.indices.data(), ibuf_sz);
 
 	rc.DrawElements(ur::DRAW_TRIANGLES, 0, buf.indices.size());
+
+	rc.SetBlend(ur::BLEND_ONE, ur::BLEND_ONE_MINUS_SRC_ALPHA);
 }
 
 void PrimitiveRenderer::InitDefaultShader()
