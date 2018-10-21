@@ -3,7 +3,6 @@
 #include <SM_Rect.h>
 #include <SM_Matrix2D.h>
 #include <SM_Matrix.h>
-#include <cu/cu_macro.h>
 
 #include <string>
 #include <memory>
@@ -25,15 +24,14 @@ class Shader;
 class RenderSystem
 {
 public:
-	auto& GetPainter() { return *m_painter; }
-	void SetPainterMat(const sm::mat4& pt_mat);
-	void FlushPainter() const;
+	static void DrawPainter(const tess::Painter& pt, const sm::mat4& mat);
 
-	void DrawShape(const gs::Shape& shape, const sm::mat4& mat);
+	static void DrawShape(tess::Painter& pt, const gs::Shape& shape, uint32_t color);
+
+	static void DrawTexQuad(const float* positions, const float* texcoords, int texid, uint32_t color);
 
 	static void DrawTexture(const Texture& tex, const sm::rect& pos,
 		const sm::Matrix2D& mat);
-	static void DrawTexture(const Texture& tex, const sm::mat4& mat);
 	static void DrawTexture(const std::shared_ptr<Shader>& shader,
 		const sm::mat4& mat);
 
@@ -49,13 +47,6 @@ public:
 private:
 	static bool CalcVertices(const sm::rect& pos, const sm::Matrix2D& mat,
 		float* vertices);
-
-private:
-	// display list
-	std::unique_ptr<tess::Painter> m_painter = nullptr;
-	sm::mat4 m_pt_mat;
-
-	CU_SINGLETON_DECLARATION(RenderSystem)
 
 }; // RenderSystem
 

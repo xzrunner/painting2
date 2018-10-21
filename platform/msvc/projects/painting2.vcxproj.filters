@@ -83,16 +83,7 @@
     <ClCompile Include="..\..\..\source\RenderSystem.cpp">
       <Filter>render</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\SpriteRenderer.cpp">
-      <Filter>render</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\source\PrimitiveRenderer.cpp">
-      <Filter>render</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\source\Utility.cpp" />
-    <ClCompile Include="..\..\..\source\ColorRenderer.cpp">
-      <Filter>render</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\painting2\GeoTransform.h">
@@ -257,16 +248,7 @@
     <ClInclude Include="..\..\..\include\painting2\RenderSystem.h">
       <Filter>render</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\painting2\SpriteRenderer.h">
-      <Filter>render</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\painting2\PrimitiveRenderer.h">
-      <Filter>render</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\painting2\Utility.h" />
-    <ClInclude Include="..\..\..\include\painting2\ColorRenderer.h">
-      <Filter>render</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="render">

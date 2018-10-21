@@ -4,72 +4,51 @@
 #include "painting2/RenderColorMap.h"
 #include "painting2/Callback.h"
 #include "painting2/DrawMask.h"
-#include "painting2/SpriteRenderer.h"
-#include "painting2/ColorRenderer.h"
-#include "painting2/PrimitiveRenderer.h"
 
 #include <unirender/Shader.h>
-#include <shaderlab/ShaderMgr.h>
-#include <shaderlab/Sprite2Shader.h>
 #include <tessellation/Painter.h>
 #include <geoshape/Shape2D.h>
+#include <rendergraph/RenderMgr.h>
+#include <rendergraph/SpriteRenderer.h>
+#include <rendergraph/ExternRenderer.h>
 
 namespace pt2
 {
 
-CU_SINGLETON_DEFINITION(RenderSystem);
-
-RenderSystem::RenderSystem()
+void RenderSystem::DrawPainter(const tess::Painter& pt, const sm::mat4& mat)
 {
-	m_painter = std::make_unique<tess::Painter>();
+	auto sr = rg::RenderMgr::Instance()->SetRenderer(rg::RenderType::SPRITE);
+	std::static_pointer_cast<rg::SpriteRenderer>(sr)->DrawPainter(pt, sm::mat4());
 }
 
-void RenderSystem::SetPainterMat(const sm::mat4& pt_mat)
+void RenderSystem::DrawShape(tess::Painter& pt, const gs::Shape& shape, uint32_t color)
 {
-	if (m_pt_mat != pt_mat) {
-		FlushPainter();
-		m_pt_mat = pt_mat;
-	}
-}
-
-void RenderSystem::FlushPainter() const
-{
-	static std::unique_ptr<PrimitiveRenderer> pr = nullptr;
-	if (!pr) {
-		pr = std::make_unique<PrimitiveRenderer>();
-	}
-
-	pr->Draw(*m_painter, m_pt_mat);
-	m_painter->Clear();
-}
-
-void RenderSystem::DrawShape(const gs::Shape& shape, const sm::mat4& mat)
-{
-	SetPainterMat(mat);
-
 	auto& s2 = static_cast<const gs::Shape2D&>(shape);
 	s2.Draw([&](const sm::vec2* vertices, size_t n, bool close, bool filling) {
 		if (close)
 		{
 			if (filling) {
-				m_painter->AddPolygonFilled(vertices, n, 0xff0000ff);
+				pt.AddPolygonFilled(vertices, n, color);
 			} else {
-				m_painter->AddPolygon(vertices, n, 0xff0000ff);
+				pt.AddPolygon(vertices, n, color);
 			}
 		}
 		else
 		{
-			m_painter->AddPolyline(vertices, n, 0xff00ffff);
+			pt.AddPolyline(vertices, n, color);
 		}
 	});
+}
+
+void RenderSystem::DrawTexQuad(const float* positions, const float* texcoords, int texid, uint32_t color)
+{
+	auto sr = rg::RenderMgr::Instance()->SetRenderer(rg::RenderType::SPRITE);
+	std::static_pointer_cast<rg::SpriteRenderer>(sr)->DrawQuad(positions, texcoords, texid, color);
 }
 
 void RenderSystem::DrawTexture(const Texture& tex, const sm::rect& pos,
                                const sm::Matrix2D& mat)
 {
-	auto& shader_mgr = sl::Blackboard::Instance()->GetRenderContext().GetShaderMgr();
-	shader_mgr.SetShader(sl::SPRITE2);
-
 	float vertices[8];
 	CalcVertices(pos, mat, vertices);
 
@@ -80,12 +59,10 @@ void RenderSystem::DrawTexture(const Texture& tex, const sm::rect& pos,
 	int cached_texid;
 	auto cached_texcoords = Callback::QueryCachedTexQuad(tex.TexID(), qr, cached_texid);
 
-	auto shader = static_cast<sl::Sprite2Shader*>(shader_mgr.GetShader());
-	shader->SetColor(0xffffffff, 0);
-	shader->SetColorMap(0x000000ff, 0x0000ff00, 0x00ff0000);
+	auto sr = rg::RenderMgr::Instance()->SetRenderer(rg::RenderType::SPRITE);
 	if (cached_texcoords)
 	{
-		shader->DrawQuad(vertices, cached_texcoords, cached_texid);
+		std::static_pointer_cast<rg::SpriteRenderer>(sr)->DrawQuad(vertices, cached_texcoords, cached_texid, 0xffffffff);
 	}
 	else
 	{
@@ -98,40 +75,22 @@ void RenderSystem::DrawTexture(const Texture& tex, const sm::rect& pos,
 			txmax, tymax,
 			txmin, tymax,
 		};
-		shader->DrawQuad(vertices, texcoords, tex.TexID());
+		std::static_pointer_cast<rg::SpriteRenderer>(sr)->DrawQuad(vertices, texcoords, tex.TexID(), 0xffffffff);
 
 		Callback::AddCacheSymbol(tex.TexID(), w, h, qr);
 	}
 }
 
-void RenderSystem::DrawTexture(const Texture& tex, const sm::mat4& mat)
-{
-	static std::unique_ptr<SpriteRenderer> sr = nullptr;
-	if (!sr) {
-		sr = std::make_unique<SpriteRenderer>();
-	}
-
-	sr->Draw(tex.TexID(), mat);
-}
-
 void RenderSystem::DrawTexture(const std::shared_ptr<Shader>& shader, const sm::mat4& mat)
 {
-	static std::unique_ptr<SpriteRenderer> sr = nullptr;
-	if (!sr) {
-		sr = std::make_unique<SpriteRenderer>();
-	}
-
-	sr->Draw(shader, mat);
+	auto sr = rg::RenderMgr::Instance()->SetRenderer(rg::RenderType::EXTERN);
+	std::static_pointer_cast<rg::ExternRenderer>(sr)->DrawTexSpr(shader, mat);
 }
 
 void RenderSystem::DrawColor(const std::shared_ptr<Shader>& shader, const sm::mat4& mat)
 {
-	static std::unique_ptr<ColorRenderer> cr = nullptr;
-	if (!cr) {
-		cr = std::make_unique<ColorRenderer>();
-	}
-
-	cr->Draw(shader, mat);
+	auto sr = rg::RenderMgr::Instance()->SetRenderer(rg::RenderType::EXTERN);
+	std::static_pointer_cast<rg::ExternRenderer>(sr)->DrawNoTexSpr(shader, mat);
 }
 
 void RenderSystem::DrawText(const std::string& text, const Textbox& style,
@@ -142,18 +101,18 @@ void RenderSystem::DrawText(const std::string& text, const Textbox& style,
 
 void RenderSystem::SetColor(const RenderColorCommon& col)
 {
-	auto& shader_mgr = sl::Blackboard::Instance()->GetRenderContext().GetShaderMgr();
-	// todo: other shader
-	auto shader = static_cast<sl::Sprite2Shader*>(shader_mgr.GetShader(sl::SPRITE2));
-	shader->SetColor(col.mul.ToABGR(), col.add.ToABGR());
+	//auto& shader_mgr = sl::Blackboard::Instance()->GetRenderContext().GetShaderMgr();
+	//// todo: other shader
+	//auto shader = static_cast<sl::Sprite2Shader*>(shader_mgr.GetShader(sl::SPRITE2));
+	//shader->SetColor(col.mul.ToABGR(), col.add.ToABGR());
 }
 
 void RenderSystem::SetColorMap(const RenderColorMap& col)
 {
-	auto& shader_mgr = sl::Blackboard::Instance()->GetRenderContext().GetShaderMgr();
-	// todo: other shader
-	auto shader = static_cast<sl::Sprite2Shader*>(shader_mgr.GetShader(sl::SPRITE2));
-	shader->SetColorMap(col.rmap.ToABGR(), col.gmap.ToABGR(), col.bmap.ToABGR());
+	//auto& shader_mgr = sl::Blackboard::Instance()->GetRenderContext().GetShaderMgr();
+	//// todo: other shader
+	//auto shader = static_cast<sl::Sprite2Shader*>(shader_mgr.GetShader(sl::SPRITE2));
+	//shader->SetColorMap(col.rmap.ToABGR(), col.gmap.ToABGR(), col.bmap.ToABGR());
 }
 
 bool RenderSystem::CalcVertices(const sm::rect& pos, const sm::Matrix2D& mat, float* vertices)
