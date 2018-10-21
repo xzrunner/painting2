@@ -6,7 +6,7 @@ namespace pt2
 inline
 bool GeoTransform::SetPosition(const sm::vec2& pos)
 {
-	if (pos != m_srt.position) 
+	if (pos != m_srt.position)
 	{
 		m_srt.position = pos;
 		UpdateSrt();
@@ -20,9 +20,9 @@ bool GeoTransform::SetPosition(const sm::vec2& pos)
 }
 
 inline
-bool GeoTransform::SetAngle(float angle) 
+bool GeoTransform::SetAngle(float angle)
 {
-	if (angle != m_srt.angle) 
+	if (angle != m_srt.angle)
 	{
 		m_srt.angle = angle;
 		UpdateSrt();
@@ -36,9 +36,9 @@ bool GeoTransform::SetAngle(float angle)
 }
 
 inline
-bool GeoTransform::SetScale(const sm::vec2& scale) 
-{ 
-	if (scale != m_srt.scale) 
+bool GeoTransform::SetScale(const sm::vec2& scale)
+{
+	if (scale != m_srt.scale)
 	{
 		m_srt.scale = scale;
 		UpdateMatrix();
@@ -51,9 +51,9 @@ bool GeoTransform::SetScale(const sm::vec2& scale)
 }
 
 inline
-bool GeoTransform::SetShear(const sm::vec2& shear) 
+bool GeoTransform::SetShear(const sm::vec2& shear)
 {
-	if (shear != m_srt.shear) 
+	if (shear != m_srt.shear)
 	{
 		m_srt.shear = shear;
 		UpdateMatrix();
@@ -66,9 +66,9 @@ bool GeoTransform::SetShear(const sm::vec2& shear)
 }
 
 inline
-bool GeoTransform::SetOffset(const sm::vec2& offset) 
-{ 
-	if (offset != m_srt.offset) 
+bool GeoTransform::SetOffset(const sm::vec2& offset)
+{
+	if (offset != m_srt.offset)
 	{
 		m_srt.offset = offset;
 		UpdateSrt();
@@ -98,7 +98,7 @@ void GeoTransform::UpdateSrt()
 inline
 void GeoTransform::UpdateMatrix()
 {
-	m_mat.SetTransformation(m_srt.center.x, m_srt.center.y, m_srt.angle, m_srt.scale.x, 
+	m_mat.SetTransformation(m_srt.center.x, m_srt.center.y, m_srt.angle, m_srt.scale.x,
 		m_srt.scale.y, 0, 0, m_srt.shear.x, m_srt.shear.y);
 }
 

@@ -10,8 +10,8 @@ namespace pt2
 class RFGray : public RenderFilter
 {
 public:
-	RFGray() 
-		: RenderFilter(FM_GRAY) 
+	RFGray()
+		: RenderFilter(FM_GRAY)
 	{}
 
 	virtual RenderFilter* Clone() const override {

@@ -67,8 +67,8 @@ void RenderScissor::Pop()
 	}
 }
 
-bool RenderScissor::IsEmpty() const 
-{ 
+bool RenderScissor::IsEmpty() const
+{
 	return m_stack.empty() || m_stack.back().IsInvalid();
 }
 

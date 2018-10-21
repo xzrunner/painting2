@@ -6,7 +6,7 @@ namespace pt2
 {
 
 inline
-SRT::SRT() 
+SRT::SRT()
 {
 	Reset();
 }
@@ -92,7 +92,7 @@ SRT SRT::operator / (float f) const
 }
 
 inline
-void SRT::Reset() 
+void SRT::Reset()
 {
 	position.Set(0, 0);
 	angle = 0;

@@ -4,7 +4,7 @@ namespace pt2
 {
 
 inline
-Color::Color() 
+Color::Color()
 	: r(0)
 	, g(0)
 	, b(0)
@@ -16,7 +16,7 @@ Color::Color(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
 	: r(r)
 	, g(g)
 	, b(b)
-	, a(a) 
+	, a(a)
 {}
 
 inline
@@ -24,7 +24,7 @@ Color::Color(int r, int g, int b, int a)
 	: r(r)
 	, g(g)
 	, b(b)
-	, a(a) 
+	, a(a)
 {}
 
 inline
@@ -59,7 +59,7 @@ Color Color::operator * (const Color& col) const
 	return ret;
 }
 
-static inline 
+static inline
 unsigned int clamp(unsigned int c) {
 	return ((c) > 255 ? 255 : (c));
 }

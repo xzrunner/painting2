@@ -10,8 +10,8 @@ namespace pt2
 class RFSwirl : public RenderFilter
 {
 public:
-	RFSwirl() 
-		: RenderFilter(FM_SWIRL) 
+	RFSwirl()
+		: RenderFilter(FM_SWIRL)
 	{}
 
 	virtual RenderFilter* Clone() const override {

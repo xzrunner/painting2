@@ -6,7 +6,7 @@ namespace pt2
 {
 
 class OBB : public BoundingBox
-{ 
+{
 public:
 	OBB();
 

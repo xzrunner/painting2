@@ -25,7 +25,7 @@ namespace pt2
 
 CU_SINGLETON_DEFINITION(FilterFactory)
 
-FilterFactory::FilterFactory() 
+FilterFactory::FilterFactory()
 {
 	memset(m_temps, 0, sizeof(m_temps));
 
@@ -41,12 +41,12 @@ FilterFactory::FilterFactory()
 	m_temps[FM_HEAT_HAZE]		= new RFHeatHaze;
 	m_temps[FM_SHOCK_WAVE]		= new RFShockWave;
 	m_temps[FM_SWIRL]			= new RFSwirl;
-	m_temps[FM_BURNING_MAP]		= new RFBurningMap;	
+	m_temps[FM_BURNING_MAP]		= new RFBurningMap;
 
 	m_temps[FM_COL_GRADING]		= new RFColGrading;
 }
 
-FilterFactory::~FilterFactory() 
+FilterFactory::~FilterFactory()
 {
 	for (int i = 0; i < MAX_COUNT; ++i) {
 		if (m_temps[i]) {

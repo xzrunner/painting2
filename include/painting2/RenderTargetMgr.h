@@ -33,7 +33,7 @@ private:
 
 		Item() : rt(nullptr), available(true) {}
 	};
-	
+
 private:
 	CU_VEC<Item> m_items;
 

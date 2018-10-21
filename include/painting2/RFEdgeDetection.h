@@ -10,8 +10,8 @@ namespace pt2
 class RFEdgeDetection : public RenderFilter
 {
 public:
-	RFEdgeDetection() 
-		: RenderFilter(FM_EDGE_DETECTION) 
+	RFEdgeDetection()
+		: RenderFilter(FM_EDGE_DETECTION)
 		, m_blend(0.5f)
 	{}
 

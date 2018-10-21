@@ -10,8 +10,8 @@ namespace pt2
 class RFBurningMap : public RenderFilter
 {
 public:
-	RFBurningMap() 
-		: RenderFilter(FM_BURNING_MAP) 
+	RFBurningMap()
+		: RenderFilter(FM_BURNING_MAP)
 	{}
 
 	virtual RenderFilter* Clone() const override {

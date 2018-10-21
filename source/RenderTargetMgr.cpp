@@ -14,7 +14,7 @@ static void (*RETURN_SCREEN)(RenderTarget* rt) = nullptr;
 
 std::shared_ptr<RenderTarget> RenderTargetMgr::Fetch()
 {
-	for (int i = 0, n = m_items.size(); i < n; ++i) 
+	for (int i = 0, n = m_items.size(); i < n; ++i)
 	{
 		if (!m_items[i].available) {
 			continue;

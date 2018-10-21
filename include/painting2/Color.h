@@ -33,7 +33,7 @@ public:
 
 	uint32_t ToRGBA() const;
 	void FromRGBA(uint32_t rgba);
-	
+
 }; // Color
 
 }

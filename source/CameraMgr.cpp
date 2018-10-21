@@ -3,7 +3,7 @@
 namespace pt2
 {
 
-CameraMgr::CameraMgr() 
+CameraMgr::CameraMgr()
 	: m_type(ORTHO)
 {
 }

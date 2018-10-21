@@ -79,7 +79,7 @@ DrawInfoUV(cooking::DisplayList* dlist, const sm::Matrix2D* mt)
 	if (triangles.empty()) {
 		return RENDER_NO_DATA;
 	}
-	
+
 	float w = m_mesh.GetWidth(),
 		  h = m_mesh.GetHeight();
 
@@ -166,8 +166,8 @@ DrawTexture(cooking::DisplayList* dlist, const Params& params, const std::shared
 			return ret;
 		}
 		ret = DrawOnePass(dlist, params, texcoords, tex_id);
-	} 
-	else 
+	}
+	else
 	{
 		ret = DrawTwoPass(dlist, params, *node);
 
@@ -266,7 +266,7 @@ DrawOnePass(cooking::DisplayList* dlist, const Params& params, const float* src_
 
 	float x = src_texcoords[0], y = src_texcoords[1];
 	float w = src_texcoords[4] - src_texcoords[0],
-		  h = src_texcoords[5] - src_texcoords[1];	
+		  h = src_texcoords[5] - src_texcoords[1];
 
 	void (*draw)(cooking::DisplayList* dlist, const float* positions, const float* texcoords, int tex_id) = nullptr;
 
@@ -300,8 +300,8 @@ DrawOnePass(cooking::DisplayList* dlist, const Params& params, const float* src_
 	}
 
 	// 3 2    1 0
-	// 0 1 or 2 3 
-	if ((w > 0 && h > 0) || (w < 0 && h < 0)) 
+	// 0 1 or 2 3
+	if ((w > 0 && h > 0) || (w < 0 && h < 0))
 	{
 		for (int i = 0, n = triangles.size(); i < n; )
 		{

@@ -36,7 +36,7 @@ enum BlendMode
 	BM_DIFFERENCE		= 40,
 	BM_EXCLUSION,
 
-	// color modes 
+	// color modes
 	BM_HUE				= 50,		// todo
 	BM_SATURATION,					// todo
 	BM_COLOR,						// todo

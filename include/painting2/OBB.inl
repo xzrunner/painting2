@@ -12,14 +12,14 @@ OBB::OBB()
 {
 }
 
-inline 
+inline
 bool OBB::IsContain(const sm::vec2& pos) const
 {
 	sm::vec2 position = sm::rotate_vector(pos - m_position, -m_angle);
 	return sm::is_point_in_rect(position, m_rect);
 }
 
-inline 
+inline
 bool OBB::IsContain(const sm::rect& rect) const
 {
 	return IsContain(sm::vec2(rect.xmin, rect.ymin))
@@ -28,7 +28,7 @@ bool OBB::IsContain(const sm::rect& rect) const
 		&& IsContain(sm::vec2(rect.xmin, rect.ymax));
 }
 
-inline 
+inline
 bool OBB::IsIntersect(const sm::rect& rect) const
 {
 	CU_VEC<sm::vec2> convex0, convex1;
@@ -57,7 +57,7 @@ void OBB::CombineTo(sm::rect& r) const
 }
 
 inline
-void OBB::Build(const sm::rect& r, const sm::vec2& pos, float angle, 
+void OBB::Build(const sm::rect& r, const sm::vec2& pos, float angle,
 				const sm::vec2& scale, const sm::vec2& shear, const sm::vec2& offset)
 {
 	m_rect = r;
@@ -74,8 +74,8 @@ void OBB::Build(const sm::rect& r, const sm::vec2& pos, float angle,
 	m_angle = angle;
 }
 
-inline 
-void OBB::SetTransform(const sm::vec2& position, const sm::vec2& offset, float angle) 
+inline
+void OBB::SetTransform(const sm::vec2& position, const sm::vec2& offset, float angle)
 {
 	m_position = position + (sm::rotate_vector(-offset, angle) + offset);
 	m_angle = angle;

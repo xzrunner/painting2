@@ -10,7 +10,7 @@ namespace pt2
 class RFGaussianBlur : public RenderFilter
 {
 public:
-	RFGaussianBlur() 
+	RFGaussianBlur()
 		: RenderFilter(FM_GAUSSIAN_BLUR)
 		, m_iterations(9)
 	{}

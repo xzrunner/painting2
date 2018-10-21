@@ -30,7 +30,7 @@ protected:
 	virtual sm::rect GetBounding(const Type& data) const = 0;
 
 	virtual const sm::Matrix2D& GetMat(const Params& params) const = 0;
-	
+
 private:
 	RenderReturn DrawBaseToRT(cooking::DisplayList* dlist, RenderTarget& rt) const;
 	RenderReturn DrawMaskToRT(cooking::DisplayList* dlist, RenderTarget& rt) const;

@@ -10,8 +10,8 @@ namespace pt2
 class RFRelief : public RenderFilter
 {
 public:
-	RFRelief() 
-		: RenderFilter(FM_RELIEF) 
+	RFRelief()
+		: RenderFilter(FM_RELIEF)
 	{}
 
 	virtual RenderFilter* Clone() const override {

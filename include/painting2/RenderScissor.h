@@ -44,7 +44,7 @@ private:
 
 private:
 	CU_VEC<Rect> m_stack;
-	
+
 }; // RenderScissor
 
 }

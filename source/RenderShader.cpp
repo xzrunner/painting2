@@ -39,7 +39,7 @@ RenderShader::RenderShader(const RenderShader& rs)
 RenderShader& RenderShader::operator = (const RenderShader& rs)
 {
 #ifdef PT2_FILTER_FULL
-	if (m_filter != rs.m_filter) 
+	if (m_filter != rs.m_filter)
 	{
 		if (rs.m_filter) {
 			m_filter.reset(rs.m_filter->Clone());
@@ -97,8 +97,8 @@ RenderShader RenderShader::operator * (const RenderShader& rs) const
 
 #ifdef PT2_FILTER_FULL
 RenderShader RenderShader::Multiply(const RenderFilter* filter,
-	                                BlendMode blend, 
-	                                FastBlendMode fast_blend, 
+	                                BlendMode blend,
+	                                FastBlendMode fast_blend,
 	                                float downsample) const
 {
 	RenderShader ret;
@@ -130,8 +130,8 @@ RenderShader RenderShader::Multiply(const RenderFilter* filter,
 }
 #else
 RenderShader RenderShader::Multiply(FilterMode filter,
-	                                BlendMode blend, 
-	                                FastBlendMode fast_blend, 
+	                                BlendMode blend,
+	                                FastBlendMode fast_blend,
 	                                float downsample) const
 {
 	RenderShader ret;

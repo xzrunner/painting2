@@ -21,7 +21,7 @@ Pseudo3DCamera::Pseudo3DCamera()
 	: m_cam(nullptr)
 {
 	auto& wc = pt2::Blackboard::Instance()->GetWindowContext();
-	if (wc) 
+	if (wc)
 	{
 		float w = static_cast<float>(wc->GetScreenWidth());
 		float h = static_cast<float>(wc->GetScreenHeight());
@@ -138,7 +138,7 @@ void Pseudo3DCamera::Rotate(float da)
 	UpdateRender();
 }
 
-float Pseudo3DCamera::GetAngle() const 
+float Pseudo3DCamera::GetAngle() const
 {
 	return c25_cam_get_angle(m_cam);
 }

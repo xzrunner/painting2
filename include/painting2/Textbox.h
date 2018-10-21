@@ -54,7 +54,7 @@ public:
 	bool          richtext;
 
 public:
-	Textbox() 
+	Textbox()
 		: width(100)
 		, height(20)
 
@@ -80,14 +80,14 @@ public:
 
 	bool operator == (const Textbox& tb) const
 	{
-		return 
+		return
 			width		== tb.width &&
 			height		== tb.height &&
-			
+
 			font_type	== tb.font_type &&
 			font_size	== tb.font_size &&
 			font_color	== tb.font_color &&
-			
+
 			has_edge	== tb.has_edge &&
 			edge_size	== tb.edge_size &&
 			edge_color	== tb.edge_color &&

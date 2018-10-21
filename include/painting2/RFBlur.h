@@ -10,8 +10,8 @@ namespace pt2
 class RFBlur : public RenderFilter
 {
 public:
-	RFBlur() 
-		: RenderFilter(FM_BLUR) 
+	RFBlur()
+		: RenderFilter(FM_BLUR)
 	{}
 
 	virtual RenderFilter* Clone() const override {

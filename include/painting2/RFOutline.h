@@ -10,8 +10,8 @@ namespace pt2
 class RFOutline : public RenderFilter
 {
 public:
-	RFOutline() 
-		: RenderFilter(FM_OUTLINE) 
+	RFOutline()
+		: RenderFilter(FM_OUTLINE)
 	{}
 
 	virtual RenderFilter* Clone() const override {

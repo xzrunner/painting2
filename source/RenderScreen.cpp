@@ -47,7 +47,7 @@ void RenderScreen::Scissor(float x, float y, float w, float h)
 		w = h = 0;
 	}
 
-	if (w < 0 || h < 0) { 
+	if (w < 0 || h < 0) {
 		w = h = 0;
 	}
 

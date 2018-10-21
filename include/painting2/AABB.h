@@ -8,7 +8,7 @@ namespace pt2
 {
 
 class AABB : public BoundingBox
-{ 
+{
 public:
 	virtual BoundingBox* Clone() const override;
 	virtual std::unique_ptr<BoundingBox> Clone2() const override;

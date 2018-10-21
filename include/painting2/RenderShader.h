@@ -30,7 +30,7 @@ public:
 	RenderShader Multiply(const RenderFilter* filter,
 		BlendMode blend, FastBlendMode fast_blend, float downsample) const;
 #else
-	RenderShader Multiply(FilterMode filter, BlendMode blend, 
+	RenderShader Multiply(FilterMode filter, BlendMode blend,
 		FastBlendMode fast_blend, float downsample) const;
 #endif // PT2_FILTER_FULL
 

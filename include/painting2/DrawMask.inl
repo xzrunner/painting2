@@ -56,7 +56,7 @@ RenderReturn DrawMask<Type, Params>::DrawImpl(cooking::DisplayList* dlist) const
 	rc.GetScissor().Disable();
 	{
 		pt2::WindowCtxRegion wcr(static_cast<float>(rt_mgr.WIDTH), static_cast<float>(rt_mgr.HEIGHT));
-		
+
 		rt_base = rt_mgr.Fetch();
 		if (!rt_base)
 		{
@@ -228,7 +228,7 @@ DrawMaskFromRT(cooking::DisplayList* dlist, RenderTarget& rt_base, RenderTarget&
 //	rc->EnableAlpha(true);
 //
 //	rc->StencilFunc(ur::RenderContext::ST_ALWAYS, 0, 0);
-//	rc->StencilOp(ur::RenderContext::ST_KEEP, ur::RenderContext::ST_KEEP, ur::RenderContext::ST_INCR);	
+//	rc->StencilOp(ur::RenderContext::ST_KEEP, ur::RenderContext::ST_KEEP, ur::RenderContext::ST_INCR);
 //	rc->AlphaFunc();
 //
 //	RenderParams rp_child = rp;
@@ -237,9 +237,9 @@ DrawMaskFromRT(cooking::DisplayList* dlist, RenderTarget& rt_base, RenderTarget&
 //	sl::ShaderMgr::Instance()->FlushShader();
 //
 //	rc->EnableAlpha(false);
-//	
+//
 //	rc->ColorMask(true, true, true, true);
-//	
+//
 //// 	rc->StencilFunc(ur::RenderContext::ST_LESS, 1, -1);
 //	rc->StencilFunc(ur::RenderContext::ST_NEVER, 0, 0);
 //

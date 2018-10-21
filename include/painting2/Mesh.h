@@ -54,7 +54,7 @@ protected:
 
 private:
 	std::shared_ptr<const T> m_base = nullptr;
-	float m_width, m_height;	
+	float m_width, m_height;
 
 	float m_node_radius;
 

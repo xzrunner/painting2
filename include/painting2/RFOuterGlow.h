@@ -10,8 +10,8 @@ namespace pt2
 class RFOuterGlow : public RenderFilter
 {
 public:
-	RFOuterGlow() 
-		: RenderFilter(FM_OUTER_GLOW) 
+	RFOuterGlow()
+		: RenderFilter(FM_OUTER_GLOW)
 		, m_iterations(9)
 	{}
 

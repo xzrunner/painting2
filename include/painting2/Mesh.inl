@@ -8,7 +8,7 @@
 namespace
 {
 
-static const float* 
+static const float*
 query_joint_world_mt(int joint_id, const void* ud)
 {
 	const rg_skeleton_pose* sk_pose = static_cast<const rg_skeleton_pose*>(ud);
@@ -43,7 +43,7 @@ template<typename T>
 Mesh<T>::~Mesh() = default;
 
 template<typename T>
-void Mesh<T>::DumpToTriangles(CU_VEC<sm::vec2>& vertices, 
+void Mesh<T>::DumpToTriangles(CU_VEC<sm::vec2>& vertices,
 						   CU_VEC<sm::vec2>& texcoords,
 						   CU_VEC<int>& triangles) const
 {

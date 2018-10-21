@@ -11,8 +11,8 @@ namespace pt2
 class RFColGrading : public RenderFilter
 {
 public:
-	RFColGrading() 
-		: RenderFilter(FM_COL_GRADING) 
+	RFColGrading()
+		: RenderFilter(FM_COL_GRADING)
 	{}
 
 	virtual bool operator == (const RenderFilter& rf) const override {

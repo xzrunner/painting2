@@ -10,8 +10,8 @@ namespace pt2
 class RFShockWave : public RenderFilter
 {
 public:
-	RFShockWave() 
-		: RenderFilter(FM_SHOCK_WAVE) 
+	RFShockWave()
+		: RenderFilter(FM_SHOCK_WAVE)
 	{}
 
 	virtual RenderFilter* Clone() const override {

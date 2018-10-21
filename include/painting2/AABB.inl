@@ -6,13 +6,13 @@
 namespace pt2
 {
 
-inline 
+inline
 bool AABB::IsContain(const sm::vec2& pos) const
 {
 	return sm::is_point_in_rect(pos - m_position, m_rect);
 }
 
-inline 
+inline
 bool AABB::IsContain(const sm::rect& rect) const
 {
 	sm::rect r(rect);
@@ -20,12 +20,12 @@ bool AABB::IsContain(const sm::rect& rect) const
 	return sm::is_rect_contain_rect(m_rect, r);
 }
 
-inline 
+inline
 bool AABB::IsIntersect(const sm::rect& rect) const
 {
 	sm::rect r(rect);
 	r.Translate(-m_position);
-	return sm::is_rect_intersect_rect(m_rect, r);	
+	return sm::is_rect_intersect_rect(m_rect, r);
 }
 
 inline
@@ -39,7 +39,7 @@ void AABB::CombineTo(sm::rect& r) const
 }
 
 inline
-void AABB::Build(const sm::rect& r, const sm::vec2& pos, float angle, 
+void AABB::Build(const sm::rect& r, const sm::vec2& pos, float angle,
 				 const sm::vec2& scale, const sm::vec2& shear, const sm::vec2& offset)
 {
 	m_rect = r;
