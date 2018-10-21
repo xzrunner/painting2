@@ -21,6 +21,8 @@ public:
 private:
 	void InitDefaultShader();
 
+	int RemapTexcoords(const tess::Painter& pt) const;
+
 private:
 	std::shared_ptr<pt0::Shader> m_default_shader = nullptr;
 

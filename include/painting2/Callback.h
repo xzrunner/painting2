@@ -23,6 +23,9 @@ public:
 		std::function<sm::vec2(const std::string&, const Textbox&)> calc_label_size;
 
 		std::function<sm::rect(const n0::CompAsset&)> get_bounding;
+
+		std::function<const float*(size_t, const sm::irect&, int&)>  query_cached_tex_quad;
+		std::function<void(size_t, int, int, const sm::irect& rect)> add_cache_symbol;
 	};
 
 	static void RegisterCallback(const Funs& funs);
@@ -34,6 +37,9 @@ public:
 	static sm::vec2 CalcLabelSize(const std::string& text, const Textbox& style);
 
 	static sm::rect GetBounding(const n0::CompAsset& casset);
+
+	static const float* QueryCachedTexQuad(size_t tex_id, const sm::irect& rect, int& out_tex_id);
+	static void AddCacheSymbol(size_t tex_id, int tex_w, int tex_h, const sm::irect& rect);
 
 }; // Callback
 

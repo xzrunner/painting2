@@ -1,6 +1,7 @@
 #include "painting2/PrimitiveRenderer.h"
 #include "painting2/Blackboard.h"
 #include "painting2/Utility.h"
+#include "painting2/Callback.h"
 
 #include <unirender/Blackboard.h>
 #include <unirender/VertexAttrib.h>
@@ -51,7 +52,9 @@ void PrimitiveRenderer::Draw(const tess::Painter& pt,
 	rc.SetBlend(ur::BLEND_SRC_ALPHA, ur::BLEND_ONE_MINUS_SRC_ALPHA);
 
 	m_default_shader->Use();
-	rc.BindTexture(m_palette->GetTexID(), 0);
+
+	int tex_id = RemapTexcoords(pt);
+	rc.BindTexture(tex_id, 0);
 
 	m_default_shader->SetMat4("u_model", mat.x);
 
@@ -141,6 +144,34 @@ void PrimitiveRenderer::InitDefaultShader()
 	sp.uniform_names.proj_mat  = "u_projection";
 	auto& wc = Blackboard::Instance()->GetWindowContext();
 	m_default_shader = std::make_shared<Shader>(*wc, &rc, sp);
+}
+
+int PrimitiveRenderer::RemapTexcoords(const tess::Painter& pt) const
+{
+	int tex_id = m_palette->GetTexID();
+	int tex_w = m_palette->GetTexWidth();
+	int tex_h = m_palette->GetTexHeight();
+	sm::irect qr(0, 0, tex_w, tex_h);
+	int cached_texid;
+	auto cached_texcoords = Callback::QueryCachedTexQuad(tex_id, qr, cached_texid);
+	if (cached_texcoords)
+	{
+		float x = cached_texcoords[0];
+		float y = cached_texcoords[1];
+		float w = cached_texcoords[2] - cached_texcoords[0];
+		float h = cached_texcoords[5] - cached_texcoords[1];
+		auto& buf = const_cast<tess::Painter::Buffer&>(pt.GetBuffer());
+		for (auto& v : buf.vertices) {
+			v.uv.x = x + w * v.uv.x;
+			v.uv.y = y + h * v.uv.y;
+		}
+		return cached_texid;
+	}
+	else
+	{
+		Callback::AddCacheSymbol(tex_id, tex_w, tex_h, qr);
+		return tex_id;
+	}
 }
 
 }

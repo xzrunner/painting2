@@ -73,20 +73,35 @@ void RenderSystem::DrawTexture(const Texture& tex, const sm::rect& pos,
 	float vertices[8];
 	CalcVertices(pos, mat, vertices);
 
-	float txmin, txmax, tymin, tymax;
-	txmin = tymin = 0;
-	txmax = tymax = 1;
-	float texcoords[8] = {
-		txmin, tymin,
-		txmax, tymin,
-		txmax, tymax,
-		txmin, tymax,
-	};
+	// query from dtex
+	int w = tex.Width();
+	int h = tex.Height();
+	sm::irect qr(0, 0, w, h);
+	int cached_texid;
+	auto cached_texcoords = Callback::QueryCachedTexQuad(tex.TexID(), qr, cached_texid);
 
 	auto shader = static_cast<sl::Sprite2Shader*>(shader_mgr.GetShader());
 	shader->SetColor(0xffffffff, 0);
 	shader->SetColorMap(0x000000ff, 0x0000ff00, 0x00ff0000);
-	shader->DrawQuad(vertices, texcoords, tex.TexID());
+	if (cached_texcoords)
+	{
+		shader->DrawQuad(vertices, cached_texcoords, cached_texid);
+	}
+	else
+	{
+		float txmin, txmax, tymin, tymax;
+		txmin = tymin = 0;
+		txmax = tymax = 1;
+		float texcoords[8] = {
+			txmin, tymin,
+			txmax, tymin,
+			txmax, tymax,
+			txmin, tymax,
+		};
+		shader->DrawQuad(vertices, texcoords, tex.TexID());
+
+		Callback::AddCacheSymbol(tex.TexID(), w, h, qr);
+	}
 }
 
 void RenderSystem::DrawTexture(const Texture& tex, const sm::mat4& mat)
