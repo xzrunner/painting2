@@ -5,8 +5,6 @@
 
 #include <unirender/RenderContext.h>
 #include <unirender/Blackboard.h>
-#include <shaderlab/Blackboard.h>
-#include <shaderlab/RenderContext.h>
 
 namespace pt2
 {

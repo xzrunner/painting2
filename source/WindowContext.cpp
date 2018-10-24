@@ -2,8 +2,6 @@
 
 #include <unirender/Blackboard.h>
 #include <unirender/RenderContext.h>
-#include <shaderlab/Blackboard.h>
-#include <shaderlab/RenderContext.h>
 
 namespace pt2
 {
@@ -97,17 +95,11 @@ void WindowContext::SetViewport(int x, int y, int w, int h)
 
 void WindowContext::UpdateView() const
 {
-	sl::Blackboard::Instance()->GetRenderContext().GetSubMVP2().
-		NotifyModelview(m_view_offset.x, m_view_offset.y, m_view_scale, m_view_scale);
-
 	m_on_view(m_view_offset, m_view_scale);
 }
 
 void WindowContext::UpdateProjection() const
 {
-	sl::Blackboard::Instance()->GetRenderContext().GetSubMVP2().
-		NotifyProjection(static_cast<int>(m_proj_width), static_cast<int>(m_proj_height));
-
 	m_on_proj(m_proj_width, m_proj_height);
 }
 

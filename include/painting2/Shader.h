@@ -20,12 +20,11 @@ class Shader : public pt0::Shader
 {
 public:
 	Shader(WindowContext& wc, ur::RenderContext* rc,
-		const pt0::Shader::Params& params);
+		const pt0::Shader::Params& params, bool flush_cb = true);
 	virtual ~Shader();
 
 	auto& GetModelUniformName() const { return m_uniform_names.model_mat; }
 
-private:
 	void UpdateViewMat(const sm::vec2& offset, float scale);
 	void UpdateProjMat(int width, int height);
 

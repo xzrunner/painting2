@@ -1,14 +1,13 @@
 #include "painting2/Shader.h"
 #include "painting2/WindowContext.h"
-#include "painting2/Utility.h"
 
 #include <SM_Matrix.h>
 
 namespace pt2
 {
 
-Shader::Shader(WindowContext& wc, ur::RenderContext* rc, const pt0::Shader::Params& params)
-	: pt0::Shader(rc, params)
+Shader::Shader(WindowContext& wc, ur::RenderContext* rc, const pt0::Shader::Params& params, bool flush_cb)
+	: pt0::Shader(rc, params, flush_cb)
 {
 	m_conn_view = wc.DoOnView(boost::bind(&Shader::UpdateViewMat, this, _1, _2));
 	m_conn_proj = wc.DoOnProj(boost::bind(&Shader::UpdateProjMat, this, _1, _2));
@@ -28,8 +27,6 @@ void Shader::UpdateViewMat(const sm::vec2& offset, float scale)
 	m_offset = offset;
 	m_scale = scale;
 
-	Utility::FlushShaderlabStatus();
-
 	Use();
 
 	auto mat = sm::mat4::Scaled(scale, scale, 1);
@@ -44,8 +41,6 @@ void Shader::UpdateProjMat(int width, int height)
 	}
 	m_width = width;
 	m_height = height;
-
-	Utility::FlushShaderlabStatus();
 
 	Use();
 

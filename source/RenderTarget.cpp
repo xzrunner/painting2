@@ -4,9 +4,6 @@
 #include <unirender/Blackboard.h>
 #include <unirender/RenderTarget.h>
 #include <unirender/Texture.h>
-#include <shaderlab/Blackboard.h>
-#include <shaderlab/ShaderMgr.h>
-#include <shaderlab/RenderContext.h>
 #include <stat/StatImages.h>
 
 namespace pt2

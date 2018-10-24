@@ -1,12 +1,10 @@
 #include "painting2/RenderScissor.h"
 #include "painting2/RenderScreen.h"
 
+#include <SM_Test.h>
 #include <unirender/RenderContext.h>
 #include <unirender/Blackboard.h>
-#include <shaderlab/Blackboard.h>
-#include <shaderlab/ShaderMgr.h>
-#include <shaderlab/RenderContext.h>
-#include <SM_Test.h>
+#include <rendergraph/RenderMgr.h>
 
 #include <assert.h>
 
@@ -15,8 +13,7 @@ namespace pt2
 
 void RenderScissor::Push(float x, float y, float w, float h, bool use_render_screen, bool no_intersect)
 {
-	auto& rc = sl::Blackboard::Instance()->GetRenderContext();
-	rc.GetShaderMgr().FlushShader();
+	rg::RenderMgr::Instance()->Flush();
 
 	auto& ur_rc = ur::Blackboard::Instance()->GetRenderContext();
 	ur_rc.EnableScissor(true);
@@ -44,8 +41,7 @@ void RenderScissor::Pop()
 {
 	assert(!m_stack.empty());
 
-	auto& rc = sl::Blackboard::Instance()->GetRenderContext();
-	rc.GetShaderMgr().FlushShader();
+	rg::RenderMgr::Instance()->Flush();
 	m_stack.pop_back();
 	auto& ur_rc = ur::Blackboard::Instance()->GetRenderContext();
 	if (m_stack.empty()) {

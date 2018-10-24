@@ -2,9 +2,8 @@
 #include "painting2/WindowContext.h"
 #include "painting2/WindowCtxRegion.h"
 
-#include <shaderlab/Blackboard.h>
-#include <shaderlab/RenderContext.h>
-#include <shaderlab/Sprite2Shader.h>
+#include <rendergraph/RenderMgr.h>
+#include <rendergraph/SpriteRenderer.h>
 
 namespace pt2
 {
@@ -47,20 +46,13 @@ void DebugDraw::Draw(int tex_id, int pos)
 	texcoords[4] = 1; texcoords[5] = 1;
 	texcoords[6] = 0; texcoords[7] = 1;
 
-	auto& shader_mgr = sl::Blackboard::Instance()->GetRenderContext().GetShaderMgr();
-	shader_mgr.SetShader(sl::SPRITE2);
-
 	{
 		pt2::WindowCtxRegion wcr(2.0f, 2.0f);
 
-		auto shader = static_cast<sl::Sprite2Shader*>(shader_mgr.GetShader());
-		shader->SetColor(0xffffffff, 0);
-		shader->SetColorMap(0x000000ff, 0x0000ff00, 0x00ff0000);
-
-		shader->DrawQuad(vertices, texcoords, tex_id);
+		auto sr = rg::RenderMgr::Instance()->SetRenderer(rg::RenderType::SPRITE);
+		std::static_pointer_cast<rg::SpriteRenderer>(sr)->DrawQuad(vertices, texcoords, tex_id, 0xffffffff);
 	}
-
-	shader_mgr.FlushShader();
+	rg::RenderMgr::Instance()->Flush();
 }
 
 }
