@@ -17,8 +17,11 @@ namespace pt2
 
 void RenderSystem::DrawPainter(const tess::Painter& pt, const sm::mat4& mat)
 {
+	if (pt.IsEmpty()) {
+		return;
+	}
 	auto sr = rg::RenderMgr::Instance()->SetRenderer(rg::RenderType::SPRITE);
-	std::static_pointer_cast<rg::SpriteRenderer>(sr)->DrawPainter(pt, sm::mat4());
+	std::static_pointer_cast<rg::SpriteRenderer>(sr)->DrawPainter(pt, mat);
 }
 
 void RenderSystem::DrawShape(tess::Painter& pt, const gs::Shape& shape, uint32_t color)

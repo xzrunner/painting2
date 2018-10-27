@@ -23,7 +23,6 @@
     <ClCompile Include="..\..\..\source\GradientColor.cpp" />
     <ClCompile Include="..\..\..\source\OBB.cpp" />
     <ClCompile Include="..\..\..\source\OrthoCamera.cpp" />
-    <ClCompile Include="..\..\..\source\PrimitiveDraw.cpp" />
     <ClCompile Include="..\..\..\source\Pseudo3DCamera.cpp" />
     <ClCompile Include="..\..\..\source\RenderCamera.cpp" />
     <ClCompile Include="..\..\..\source\RenderColorCommon.cpp" />
@@ -64,7 +63,6 @@
     <ClInclude Include="..\..\..\include\painting2\Mesh.h" />
     <ClInclude Include="..\..\..\include\painting2\OBB.h" />
     <ClInclude Include="..\..\..\include\painting2\OrthoCamera.h" />
-    <ClInclude Include="..\..\..\include\painting2\PrimitiveDraw.h" />
     <ClInclude Include="..\..\..\include\painting2\Pseudo3DCamera.h" />
     <ClInclude Include="..\..\..\include\painting2\RenderCamera.h" />
     <ClInclude Include="..\..\..\include\painting2\RenderColorCommon.h" />

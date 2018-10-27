@@ -24,7 +24,7 @@ class Shader;
 class RenderSystem
 {
 public:
-	static void DrawPainter(const tess::Painter& pt, const sm::mat4& mat);
+	static void DrawPainter(const tess::Painter& pt, const sm::mat4& mat = sm::mat4());
 
 	static void DrawShape(tess::Painter& pt, const gs::Shape& shape, uint32_t color);
 

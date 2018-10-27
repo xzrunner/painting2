@@ -1,7 +1,6 @@
 #pragma once
 
 #include "painting2/config.h"
-#include "painting2/PrimitiveDraw.h"
 #include "painting2/RenderTargetMgr.h"
 #include "painting2/RenderTarget.h"
 #include "painting2/RenderScissor.h"
@@ -9,6 +8,7 @@
 #include "painting2/RenderContext.h"
 #include "painting2/WindowContext.h"
 #include "painting2/Color.h"
+#include "painting2/RenderSystem.h"
 
 #ifdef PT2_DISABLE_DEFERRED
 #include <unirender/RenderContext.h>
@@ -22,6 +22,7 @@
 #endif // PT2_DISABLE_STATISTICS
 #include <rendergraph/RenderMgr.h>
 #include <rendergraph/SpriteRenderer.h>
+#include <tessellation/Painter.h>
 
 namespace
 {
@@ -76,10 +77,11 @@ DrawInfoUV(cooking::DisplayList* dlist, const sm::Matrix2D* mt)
 	float w = m_mesh.GetWidth(),
 		  h = m_mesh.GetHeight();
 
+	tess::Painter pt;
+
 	// lines
-	PrimitiveDraw::SetColor(RED);
-	CU_VEC<sm::vec2> lines;
-	lines.resize(3);
+	uint32_t col = RED.ToABGR();
+	std::array<sm::vec2, 3> lines;
 	for (int i = 0, n = triangles.size(); i < n; ) {
 		for (int j = 0; j < 3; ++j, ++i) {
 			lines[j].x = (texcoords[triangles[i]].x - 0.5f) * w;
@@ -88,11 +90,11 @@ DrawInfoUV(cooking::DisplayList* dlist, const sm::Matrix2D* mt)
 				lines[j] = *mt * lines[j];
 			}
 		}
-		PrimitiveDraw::Polyline(dlist, lines, true);
+		pt.AddPolygon(lines.data(), lines.size(), col);
 	}
 
 	// points
-	PrimitiveDraw::SetColor(BLUE);
+	col = BLUE.ToABGR();
 	for (int i = 0, n = texcoords.size(); i < n; ++i) {
 		sm::vec2 p;
 		p.x = (texcoords[i].x - 0.5f) * w;
@@ -100,8 +102,10 @@ DrawInfoUV(cooking::DisplayList* dlist, const sm::Matrix2D* mt)
 		if (mt) {
 			p = *mt * p;
 		}
-		PrimitiveDraw::Circle(dlist, p, m_mesh.GetNodeRadius(), true);
+		pt.AddCircleFilled(p, m_mesh.GetNodeRadius(), col);
 	}
+
+	RenderSystem::DrawPainter(pt);
 
 	return RENDER_OK;
 }
@@ -117,10 +121,11 @@ DrawInfoXY(cooking::DisplayList* dlist, const sm::Matrix2D* mt)
 		return RENDER_NO_DATA;
 	}
 
+	tess::Painter pt;
+
 	// lines
-	PrimitiveDraw::SetColor(RED);
-	CU_VEC<sm::vec2> lines;
-	lines.resize(3);
+	uint32_t col = RED.ToABGR();
+	std::array<sm::vec2, 3> lines;
 	for (int i = 0, n = triangles.size(); i < n; ) {
 		for (int j = 0; j < 3; ++j, ++i) {
 			lines[j] = vertices[triangles[i]];
@@ -128,18 +133,20 @@ DrawInfoXY(cooking::DisplayList* dlist, const sm::Matrix2D* mt)
 				lines[j] = *mt * lines[j];
 			}
 		}
-		PrimitiveDraw::Polyline(dlist, lines, true);
+		pt.AddPolygon(lines.data(), lines.size(), col);
 	}
 
 	// points
-	PrimitiveDraw::SetColor(BLUE);
+	col = BLUE.ToABGR();
 	for (int i = 0, n = vertices.size(); i < n; ++i) {
 		sm::vec2 p = vertices[i];
 		if (mt) {
 			p = *mt * p;
 		}
-		PrimitiveDraw::Circle(dlist, p, m_mesh.GetNodeRadius(), true);
+		pt.AddCircleFilled(p, m_mesh.GetNodeRadius(), col);
 	}
+
+	pt2::RenderSystem::DrawPainter(pt);
 
 	return RENDER_OK;
 }
