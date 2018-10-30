@@ -1,6 +1,5 @@
 #pragma once
 
-#include <guard/check.h>
 #include <cu/cu_macro.h>
 
 #include <memory>
@@ -15,10 +14,7 @@ class Blackboard
 {
 public:
 	void SetRenderContext(const std::shared_ptr<RenderContext>& rc) { m_rc = rc; }
-	RenderContext& GetRenderContext() {
-		GD_ASSERT(m_rc, "null rc");
-		return *m_rc;
-	}
+	RenderContext& GetRenderContext();
 
 	void SetWindowContext(const std::shared_ptr<WindowContext>& wc) { m_wc = wc; }
 	const std::shared_ptr<WindowContext>& GetWindowContext() { return m_wc; }
