@@ -19,8 +19,7 @@ class WindowContext;
 class Shader : public pt0::Shader
 {
 public:
-	Shader(WindowContext& wc, ur::RenderContext* rc,
-		const pt0::Shader::Params& params, bool flush_cb = true);
+	Shader(WindowContext& wc, ur::RenderContext* rc, const pt0::Shader::Params& params);
 	virtual ~Shader();
 
 	auto& GetModelUniformName() const { return m_uniform_names.model_mat; }

@@ -6,8 +6,8 @@
 namespace pt2
 {
 
-Shader::Shader(WindowContext& wc, ur::RenderContext* rc, const pt0::Shader::Params& params, bool flush_cb)
-	: pt0::Shader(rc, params, flush_cb)
+Shader::Shader(WindowContext& wc, ur::RenderContext* rc, const pt0::Shader::Params& params)
+	: pt0::Shader(rc, params)
 {
 	m_conn_view = wc.DoOnView(boost::bind(&Shader::UpdateViewMat, this, _1, _2));
 	m_conn_proj = wc.DoOnProj(boost::bind(&Shader::UpdateProjMat, this, _1, _2));

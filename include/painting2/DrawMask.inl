@@ -85,7 +85,9 @@ RenderReturn DrawMask<Type, Params>::DrawBaseToRT(cooking::DisplayList* dlist, R
 	rt.Bind();
 
 #ifdef PT2_DISABLE_DEFERRED
-	ur::Blackboard::Instance()->GetRenderContext().Clear(0);
+	auto& ur_rc = ur::Blackboard::Instance()->GetRenderContext();
+	ur_rc.SetClearColor(0);
+	ur_rc.Clear();
 
 	rg::RenderMgr::Instance()->SetRenderer(rg::RenderType::SPRITE);
 #else
@@ -112,7 +114,9 @@ RenderReturn DrawMask<Type, Params>::DrawMaskToRT(cooking::DisplayList* dlist, R
 	rt.Bind();
 
 #ifdef PT2_DISABLE_DEFERRED
-	ur::Blackboard::Instance()->GetRenderContext().Clear(0);
+	auto& ur_rc = ur::Blackboard::Instance()->GetRenderContext();
+	ur_rc.SetClearColor(0);
+	ur_rc.Clear();
 
 	rg::RenderMgr::Instance()->SetRenderer(rg::RenderType::SPRITE);
 #else

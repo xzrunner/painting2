@@ -31,7 +31,8 @@ inline void DrawRT::Draw(const Type& obj, std::function<void(const Type&, const 
 	} else {
 		clear_color = 0;
 	}
-	ur_rc.Clear(clear_color);
+	ur_rc.SetClearColor(clear_color);
+	ur_rc.Clear();
 
 	auto rect = Callback::GetBounding(obj);
 	auto sz = rect.Size();

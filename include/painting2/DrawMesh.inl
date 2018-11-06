@@ -380,7 +380,9 @@ DrawMesh2RT(cooking::DisplayList* dlist, RenderTarget& rt, const Params& params,
 	rt.Bind();
 
 #ifdef PT2_DISABLE_DEFERRED
-	ur::Blackboard::Instance()->GetRenderContext().Clear(0);
+	auto& ur_rc = ur::Blackboard::Instance()->GetRenderContext();
+	ur_rc.SetClearColor(0);
+	ur_rc.Clear();
 #else
 	cooking::render_clear(dlist, 0);
 #endif // PT2_DISABLE_DEFERRED
