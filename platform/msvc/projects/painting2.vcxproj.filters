@@ -80,6 +80,9 @@
     <ClCompile Include="..\..\..\source\RenderSystem.cpp">
       <Filter>render</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\source\DrawShape.cpp">
+      <Filter>render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\painting2\GeoTransform.h">
@@ -239,6 +242,9 @@
       <Filter>render\data</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\painting2\RenderSystem.h">
+      <Filter>render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\painting2\DrawShape.h">
       <Filter>render</Filter>
     </ClInclude>
   </ItemGroup>

@@ -4,10 +4,10 @@
 #include "painting2/RenderColorMap.h"
 #include "painting2/Callback.h"
 #include "painting2/DrawMask.h"
+#include "painting2/DrawShape.h"
 
 #include <unirender/Shader.h>
 #include <tessellation/Painter.h>
-#include <geoshape/Shape2D.h>
 #include <rendergraph/RenderMgr.h>
 #include <rendergraph/SpriteRenderer.h>
 #include <rendergraph/ExternRenderer.h>
@@ -24,23 +24,9 @@ void RenderSystem::DrawPainter(const tess::Painter& pt, const sm::mat4& mat)
 	std::static_pointer_cast<rg::SpriteRenderer>(sr)->DrawPainter(pt, mat);
 }
 
-void RenderSystem::DrawShape(tess::Painter& pt, const gs::Shape& shape, uint32_t color)
+void RenderSystem::DrawShape(tess::Painter& pt, const gs::Shape& shape, uint32_t color, float cam_scale)
 {
-	auto& s2 = static_cast<const gs::Shape2D&>(shape);
-	s2.Draw([&](const sm::vec2* vertices, size_t n, bool close, bool filling) {
-		if (close)
-		{
-			if (filling) {
-				pt.AddPolygonFilled(vertices, n, color);
-			} else {
-				pt.AddPolygon(vertices, n, color);
-			}
-		}
-		else
-		{
-			pt.AddPolyline(vertices, n, color);
-		}
-	});
+	DrawShape::Draw(pt, shape, color, cam_scale);
 }
 
 void RenderSystem::DrawTexQuad(const float* positions, const float* texcoords, int texid, uint32_t color)

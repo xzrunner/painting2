@@ -26,7 +26,7 @@ class RenderSystem
 public:
 	static void DrawPainter(const tess::Painter& pt, const sm::mat4& mat = sm::mat4());
 
-	static void DrawShape(tess::Painter& pt, const gs::Shape& shape, uint32_t color);
+	static void DrawShape(tess::Painter& pt, const gs::Shape& shape, uint32_t color, float cam_scale = 1.0f);
 
 	static void DrawTexQuad(const float* positions, const float* texcoords, int texid, uint32_t color);
 
