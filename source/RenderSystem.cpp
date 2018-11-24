@@ -41,19 +41,7 @@ void RenderSystem::DrawTexture(const Texture& tex, const sm::rect& pos,
 	float vertices[8];
 	CalcVertices(pos, mat, vertices);
 
-	// query from dtex
-	int w = tex.Width();
-	int h = tex.Height();
-	sm::irect qr(0, 0, w, h);
-	int cached_texid;
-	auto cached_texcoords = Callback::QueryCachedTexQuad(tex.TexID(), qr, cached_texid);
-
-	auto sr = rg::RenderMgr::Instance()->SetRenderer(rg::RenderType::SPRITE);
-	if (cached_texcoords)
-	{
-		std::static_pointer_cast<rg::SpriteRenderer>(sr)->DrawQuad(vertices, cached_texcoords, cached_texid, 0xffffffff);
-	}
-	else
+	auto draw_without_dtex = [](std::shared_ptr<rg::IRenderer>& sr, const float* vertices, int tex_id)
 	{
 		float txmin, txmax, tymin, tymax;
 		txmin = tymin = 0;
@@ -64,9 +52,30 @@ void RenderSystem::DrawTexture(const Texture& tex, const sm::rect& pos,
 			txmax, tymax,
 			txmin, tymax,
 		};
-		std::static_pointer_cast<rg::SpriteRenderer>(sr)->DrawQuad(vertices, texcoords, tex.TexID(), 0xffffffff);
+		std::static_pointer_cast<rg::SpriteRenderer>(sr)->DrawQuad(vertices, texcoords, tex_id, 0xffffffff);
+	};
 
-		Callback::AddCacheSymbol(tex.TexID(), w, h, qr);
+	int w = tex.Width();
+	int h = tex.Height();
+	const bool use_dtex = w < 512 && h < 512;
+	auto sr = rg::RenderMgr::Instance()->SetRenderer(rg::RenderType::SPRITE);
+	// query from dtex
+	if (use_dtex)
+	{
+		sm::irect qr(0, 0, w, h);
+		int cached_texid;
+		auto cached_texcoords = Callback::QueryCachedTexQuad(tex.TexID(), qr, cached_texid);
+
+		if (cached_texcoords) {
+			std::static_pointer_cast<rg::SpriteRenderer>(sr)->DrawQuad(vertices, cached_texcoords, cached_texid, 0xffffffff);
+		} else {
+			draw_without_dtex(sr, vertices, tex.TexID());
+			Callback::AddCacheSymbol(tex.TexID(), w, h, qr);
+		}
+	}
+	else
+	{
+		draw_without_dtex(sr, vertices, tex.TexID());
 	}
 }
 
