@@ -20,14 +20,14 @@ class Mesh : boost::noncopyable
 {
 public:
 	Mesh();
-	Mesh(const std::shared_ptr<const T>& base);
+	Mesh(const T& base, float width, float height);
 #ifdef S2_MESH_VIRTUAL
 	virtual ~Mesh();
 #else
 	~Mesh();
 #endif // S2_MESH_VIRTUAL
 
-	const std::shared_ptr<const T>& GetBaseSymbol() const { return m_base; }
+	const T& GetBaseSymbol() const { return m_base; }
 
 	float GetWidth() const { return m_width; }
 	float GetHeight() const { return m_height; }
@@ -53,7 +53,7 @@ protected:
 	std::unique_ptr<pm::Mesh> m_mesh = nullptr;
 
 private:
-	std::shared_ptr<const T> m_base = nullptr;
+	T m_base = nullptr;
 	float m_width, m_height;
 
 	float m_node_radius;

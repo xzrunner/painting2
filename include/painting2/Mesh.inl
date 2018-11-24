@@ -29,14 +29,12 @@ Mesh<T>::Mesh()
 }
 
 template<typename T>
-Mesh<T>::Mesh(const std::shared_ptr<const T>& base)
+Mesh<T>::Mesh(const T& base, float width, float height)
 	: m_base(base)
+	, m_width(width)
+	, m_height(height)
+	, m_node_radius(std::min(m_width * 0.1f, 5.0f))
 {
-	sm::vec2 sz = m_base->GetBounding().Size();
-	m_width = sz.x;
-	m_height = sz.y;
-
-	m_node_radius = std::min(m_width * 0.1f, 5.0f);
 }
 
 template<typename T>
