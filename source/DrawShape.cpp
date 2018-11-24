@@ -8,6 +8,7 @@
 #include <geoshape/Rect.h>
 #include <geoshape/Circle.h>
 #include <geoshape/Polyline.h>
+#include <geoshape/Polygon.h>
 
 namespace pt2
 {
@@ -36,6 +37,11 @@ void DrawShape::Draw(tess::Painter& pt, const gs::Shape& shape, uint32_t color, 
 	{
 		auto& p = static_cast<const gs::Polyline&>(shape).GetVertices();
 		pt.AddPolyline(p.data(), p.size(), color, cam_scale);
+	}
+	else if (shape.get_type() == rttr::type::get<gs::Polygon>())
+	{
+		auto& p = static_cast<const gs::Polygon&>(shape).GetVertices();
+		pt.AddPolygon(p.data(), p.size(), color, cam_scale);
 	}
 }
 
