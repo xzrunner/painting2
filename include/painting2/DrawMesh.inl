@@ -57,14 +57,14 @@ static Color RED	(204, 51, 102, 128);
 static Color GREEN	(102, 204, 51, 128);
 static Color BLUE	(102, 51, 204, 128);
 
-template<typename T, typename Params>
-DrawMesh<T, Params>::DrawMesh(const Mesh<T>& m_mesh)
+template<typename Type, typename Params>
+DrawMesh<Type, Params>::DrawMesh(const Mesh<Type>& m_mesh)
 	: m_mesh(m_mesh)
 {
 }
 
-template<typename T, typename Params>
-RenderReturn DrawMesh<T, Params>::
+template<typename Type, typename Params>
+RenderReturn DrawMesh<Type, Params>::
 DrawInfoUV(cooking::DisplayList* dlist, const sm::Matrix2D* mt)
 {
 	CU_VEC<sm::vec2> vertices, texcoords;
@@ -110,8 +110,8 @@ DrawInfoUV(cooking::DisplayList* dlist, const sm::Matrix2D* mt)
 	return RENDER_OK;
 }
 
-template<typename T, typename Params>
-RenderReturn DrawMesh<T, Params>::
+template<typename Type, typename Params>
+RenderReturn DrawMesh<Type, Params>::
 DrawInfoXY(cooking::DisplayList* dlist, const sm::Matrix2D* mt)
 {
 	CU_VEC<sm::vec2> vertices, texcoords;
@@ -151,9 +151,9 @@ DrawInfoXY(cooking::DisplayList* dlist, const sm::Matrix2D* mt)
 	return RENDER_OK;
 }
 
-template<typename T, typename Params>
-RenderReturn DrawMesh<T, Params>::
-DrawTexture(cooking::DisplayList* dlist, const Params& params, const std::shared_ptr<const T>& base_sym)
+template<typename Type, typename Params>
+RenderReturn DrawMesh<Type, Params>::
+DrawTexture(cooking::DisplayList* dlist, const Params& params, const Type& base_sym)
 {
 	RenderReturn ret = RENDER_OK;
 	auto& node = base_sym ? base_sym : m_mesh.GetBaseSymbol();
@@ -185,8 +185,8 @@ DrawTexture(cooking::DisplayList* dlist, const Params& params, const std::shared
 	return ret;
 }
 
-template<typename T, typename Params>
-RenderReturn DrawMesh<T, Params>::
+template<typename Type, typename Params>
+RenderReturn DrawMesh<Type, Params>::
 DrawOnlyMesh(cooking::DisplayList* dlist, const sm::Matrix2D& mt, int tex_id)
 {
 	CU_VEC<sm::vec2> vertices, texcoords;
@@ -231,8 +231,8 @@ DrawOnlyMesh(cooking::DisplayList* dlist, const sm::Matrix2D& mt, int tex_id)
 	return RENDER_OK;
 }
 
-template<typename T, typename Params>
-RenderReturn DrawMesh<T, Params>::
+template<typename Type, typename Params>
+RenderReturn DrawMesh<Type, Params>::
 DrawOnePass(cooking::DisplayList* dlist, const Params& params, const float* src_texcoords, int tex_id)
 {
 //	sl::ShaderType shader_type;
@@ -340,9 +340,9 @@ DrawOnePass(cooking::DisplayList* dlist, const Params& params, const float* src_
 	return RENDER_OK;
 }
 
-template<typename T, typename Params>
-RenderReturn DrawMesh<T, Params>::
-DrawTwoPass(cooking::DisplayList* dlist, const Params& params, const T& node)
+template<typename Type, typename Params>
+RenderReturn DrawMesh<Type, Params>::
+DrawTwoPass(cooking::DisplayList* dlist, const Params& params, const Type& node)
 {
 	auto& rc = Blackboard::Instance()->GetRenderContext();
 	auto& rt_mgr = rc.GetRTMgr();
@@ -373,9 +373,9 @@ DrawTwoPass(cooking::DisplayList* dlist, const Params& params, const T& node)
 	return ret;
 }
 
-template<typename T, typename Params>
-RenderReturn DrawMesh<T, Params>::
-DrawMesh2RT(cooking::DisplayList* dlist, RenderTarget& rt, const Params& params, const T& node)
+template<typename Type, typename Params>
+RenderReturn DrawMesh<Type, Params>::
+DrawMesh2RT(cooking::DisplayList* dlist, RenderTarget& rt, const Params& params, const Type& node)
 {
 	rt.Bind();
 
@@ -400,8 +400,8 @@ DrawMesh2RT(cooking::DisplayList* dlist, RenderTarget& rt, const Params& params,
 	return ret;
 }
 
-template<typename T, typename Params>
-RenderReturn DrawMesh<T, Params>::
+template<typename Type, typename Params>
+RenderReturn DrawMesh<Type, Params>::
 DrawRT2Screen(cooking::DisplayList* dlist, RenderTarget& rt, const sm::Matrix2D& mt)
 {
 	return DrawOnlyMesh(dlist, mt, rt.GetTexID());
