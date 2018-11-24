@@ -30,6 +30,8 @@ protected:
 	virtual RenderReturn PrepareDrawOnePass(cooking::DisplayList* dlist,
 		const Type& node, const Params& params, float* texcoords, int* tex_id) const = 0;
 
+	virtual const sm::Matrix2D& GetMat(const Params& params) const = 0;
+
 private:
 	RenderReturn DrawOnePass(cooking::DisplayList* dlist, const Params& params, const float* texcoords, int tex_id);
 

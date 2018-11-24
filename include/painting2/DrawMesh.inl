@@ -157,11 +157,11 @@ DrawTexture(cooking::DisplayList* dlist, const Params& params, const Type& base_
 {
 	RenderReturn ret = RENDER_OK;
 	auto& node = base_sym ? base_sym : m_mesh.GetBaseSymbol();
-	if (IsNodeImage(*node))
+	if (IsNodeImage(node))
 	{
 		float texcoords[8];
 		int tex_id;
-		auto ret = PrepareDrawOnePass(dlist, *node, params, texcoords, &tex_id);
+		auto ret = PrepareDrawOnePass(dlist, node, params, texcoords, &tex_id);
 		if (ret != RENDER_OK) {
 			return ret;
 		}
@@ -169,7 +169,7 @@ DrawTexture(cooking::DisplayList* dlist, const Params& params, const Type& base_
 	}
 	else
 	{
-		ret = DrawTwoPass(dlist, params, *node);
+		ret = DrawTwoPass(dlist, params, node);
 
 		//////////////////////////////////////////////////////////////////////////
 
@@ -270,7 +270,7 @@ DrawOnePass(cooking::DisplayList* dlist, const Params& params, const float* src_
 	//	{
 #ifdef PT2_DISABLE_DEFERRED
 			auto sr = rg::RenderMgr::Instance()->SetRenderer(rg::RenderType::SPRITE);
-			std::static_pointer_cast<rg::SpriteRenderer>(sr)->DrawQuad(positions, texcoords, tex_id, 0xffffffff);
+			std::static_pointer_cast<rg::SpriteRenderer>(sr)->DrawQuad(&vertices[0].x, &texcoords[0].x, tex_id, 0xffffffff);
 #else
 			cooking::set_color_sprite(dlist, params.col_common.mul.ToABGR(), params.col_common.add.ToABGR(),
 				params.col_map.rmap.ToABGR(), params.col_map.gmap.ToABGR(), params.col_map.bmap.ToABGR());
@@ -292,6 +292,8 @@ DrawOnePass(cooking::DisplayList* dlist, const Params& params, const float* src_
 	//		break;
 	//}
 
+	auto& mt = GetMat(params);
+
 	// 3 2    1 0
 	// 0 1 or 2 3
 	if ((w > 0 && h > 0) || (w < 0 && h < 0))
@@ -302,7 +304,7 @@ DrawOnePass(cooking::DisplayList* dlist, const Params& params, const float* src_
 			for (int j = 0; j < 3; ++j, ++i)
 			{
 				int idx = triangles[i];
-				_vertices[j] = params.mt * vertices[idx];
+				_vertices[j] = mt * vertices[idx];
 				_texcoords[j].x = x + w * texcoords[idx].x;
 				_texcoords[j].y = y + h * texcoords[idx].y;
 			}
@@ -322,7 +324,7 @@ DrawOnePass(cooking::DisplayList* dlist, const Params& params, const float* src_
 			for (int j = 0; j < 3; ++j, ++i)
 			{
 				int idx = triangles[i];
-				_vertices[j] = params.mt * vertices[idx];
+				_vertices[j] = mt * vertices[idx];
 				_texcoords[j].x = x + w * texcoords[idx].y;
 				_texcoords[j].y = y + h * texcoords[idx].x;
 			}
@@ -362,11 +364,11 @@ DrawTwoPass(cooking::DisplayList* dlist, const Params& params, const Type& node)
 	rc.GetScissor().Disable();
 	{
 		pt2::WindowCtxRegion wcr(static_cast<float>(rt_mgr.WIDTH), static_cast<float>(rt_mgr.HEIGHT));
-		ret |= DrawMesh2RT(dlist, rt, params, node);
+		ret |= DrawMesh2RT(dlist, *rt, params, node);
 	}
 	rc.GetScissor().Enable();
 
-	ret |= DrawRT2Screen(dlist, rt, params.mt);
+	ret |= DrawRT2Screen(dlist, *rt, GetMat(params));
 
 	rt_mgr.Return(rt);
 
