@@ -19,13 +19,15 @@ class WindowContext;
 class Shader : public pt0::Shader
 {
 public:
-	Shader(WindowContext& wc, ur::RenderContext* rc, const pt0::Shader::Params& params);
-	virtual ~Shader();
+	Shader(ur::RenderContext* rc, const pt0::Shader::Params& params);
+    virtual ~Shader();
 
 	auto& GetModelUniformName() const { return m_uniform_names.model_mat; }
 
 	void UpdateViewMat(const sm::vec2& offset, float scale);
 	void UpdateProjMat(int width, int height);
+
+    void AddNotify(WindowContext& wc);
 
 private:
 	// view
@@ -35,8 +37,7 @@ private:
 	int m_width = 0;
 	int m_height = 0;
 
-	boost::signals2::connection m_conn_view;
-	boost::signals2::connection m_conn_proj;
+    std::vector<std::pair<boost::signals2::connection, boost::signals2::connection>> m_notifies;
 
 }; // Shader
 
