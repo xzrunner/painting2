@@ -100,7 +100,7 @@ void WindowContext::UpdateView() const
 
 void WindowContext::UpdateProjection() const
 {
-	m_on_proj(m_proj_width, m_proj_height);
+	m_on_proj(static_cast<int>(m_proj_width), static_cast<int>(m_proj_height));
 }
 
 void WindowContext::UpdateViewport() const
