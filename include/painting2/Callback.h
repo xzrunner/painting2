@@ -6,12 +6,12 @@
 #include <functional>
 
 namespace n0 { class CompAsset; }
+namespace pt0 { class Color; }
 
 namespace pt2
 {
 
 class Textbox;
-class Color;
 
 class Callback
 {
@@ -19,7 +19,7 @@ public:
 	struct Funs
 	{
 		std::function<void(const std::string&, const Textbox&,
-			const sm::Matrix2D&, const Color&, const Color&)> draw_text;
+			const sm::Matrix2D&, const pt0::Color&, const pt0::Color&)> draw_text;
 		std::function<sm::vec2(const std::string&, const Textbox&)> calc_label_size;
 
 		std::function<sm::rect(const n0::CompAsset&)> get_bounding;
@@ -33,7 +33,7 @@ public:
 	//////////////////////////////////////////////////////////////////////////
 
 	static void DrawText(const std::string& text, const Textbox& style,
-		const sm::Matrix2D& mat, const Color& mul_col, const Color& add_col);
+		const sm::Matrix2D& mat, const pt0::Color& mul_col, const pt0::Color& add_col);
 	static sm::vec2 CalcLabelSize(const std::string& text, const Textbox& style);
 
 	static sm::rect GetBounding(const n0::CompAsset& casset);

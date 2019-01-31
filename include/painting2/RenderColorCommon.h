@@ -1,6 +1,6 @@
 #pragma once
 
-#include "painting2/Color.h"
+#include <painting0/Color.h>
 
 namespace pt2
 {
@@ -8,11 +8,11 @@ namespace pt2
 class RenderColorCommon
 {
 public:
-	Color mul, add;
+	pt0::Color mul, add;
 
 public:
 	RenderColorCommon();
-	RenderColorCommon(const Color& mul, const Color& add);
+	RenderColorCommon(const pt0::Color& mul, const pt0::Color& add);
 
 	RenderColorCommon operator * (const RenderColorCommon& rc) const;
 

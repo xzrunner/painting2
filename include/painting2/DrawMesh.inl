@@ -7,7 +7,6 @@
 #include "painting2/Blackboard.h"
 #include "painting2/RenderContext.h"
 #include "painting2/WindowContext.h"
-#include "painting2/Color.h"
 #include "painting2/RenderSystem.h"
 
 #ifdef PT2_DISABLE_DEFERRED
@@ -20,6 +19,7 @@
 #ifndef PT2_DISABLE_STATISTICS
 #include <stat/StatPingPong.h>
 #endif // PT2_DISABLE_STATISTICS
+#include <painting0/Color.h>
 #include <rendergraph/RenderMgr.h>
 #include <rendergraph/SpriteRenderer.h>
 #include <tessellation/Painter.h>
@@ -53,9 +53,9 @@ void draw_filter(cooking::DisplayList* dlist, const float* positions, const floa
 namespace pt2
 {
 
-static Color RED	(204, 51, 102, 128);
-static Color GREEN	(102, 204, 51, 128);
-static Color BLUE	(102, 51, 204, 128);
+static pt0::Color RED	(204, 51, 102, 128);
+static pt0::Color GREEN	(102, 204, 51, 128);
+static pt0::Color BLUE	(102, 51, 204, 128);
 
 template<typename Type, typename Params>
 DrawMesh<Type, Params>::DrawMesh(const Mesh<Type>& m_mesh)

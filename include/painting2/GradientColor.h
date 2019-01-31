@@ -1,13 +1,11 @@
 #pragma once
 
-#include "painting2/Color.h"
+#include <painting0/Color.h>
 
 #include <vector>
 
 namespace pt2
 {
-
-class Color;
 
 class GradientColor
 {
@@ -17,7 +15,7 @@ public:
 		Item() : pos(0) {}
 		Item(float p) : pos(p) {}
 
-		Color col;
+		pt0::Color col;
 		float pos;
 
 		bool operator == (const Item& item) const {

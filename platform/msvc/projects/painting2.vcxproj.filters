@@ -103,9 +103,6 @@
     <ClInclude Include="..\..\..\include\painting2\OBB.h">
       <Filter>data\bb</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\painting2\Color.h">
-      <Filter>data\color</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\painting2\FilterMode.h">
       <Filter>render\data\filter</Filter>
     </ClInclude>
@@ -325,9 +322,6 @@
     </None>
     <None Include="..\..\..\include\painting2\OBB.inl">
       <Filter>data\bb</Filter>
-    </None>
-    <None Include="..\..\..\include\painting2\Color.inl">
-      <Filter>data\color</Filter>
     </None>
     <None Include="..\..\..\include\painting2\SRT.inl">
       <Filter>data\transform</Filter>

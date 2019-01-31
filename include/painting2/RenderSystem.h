@@ -9,6 +9,7 @@
 
 namespace tess { class Painter; }
 namespace gs { class Shape; }
+namespace pt0 { class Color; }
 
 namespace pt2
 {
@@ -18,7 +19,6 @@ class Text;
 class Textbox;
 class RenderColorCommon;
 class RenderColorMap;
-class Color;
 class Shader;
 
 class RenderSystem
@@ -39,7 +39,7 @@ public:
 		const sm::mat4& mat);
 
 	static void DrawText(const std::string& text, const Textbox& style,
-		const sm::Matrix2D& mat, const Color& mul_col, const Color& add_col);
+		const sm::Matrix2D& mat, const pt0::Color& mul_col, const pt0::Color& add_col);
 
 	static void SetColor(const RenderColorCommon& col);
 	static void SetColorMap(const RenderColorMap& col);

@@ -1,7 +1,7 @@
 #pragma once
 #pragma once
 
-#include "painting2/Color.h"
+#include <painting0/Color.h>
 
 namespace pt2
 {
@@ -9,11 +9,11 @@ namespace pt2
 class RenderColorMap
 {
 public:
-	Color rmap, gmap, bmap;
+	pt0::Color rmap, gmap, bmap;
 
 public:
 	RenderColorMap();
-	RenderColorMap(const Color& rmap, const Color& gmap, const Color& bmap);
+	RenderColorMap(const pt0::Color& rmap, const pt0::Color& gmap, const pt0::Color& bmap);
 
 	RenderColorMap operator * (const RenderColorMap& rc) const;
 

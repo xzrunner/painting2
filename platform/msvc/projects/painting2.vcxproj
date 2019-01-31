@@ -49,7 +49,6 @@
     <ClInclude Include="..\..\..\include\painting2\Callback.h" />
     <ClInclude Include="..\..\..\include\painting2\CameraMgr.h" />
     <ClInclude Include="..\..\..\include\painting2\CameraMode.h" />
-    <ClInclude Include="..\..\..\include\painting2\Color.h" />
     <ClInclude Include="..\..\..\include\painting2\config.h" />
     <ClInclude Include="..\..\..\include\painting2\DebugDraw.h" />
     <ClInclude Include="..\..\..\include\painting2\DrawRT.h" />
@@ -102,7 +101,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\include\painting2\AABB.inl" />
-    <None Include="..\..\..\include\painting2\Color.inl" />
     <None Include="..\..\..\include\painting2\DrawMask.inl" />
     <None Include="..\..\..\include\painting2\DrawMesh.inl" />
     <None Include="..\..\..\include\painting2\DrawPingPong.inl" />

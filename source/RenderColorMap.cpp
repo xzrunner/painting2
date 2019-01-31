@@ -3,9 +3,9 @@
 namespace pt2
 {
 
-static const Color R_IDENTITY(255, 0, 0, 0);
-static const Color G_IDENTITY(0, 255, 0, 0);
-static const Color B_IDENTITY(0, 0, 255, 0);
+static const pt0::Color R_IDENTITY(255, 0, 0, 0);
+static const pt0::Color G_IDENTITY(0, 255, 0, 0);
+static const pt0::Color B_IDENTITY(0, 0, 255, 0);
 static const float INV_255 = 1.0f / 255;
 
 RenderColorMap::RenderColorMap()
@@ -15,7 +15,7 @@ RenderColorMap::RenderColorMap()
 {
 }
 
-RenderColorMap::RenderColorMap(const Color& rmap, const Color& gmap, const Color& bmap)
+RenderColorMap::RenderColorMap(const pt0::Color& rmap, const pt0::Color& gmap, const pt0::Color& bmap)
 	: rmap(rmap)
 	, gmap(gmap)
 	, bmap(bmap)

@@ -92,7 +92,7 @@ void RenderSystem::DrawColor(const std::shared_ptr<Shader>& shader, const sm::ma
 }
 
 void RenderSystem::DrawText(const std::string& text, const Textbox& style,
-		                    const sm::Matrix2D& mat, const Color& mul_col, const Color& add_col)
+		                    const sm::Matrix2D& mat, const pt0::Color& mul_col, const pt0::Color& add_col)
 {
 	Callback::DrawText(text, style, mat, mul_col, add_col);
 }

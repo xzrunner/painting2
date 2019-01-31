@@ -11,7 +11,7 @@ void Callback::RegisterCallback(const Callback::Funs& funs)
 }
 
 void Callback::DrawText(const std::string& text, const Textbox& style, const sm::Matrix2D& mat,
-	                    const Color& mul_col, const Color& add_col)
+	                    const pt0::Color& mul_col, const pt0::Color& add_col)
 {
 	FUNS.draw_text(text, style, mat, mul_col, add_col);
 }

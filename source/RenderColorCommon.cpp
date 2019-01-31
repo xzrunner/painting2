@@ -3,8 +3,8 @@
 namespace pt2
 {
 
-static const Color COL_ONE(255, 255, 255, 255);
-static const Color COL_ZERO(0, 0, 0, 0);
+static const pt0::Color COL_ONE(255, 255, 255, 255);
+static const pt0::Color COL_ZERO(0, 0, 0, 0);
 static const float INV_255 = 1.0f / 255;
 
 RenderColorCommon::RenderColorCommon()
@@ -13,7 +13,7 @@ RenderColorCommon::RenderColorCommon()
 {
 }
 
-RenderColorCommon::RenderColorCommon(const Color& mul, const Color& add)
+RenderColorCommon::RenderColorCommon(const pt0::Color& mul, const pt0::Color& add)
 	: mul(mul)
 	, add(add)
 {
@@ -65,10 +65,10 @@ void RenderColorCommon::Mul(const RenderColorCommon& c0, const RenderColorCommon
 	} else if (add1 == COL_ZERO) {
 		add = add0;
 	} else {
-		add.r = clamp(add0.r + add1.r);
-		add.g = clamp(add0.g + add1.g);
-		add.b = clamp(add0.b + add1.b);
-		add.a = clamp(add0.a + add1.a);
+		add.r = pt0::clamp(add0.r + add1.r);
+		add.g = pt0::clamp(add0.g + add1.g);
+		add.b = pt0::clamp(add0.b + add1.b);
+		add.a = pt0::clamp(add0.a + add1.a);
 	}
 }
 
