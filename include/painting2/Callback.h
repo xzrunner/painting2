@@ -5,7 +5,7 @@
 
 #include <functional>
 
-namespace n0 { class CompAsset; }
+namespace n0 { class CompAsset; class SceneNode; }
 namespace pt0 { class Color; }
 
 namespace pt2
@@ -37,6 +37,7 @@ public:
 	static sm::vec2 CalcLabelSize(const std::string& text, const Textbox& style);
 
 	static sm::rect GetBounding(const n0::CompAsset& casset);
+    static sm::rect GetBounding(const n0::SceneNode& node);
 
 	static const float* QueryCachedTexQuad(size_t tex_id, const sm::irect& rect, int& out_tex_id);
 	static void AddCacheSymbol(size_t tex_id, int tex_w, int tex_h, const sm::irect& rect);

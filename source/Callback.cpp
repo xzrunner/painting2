@@ -26,6 +26,11 @@ sm::rect Callback::GetBounding(const n0::CompAsset& casset)
 	return FUNS.get_bounding(casset);
 }
 
+sm::rect Callback::GetBounding(const n0::SceneNode& node)
+{
+    return sm::rect(512, 512);
+}
+
 const float* Callback::QueryCachedTexQuad(size_t tex_id, const sm::irect& rect, int& out_tex_id)
 {
 	return FUNS.query_cached_tex_quad(tex_id, rect, out_tex_id);
