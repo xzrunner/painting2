@@ -22,8 +22,6 @@ public:
 	Shader(ur::RenderContext* rc, const pt0::Shader::Params& params);
     virtual ~Shader();
 
-	auto& GetModelUniformName() const { return m_uniform_names.model_mat; }
-
 	void UpdateViewMat(const sm::vec2& offset, float scale);
 	void UpdateProjMat(int width, int height);
 
