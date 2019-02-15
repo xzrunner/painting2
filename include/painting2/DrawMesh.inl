@@ -30,8 +30,8 @@ namespace
 void draw_sprite2(cooking::DisplayList* dlist, const float* positions, const float* texcoords, int tex_id)
 {
 #ifdef PT2_DISABLE_DEFERRED
-	auto sr = rg::RenderMgr::Instance()->SetRenderer(rg::RenderType::SPRITE);
-	std::static_pointer_cast<rg::SpriteRenderer>(sr)->DrawQuad(positions, texcoords, tex_id, 0xffffffff);
+	auto rd = rg::RenderMgr::Instance()->SetRenderer(rg::RenderType::SPRITE);
+	std::static_pointer_cast<rg::SpriteRenderer>(rd)->DrawQuad(positions, texcoords, tex_id, 0xffffffff);
 #else
 	cooking::draw_quad_sprite(dlist, positions, texcoords, tex_id);
 #endif // PT2_DISABLE_DEFERRED
@@ -41,8 +41,8 @@ void draw_filter(cooking::DisplayList* dlist, const float* positions, const floa
 {
 #ifdef PT2_DISABLE_DEFERRED
 	// fixme: filter
-	auto sr = rg::RenderMgr::Instance()->SetRenderer(rg::RenderType::SPRITE);
-	std::static_pointer_cast<rg::SpriteRenderer>(sr)->DrawQuad(positions, texcoords, tex_id, 0xffffffff);
+	auto rd = rg::RenderMgr::Instance()->SetRenderer(rg::RenderType::SPRITE);
+	std::static_pointer_cast<rg::SpriteRenderer>(rd)->DrawQuad(positions, texcoords, tex_id, 0xffffffff);
 #else
 	cooking::draw_quad_filter(dlist, positions, texcoords, tex_id);
 #endif // PT2_DISABLE_DEFERRED
@@ -197,7 +197,7 @@ DrawOnlyMesh(cooking::DisplayList* dlist, const sm::Matrix2D& mt, int tex_id)
 	}
 
 #ifdef PT2_DISABLE_DEFERRED
-	auto sr = rg::RenderMgr::Instance()->SetRenderer(rg::RenderType::SPRITE);
+	auto rd = rg::RenderMgr::Instance()->SetRenderer(rg::RenderType::SPRITE);
 #else
 	cooking::change_shader(dlist, sl::SPRITE2);
 	cooking::set_color_sprite(dlist, 0xffffffff, 0, 0x000000ff, 0x0000ff00, 0x00ff0000);
@@ -222,7 +222,7 @@ DrawOnlyMesh(cooking::DisplayList* dlist, const sm::Matrix2D& mt, int tex_id)
 		_texcoords[3] = _texcoords[2];
 
 #ifdef PT2_DISABLE_DEFERRED
-		std::static_pointer_cast<rg::SpriteRenderer>(sr)->DrawQuad(&_vertices[0].x, &_texcoords[0].x, tex_id, 0xffffffff);
+		std::static_pointer_cast<rg::SpriteRenderer>(rd)->DrawQuad(&_vertices[0].x, &_texcoords[0].x, tex_id, 0xffffffff);
 #else
 		cooking::draw_quad_sprite(dlist, &vertices[0].x, &texcoords[0].x, tex_id);
 #endif // PT2_DISABLE_DEFERRED
@@ -269,8 +269,8 @@ DrawOnePass(cooking::DisplayList* dlist, const Params& params, const float* src_
 	//	case sl::SPRITE2:
 	//	{
 #ifdef PT2_DISABLE_DEFERRED
-			auto sr = rg::RenderMgr::Instance()->SetRenderer(rg::RenderType::SPRITE);
-			std::static_pointer_cast<rg::SpriteRenderer>(sr)->DrawQuad(&vertices[0].x, &texcoords[0].x, tex_id, 0xffffffff);
+			auto rd = rg::RenderMgr::Instance()->SetRenderer(rg::RenderType::SPRITE);
+			std::static_pointer_cast<rg::SpriteRenderer>(rd)->DrawQuad(&vertices[0].x, &texcoords[0].x, tex_id, 0xffffffff);
 #else
 			cooking::set_color_sprite(dlist, params.col_common.mul.ToABGR(), params.col_common.add.ToABGR(),
 				params.col_map.rmap.ToABGR(), params.col_map.gmap.ToABGR(), params.col_map.bmap.ToABGR());

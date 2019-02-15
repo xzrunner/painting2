@@ -49,8 +49,8 @@ void DebugDraw::Draw(int tex_id, int pos)
 	{
 		pt2::WindowCtxRegion wcr(2.0f, 2.0f);
 
-		auto sr = rg::RenderMgr::Instance()->SetRenderer(rg::RenderType::SPRITE);
-		std::static_pointer_cast<rg::SpriteRenderer>(sr)->DrawQuad(vertices, texcoords, tex_id, 0xffffffff);
+		auto rd = rg::RenderMgr::Instance()->SetRenderer(rg::RenderType::SPRITE);
+		std::static_pointer_cast<rg::SpriteRenderer>(rd)->DrawQuad(vertices, texcoords, tex_id, 0xffffffff);
 	}
 	rg::RenderMgr::Instance()->Flush();
 }
