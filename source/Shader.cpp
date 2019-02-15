@@ -13,10 +13,7 @@ Shader::Shader(ur::RenderContext* rc, const pt0::Shader::Params& params)
 
 Shader::~Shader()
 {
-    for (auto& n : m_notifies) {
-        n.first.disconnect();
-        n.second.disconnect();
-    }
+    ClearNotifies();
 }
 
 void Shader::UpdateViewMat(const sm::vec2& offset, float scale)
@@ -54,12 +51,23 @@ void Shader::UpdateProjMat(int width, int height)
 	SetMat4(m_uniform_names[pt0::U_PROJ_MAT], mat.x);
 }
 
-void Shader::AddNotify(WindowContext& wc)
+void Shader::AddNotify(std::shared_ptr<WindowContext>& wc)
 {
-    m_notifies.push_back({
-        wc.DoOnView(boost::bind(&Shader::UpdateViewMat, this, _1, _2)),
-        wc.DoOnProj(boost::bind(&Shader::UpdateProjMat, this, _1, _2))
-    });
+    if (m_notifies.find(wc) == m_notifies.end()) {
+        m_notifies.insert({ wc, {
+            wc->DoOnView(boost::bind(&Shader::UpdateViewMat, this, _1, _2)),
+            wc->DoOnProj(boost::bind(&Shader::UpdateProjMat, this, _1, _2))
+        } });
+    }
+}
+
+void Shader::ClearNotifies()
+{
+    for (auto& n : m_notifies) {
+        n.second.view.disconnect();
+        n.second.proj.disconnect();
+    }
+    m_notifies.clear();
 }
 
 }

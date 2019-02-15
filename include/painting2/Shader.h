@@ -25,7 +25,15 @@ public:
 	void UpdateViewMat(const sm::vec2& offset, float scale);
 	void UpdateProjMat(int width, int height);
 
-    void AddNotify(WindowContext& wc);
+    void AddNotify(std::shared_ptr<WindowContext>& wc);
+    void ClearNotifies();
+
+private:
+    struct Notify
+    {
+        boost::signals2::connection view;
+        boost::signals2::connection proj;
+    };
 
 private:
 	// view
@@ -35,7 +43,8 @@ private:
 	int m_width = 0;
 	int m_height = 0;
 
-    std::vector<std::pair<boost::signals2::connection, boost::signals2::connection>> m_notifies;
+    std::map<std::shared_ptr<WindowContext>, Notify> m_notifies;
+
     RTTR_ENABLE(pt0::Shader)
 
 }; // Shader
