@@ -16,7 +16,7 @@
 #ifndef PT2_DISABLE_DEFERRED
 #include <cooking/Facade.h>
 #endif // S2_DISABLE_DEFERRED
-#include <rendergraph/RenderMgr.h>
+#include <renderpipeline/RenderMgr.h>
 
 namespace pt2
 {
@@ -39,7 +39,7 @@ RenderReturn DrawMask<Type, Params>::DrawImpl(cooking::DisplayList* dlist) const
 #endif // PT2_DISABLE_STATISTICS
 
 #ifdef PT2_DISABLE_DEFERRED
-	rg::RenderMgr::Instance()->Flush();
+	rp::RenderMgr::Instance()->Flush();
 #else
 	cooking::flush_shader(dlist);
 #endif // PT2_DISABLE_DEFERRED
@@ -89,7 +89,7 @@ RenderReturn DrawMask<Type, Params>::DrawBaseToRT(cooking::DisplayList* dlist, R
 	ur_rc.SetClearColor(0);
 	ur_rc.Clear();
 
-	rg::RenderMgr::Instance()->SetRenderer(rg::RenderType::SPRITE);
+	rp::RenderMgr::Instance()->SetRenderer(rp::RenderType::SPRITE);
 #else
 	cooking::render_clear(dlist, 0);
 	cooking::change_shader(dlist, sl::SPRITE2);
@@ -98,7 +98,7 @@ RenderReturn DrawMask<Type, Params>::DrawBaseToRT(cooking::DisplayList* dlist, R
 	RenderReturn ret = DrawBaseNode(m_base, m_params);
 
 #ifdef PT2_DISABLE_DEFERRED
-	rg::RenderMgr::Instance()->Flush();
+	rp::RenderMgr::Instance()->Flush();
 #else
 	cooking::flush_shader(dlist);
 #endif // PT2_DISABLE_DEFERRED
@@ -118,7 +118,7 @@ RenderReturn DrawMask<Type, Params>::DrawMaskToRT(cooking::DisplayList* dlist, R
 	ur_rc.SetClearColor(0);
 	ur_rc.Clear();
 
-	rg::RenderMgr::Instance()->SetRenderer(rg::RenderType::SPRITE);
+	rp::RenderMgr::Instance()->SetRenderer(rp::RenderType::SPRITE);
 #else
 	cooking::render_clear(dlist, 0);
 	cooking::change_shader(dlist, sl::SPRITE2);
@@ -127,7 +127,7 @@ RenderReturn DrawMask<Type, Params>::DrawMaskToRT(cooking::DisplayList* dlist, R
 	RenderReturn ret = DrawMaskNode(m_mask, m_params);
 
 #ifdef PT2_DISABLE_DEFERRED
-	rg::RenderMgr::Instance()->Flush();
+	rp::RenderMgr::Instance()->Flush();
 #else
 	cooking::flush_shader(dlist);
 #endif // PT2_DISABLE_DEFERRED

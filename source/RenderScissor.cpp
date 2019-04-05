@@ -4,7 +4,7 @@
 #include <SM_Test.h>
 #include <unirender/RenderContext.h>
 #include <unirender/Blackboard.h>
-#include <rendergraph/RenderMgr.h>
+#include <renderpipeline/RenderMgr.h>
 
 #include <assert.h>
 
@@ -13,7 +13,7 @@ namespace pt2
 
 void RenderScissor::Push(float x, float y, float w, float h, bool use_render_screen, bool no_intersect)
 {
-	rg::RenderMgr::Instance()->Flush();
+	rp::RenderMgr::Instance()->Flush();
 
 	auto& ur_rc = ur::Blackboard::Instance()->GetRenderContext();
 	ur_rc.EnableScissor(true);
@@ -41,7 +41,7 @@ void RenderScissor::Pop()
 {
 	assert(!m_stack.empty());
 
-	rg::RenderMgr::Instance()->Flush();
+	rp::RenderMgr::Instance()->Flush();
 	m_stack.pop_back();
 	auto& ur_rc = ur::Blackboard::Instance()->GetRenderContext();
 	if (m_stack.empty()) {

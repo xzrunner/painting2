@@ -20,8 +20,8 @@
 #include <stat/StatPingPong.h>
 #endif // PT2_DISABLE_STATISTICS
 #include <painting0/Color.h>
-#include <rendergraph/RenderMgr.h>
-#include <rendergraph/SpriteRenderer.h>
+#include <renderpipeline/RenderMgr.h>
+#include <renderpipeline/SpriteRenderer.h>
 #include <tessellation/Painter.h>
 
 namespace
@@ -30,8 +30,8 @@ namespace
 void draw_sprite2(cooking::DisplayList* dlist, const float* positions, const float* texcoords, int tex_id)
 {
 #ifdef PT2_DISABLE_DEFERRED
-	auto rd = rg::RenderMgr::Instance()->SetRenderer(rg::RenderType::SPRITE);
-	std::static_pointer_cast<rg::SpriteRenderer>(rd)->DrawQuad(positions, texcoords, tex_id, 0xffffffff);
+	auto rd = rp::RenderMgr::Instance()->SetRenderer(rp::RenderType::SPRITE);
+	std::static_pointer_cast<rp::SpriteRenderer>(rd)->DrawQuad(positions, texcoords, tex_id, 0xffffffff);
 #else
 	cooking::draw_quad_sprite(dlist, positions, texcoords, tex_id);
 #endif // PT2_DISABLE_DEFERRED
@@ -41,8 +41,8 @@ void draw_filter(cooking::DisplayList* dlist, const float* positions, const floa
 {
 #ifdef PT2_DISABLE_DEFERRED
 	// fixme: filter
-	auto rd = rg::RenderMgr::Instance()->SetRenderer(rg::RenderType::SPRITE);
-	std::static_pointer_cast<rg::SpriteRenderer>(rd)->DrawQuad(positions, texcoords, tex_id, 0xffffffff);
+	auto rd = rp::RenderMgr::Instance()->SetRenderer(rp::RenderType::SPRITE);
+	std::static_pointer_cast<rp::SpriteRenderer>(rd)->DrawQuad(positions, texcoords, tex_id, 0xffffffff);
 #else
 	cooking::draw_quad_filter(dlist, positions, texcoords, tex_id);
 #endif // PT2_DISABLE_DEFERRED
@@ -197,7 +197,7 @@ DrawOnlyMesh(cooking::DisplayList* dlist, const sm::Matrix2D& mt, int tex_id)
 	}
 
 #ifdef PT2_DISABLE_DEFERRED
-	auto rd = rg::RenderMgr::Instance()->SetRenderer(rg::RenderType::SPRITE);
+	auto rd = rp::RenderMgr::Instance()->SetRenderer(rp::RenderType::SPRITE);
 #else
 	cooking::change_shader(dlist, sl::SPRITE2);
 	cooking::set_color_sprite(dlist, 0xffffffff, 0, 0x000000ff, 0x0000ff00, 0x00ff0000);
@@ -222,7 +222,7 @@ DrawOnlyMesh(cooking::DisplayList* dlist, const sm::Matrix2D& mt, int tex_id)
 		_texcoords[3] = _texcoords[2];
 
 #ifdef PT2_DISABLE_DEFERRED
-		std::static_pointer_cast<rg::SpriteRenderer>(rd)->DrawQuad(&_vertices[0].x, &_texcoords[0].x, tex_id, 0xffffffff);
+		std::static_pointer_cast<rp::SpriteRenderer>(rd)->DrawQuad(&_vertices[0].x, &_texcoords[0].x, tex_id, 0xffffffff);
 #else
 		cooking::draw_quad_sprite(dlist, &vertices[0].x, &texcoords[0].x, tex_id);
 #endif // PT2_DISABLE_DEFERRED
@@ -269,8 +269,8 @@ DrawOnePass(cooking::DisplayList* dlist, const Params& params, const float* src_
 	//	case sl::SPRITE2:
 	//	{
 #ifdef PT2_DISABLE_DEFERRED
-			auto rd = rg::RenderMgr::Instance()->SetRenderer(rg::RenderType::SPRITE);
-			std::static_pointer_cast<rg::SpriteRenderer>(rd)->DrawQuad(&vertices[0].x, &texcoords[0].x, tex_id, 0xffffffff);
+			auto rd = rp::RenderMgr::Instance()->SetRenderer(rp::RenderType::SPRITE);
+			std::static_pointer_cast<rp::SpriteRenderer>(rd)->DrawQuad(&vertices[0].x, &texcoords[0].x, tex_id, 0xffffffff);
 #else
 			cooking::set_color_sprite(dlist, params.col_common.mul.ToABGR(), params.col_common.add.ToABGR(),
 				params.col_map.rmap.ToABGR(), params.col_map.gmap.ToABGR(), params.col_map.bmap.ToABGR());
@@ -359,7 +359,7 @@ DrawTwoPass(cooking::DisplayList* dlist, const Params& params, const Type& node)
 	st::StatPingPong::Instance()->AddCount(st::StatPingPong::MESH);
 #endif // S2_DISABLE_STATISTICS
 
-	rg::RenderMgr::Instance()->Flush();
+	rp::RenderMgr::Instance()->Flush();
 
 	rc.GetScissor().Disable();
 	{
@@ -392,7 +392,7 @@ DrawMesh2RT(cooking::DisplayList* dlist, RenderTarget& rt, const Params& params,
 	RenderReturn ret = DrawNode(node, params);
 
 #ifdef PT2_DISABLE_DEFERRED
-	rg::RenderMgr::Instance()->Flush();
+	rp::RenderMgr::Instance()->Flush();
 #else
 	cooking::flush_shader(dlist);
 #endif // PT2_DISABLE_DEFERRED

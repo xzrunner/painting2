@@ -10,7 +10,7 @@
 
 #include <unirender/Blackboard.h>
 #include <unirender/RenderContext.h>
-#include <rendergraph/RenderMgr.h>
+#include <renderpipeline/RenderMgr.h>
 
 namespace pt2
 {
@@ -21,7 +21,7 @@ inline void DrawRT::Draw(const Type& obj, std::function<void(const Type&, const 
 {
 	m_rt->Bind();
 
-	rg::RenderMgr::Instance()->SetRenderer(rg::RenderType::SPRITE);
+	rp::RenderMgr::Instance()->SetRenderer(rp::RenderType::SPRITE);
 
 	auto& ur_rc = ur::Blackboard::Instance()->GetRenderContext();
 	ur_rc.SetClearFlag(ur::MASKC);
@@ -52,7 +52,7 @@ inline void DrawRT::Draw(const Type& obj, std::function<void(const Type&, const 
 	rc.GetScissor().Enable();
 
 	// todo 连续画symbol，不批量的话会慢。需要加个参数控制。
-	rg::RenderMgr::Instance()->Flush();
+	rp::RenderMgr::Instance()->Flush();
 
 	m_rt->Unbind();
 }

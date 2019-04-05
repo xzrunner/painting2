@@ -2,8 +2,8 @@
 #include "painting2/WindowContext.h"
 #include "painting2/WindowCtxRegion.h"
 
-#include <rendergraph/RenderMgr.h>
-#include <rendergraph/SpriteRenderer.h>
+#include <renderpipeline/RenderMgr.h>
+#include <renderpipeline/SpriteRenderer.h>
 
 namespace pt2
 {
@@ -49,10 +49,10 @@ void DebugDraw::Draw(int tex_id, int pos)
 	{
 		pt2::WindowCtxRegion wcr(2.0f, 2.0f);
 
-		auto rd = rg::RenderMgr::Instance()->SetRenderer(rg::RenderType::SPRITE);
-		std::static_pointer_cast<rg::SpriteRenderer>(rd)->DrawQuad(vertices, texcoords, tex_id, 0xffffffff);
+		auto rd = rp::RenderMgr::Instance()->SetRenderer(rp::RenderType::SPRITE);
+		std::static_pointer_cast<rp::SpriteRenderer>(rd)->DrawQuad(vertices, texcoords, tex_id, 0xffffffff);
 	}
-	rg::RenderMgr::Instance()->Flush();
+	rp::RenderMgr::Instance()->Flush();
 }
 
 }
