@@ -33,6 +33,12 @@ WindowContext::WindowContext(float proj_width, float proj_height, int screen_wid
 {
 }
 
+WindowContext::~WindowContext()
+{
+    m_on_view.disconnect_all_slots();
+    m_on_proj.disconnect_all_slots();
+}
+
 boost::signals2::connection WindowContext::DoOnView(const OnView::slot_type& slot)
 {
 	return m_on_view.connect(slot);

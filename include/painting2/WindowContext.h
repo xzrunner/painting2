@@ -21,6 +21,7 @@ public:
 public:
 	WindowContext();
 	WindowContext(float proj_width, float proj_height, int screen_width, int screen_height);
+    ~WindowContext();
 
 	boost::signals2::connection DoOnView(const OnView::slot_type& slot);
 	boost::signals2::connection DoOnProj(const OnProj::slot_type& slot);
