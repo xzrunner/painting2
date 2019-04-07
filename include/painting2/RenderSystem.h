@@ -32,6 +32,8 @@ public:
 
 	static void DrawTexture(const Texture& tex, const sm::rect& pos,
 		const sm::Matrix2D& mat);
+    static void DrawTexture(int tex_w, int tex_h, int tex_id,
+        const sm::rect& pos, const sm::Matrix2D& mat);
 	static void DrawTexture(const std::shared_ptr<Shader>& shader,
 		const sm::mat4& mat);
 
