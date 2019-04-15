@@ -26,8 +26,9 @@ void Shader::UpdateViewMat(const sm::vec2& offset, float scale)
 
 	Use();
 
-	auto mat = sm::mat4::Scaled(scale, scale, 1);
-	mat.Translate(offset.x * scale, offset.y * scale, 0);
+    auto s_mat = sm::mat4::Scaled(scale, scale, 1);
+    auto t_mat = sm::mat4::Translated(offset.x, offset.y, 1);
+    auto mat = s_mat * t_mat;
 
     assert(!m_uniform_names[pt0::U_VIEW_MAT].empty());
 	SetMat4(m_uniform_names[pt0::U_VIEW_MAT].c_str(), mat.x);
