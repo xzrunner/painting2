@@ -30,7 +30,7 @@ void Shader::UpdateViewMat(const sm::vec2& offset, float scale)
     auto t_mat = sm::mat4::Translated(offset.x, offset.y, 1);
     auto mat = s_mat * t_mat;
 
-    auto name = m_uniform_names.Query(pt0::U_VIEW_MAT);
+    auto name = m_uniform_names.Query(pt0::UniformTypes::ViewMat);
     if (!name.empty()) {
         SetMat4(name, mat.x);
     }
@@ -50,7 +50,7 @@ void Shader::UpdateProjMat(int width, int height)
 	float hh = height * 0.5f;
 	auto mat = sm::mat4::Orthographic(-hw, hw, -hh, hh, 1, -1);
 
-    auto name = m_uniform_names.Query(pt0::U_PROJ_MAT);
+    auto name = m_uniform_names.Query(pt0::UniformTypes::ProjMat);
     if (!name.empty()) {
         SetMat4(name, mat.x);
     }
