@@ -30,8 +30,10 @@ void Shader::UpdateViewMat(const sm::vec2& offset, float scale)
     auto t_mat = sm::mat4::Translated(offset.x, offset.y, 1);
     auto mat = s_mat * t_mat;
 
-    assert(!m_uniform_names[pt0::U_VIEW_MAT].empty());
-	SetMat4(m_uniform_names[pt0::U_VIEW_MAT].c_str(), mat.x);
+    auto name = m_uniform_names.Query(pt0::U_VIEW_MAT);
+    if (!name.empty()) {
+        SetMat4(name, mat.x);
+    }
 }
 
 void Shader::UpdateProjMat(int width, int height)
@@ -48,8 +50,10 @@ void Shader::UpdateProjMat(int width, int height)
 	float hh = height * 0.5f;
 	auto mat = sm::mat4::Orthographic(-hw, hw, -hh, hh, 1, -1);
 
-    assert(!m_uniform_names[pt0::U_PROJ_MAT].empty());
-	SetMat4(m_uniform_names[pt0::U_PROJ_MAT], mat.x);
+    auto name = m_uniform_names.Query(pt0::U_PROJ_MAT);
+    if (!name.empty()) {
+        SetMat4(name, mat.x);
+    }
 }
 
 void Shader::AddNotify(std::shared_ptr<WindowContext>& wc)
