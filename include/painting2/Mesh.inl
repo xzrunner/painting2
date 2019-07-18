@@ -1,9 +1,9 @@
 #pragma once
 
 #include <rigging.h>
-#include <polymesh/TrianglesMesh.h>
-#include <polymesh/Skin2Mesh.h>
-#include <polymesh/Mesh.h>
+#include <polymesh2/TrianglesMesh.h>
+#include <polymesh2/Skin2Mesh.h>
+#include <polymesh2/Mesh.h>
 
 namespace
 {
@@ -51,7 +51,7 @@ void Mesh<T>::DumpToTriangles(CU_VEC<sm::vec2>& vertices,
 }
 
 template<typename T>
-void Mesh<T>::LoadFromTransform(const pm::MeshTransform& transform)
+void Mesh<T>::LoadFromTransform(const pm2::MeshTransform& transform)
 {
 	if (m_mesh) {
 		m_mesh->LoadFromTransform(transform);
@@ -59,7 +59,7 @@ void Mesh<T>::LoadFromTransform(const pm::MeshTransform& transform)
 }
 
 template<typename T>
-void Mesh<T>::StoreToTransforom(pm::MeshTransform& transform) const
+void Mesh<T>::StoreToTransforom(pm2::MeshTransform& transform) const
 {
 	if (m_mesh) {
 		m_mesh->StoreToTransform(transform);
@@ -92,8 +92,8 @@ void Mesh<T>::Update(const rg_skeleton_pose* sk_pose)
 
 	switch (m_mesh->Type())
 	{
-	case pm::MESH_SKIN2:
-		static_cast<pm::Skin2Mesh*>(m_mesh.get())->Update(query_joint_world_mt, sk_pose);
+	case pm2::MESH_SKIN2:
+		static_cast<pm2::Skin2Mesh*>(m_mesh.get())->Update(query_joint_world_mt, sk_pose);
 		break;
 	default:
 		break;
@@ -109,12 +109,12 @@ void Mesh<T>::Update(const rg_tl_deform_state* deform_state, const float* vertic
 
 	switch (m_mesh->Type())
 	{
-	case pm::MESH_TRIANGLES:
-		static_cast<pm::TrianglesMesh*>(m_mesh.get())->Update(
+	case pm2::MESH_TRIANGLES:
+		static_cast<pm2::TrianglesMesh*>(m_mesh.get())->Update(
 			deform_state->offset0, deform_state->count0, deform_state->offset1, deform_state->count1, vertices);
 		break;
-	case pm::MESH_SKIN2:
-		static_cast<pm::Skin2Mesh*>(m_mesh.get())->Update(
+	case pm2::MESH_SKIN2:
+		static_cast<pm2::Skin2Mesh*>(m_mesh.get())->Update(
 			deform_state->offset0, deform_state->count0, deform_state->offset1, deform_state->count1, vertices);
 		break;
 	}
