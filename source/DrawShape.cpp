@@ -14,7 +14,7 @@
 namespace pt2
 {
 
-void DrawShape::Draw(tess::Painter& pt, const gs::Shape& shape, uint32_t color, float cam_scale)
+void DrawShape::Draw(tess::Painter& pt, const gs::Shape2D& shape, uint32_t color, float cam_scale)
 {
 	if (shape.get_type() == rttr::type::get<gs::Point2D>())
 	{

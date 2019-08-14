@@ -24,7 +24,7 @@ void RenderSystem::DrawPainter(const tess::Painter& pt, const sm::mat4& mat)
 	std::static_pointer_cast<rp::SpriteRenderer>(rd)->DrawPainter(pt, mat);
 }
 
-void RenderSystem::DrawShape(tess::Painter& pt, const gs::Shape& shape, uint32_t color, float cam_scale)
+void RenderSystem::DrawShape(tess::Painter& pt, const gs::Shape2D& shape, uint32_t color, float cam_scale)
 {
 	DrawShape::Draw(pt, shape, color, cam_scale);
 }
