@@ -7,9 +7,9 @@
 #include <geoshape/Point2D.h>
 #include <geoshape/Rect.h>
 #include <geoshape/Circle.h>
-#include <geoshape/Polyline.h>
+#include <geoshape/Polyline2D.h>
 #include <geoshape/Bezier.h>
-#include <geoshape/Polygon.h>
+#include <geoshape/Polygon2D.h>
 
 namespace pt2
 {
@@ -34,9 +34,9 @@ void DrawShape::Draw(tess::Painter& pt, const gs::Shape2D& shape, uint32_t color
 		auto& c = static_cast<const gs::Circle&>(shape);
 		pt.AddCircle(c.GetCenter(), c.GetRadius(), color, cam_scale, static_cast<uint32_t>(c.GetRadius() * 0.5f));
 	}
-	else if (shape.get_type() == rttr::type::get<gs::Polyline>())
+	else if (shape.get_type() == rttr::type::get<gs::Polyline2D>())
 	{
-		auto& p = static_cast<const gs::Polyline&>(shape).GetVertices();
+		auto& p = static_cast<const gs::Polyline2D&>(shape).GetVertices();
 		pt.AddPolyline(p.data(), p.size(), color, cam_scale);
 	}
 	else if (shape.get_type() == rttr::type::get<gs::Bezier>())
@@ -44,9 +44,9 @@ void DrawShape::Draw(tess::Painter& pt, const gs::Shape2D& shape, uint32_t color
 		auto& p = static_cast<const gs::Bezier&>(shape).GetVertices();
 		pt.AddPolyline(p.data(), p.size(), color, cam_scale);
 	}
-	else if (shape.get_type() == rttr::type::get<gs::Polygon>())
+	else if (shape.get_type() == rttr::type::get<gs::Polygon2D>())
 	{
-		auto& p = static_cast<const gs::Polygon&>(shape).GetVertices();
+		auto& p = static_cast<const gs::Polygon2D&>(shape).GetVertices();
 		pt.AddPolygon(p.data(), p.size(), color, cam_scale);
 	}
 }
