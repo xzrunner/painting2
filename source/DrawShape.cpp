@@ -16,12 +16,13 @@ namespace pt2
 
 void DrawShape::Draw(tess::Painter& pt, const gs::Shape2D& shape, uint32_t color, float cam_scale)
 {
-	if (shape.get_type() == rttr::type::get<gs::Point2D>())
+    auto type = shape.get_type();
+	if (type == rttr::type::get<gs::Point2D>())
 	{
 		auto& p = static_cast<const gs::Point2D&>(shape);
 		pt.AddCircleFilled(p.GetPos(), gs::NODE_QUERY_RADIUS * cam_scale, color);
 	}
-	else if (shape.get_type() == rttr::type::get<gs::Rect>())
+	else if (type == rttr::type::get<gs::Rect>())
 	{
 		auto& r = static_cast<const gs::Rect&>(shape).GetRect();
 		prim::Path p;
@@ -29,22 +30,22 @@ void DrawShape::Draw(tess::Painter& pt, const gs::Shape2D& shape, uint32_t color
 		auto& vertices = p.GetCurrPath();
 		pt.AddPolyline(vertices.data(), vertices.size(), color, cam_scale);
 	}
-	else if (shape.get_type() == rttr::type::get<gs::Circle>())
+	else if (type == rttr::type::get<gs::Circle>())
 	{
 		auto& c = static_cast<const gs::Circle&>(shape);
 		pt.AddCircle(c.GetCenter(), c.GetRadius(), color, cam_scale, static_cast<uint32_t>(c.GetRadius() * 0.5f));
 	}
-	else if (shape.get_type() == rttr::type::get<gs::Polyline2D>())
+	else if (type == rttr::type::get<gs::Polyline2D>())
 	{
 		auto& p = static_cast<const gs::Polyline2D&>(shape).GetVertices();
 		pt.AddPolyline(p.data(), p.size(), color, cam_scale);
 	}
-	else if (shape.get_type() == rttr::type::get<gs::Bezier>())
+	else if (type == rttr::type::get<gs::Bezier>())
 	{
 		auto& p = static_cast<const gs::Bezier&>(shape).GetVertices();
 		pt.AddPolyline(p.data(), p.size(), color, cam_scale);
 	}
-	else if (shape.get_type() == rttr::type::get<gs::Polygon2D>())
+	else if (type == rttr::type::get<gs::Polygon2D>())
 	{
 		auto& p = static_cast<const gs::Polygon2D&>(shape).GetVertices();
 		pt.AddPolygon(p.data(), p.size(), color, cam_scale);
