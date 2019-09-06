@@ -9,12 +9,20 @@ namespace pt2
 inline
 bool AABB::IsContain(const sm::vec2& pos) const
 {
+    if (!m_rect.IsValid() || !pos.IsValid()) {
+        return false;
+    }
+
 	return sm::is_point_in_rect(pos - m_position, m_rect);
 }
 
 inline
 bool AABB::IsContain(const sm::rect& rect) const
 {
+    if (!m_rect.IsValid() || !rect.IsValid()) {
+        return false;
+    }
+
 	sm::rect r(rect);
 	r.Translate(-m_position);
 	return sm::is_rect_contain_rect(m_rect, r);
@@ -23,6 +31,10 @@ bool AABB::IsContain(const sm::rect& rect) const
 inline
 bool AABB::IsIntersect(const sm::rect& rect) const
 {
+    if (!m_rect.IsValid() || !rect.IsValid()) {
+        return false;
+    }
+
 	sm::rect r(rect);
 	r.Translate(-m_position);
 	return sm::is_rect_intersect_rect(m_rect, r);
@@ -31,11 +43,13 @@ bool AABB::IsIntersect(const sm::rect& rect) const
 inline
 void AABB::CombineTo(sm::rect& r) const
 {
-	if (m_rect.IsValid()) {
-		sm::rect me(m_rect);
-		me.Translate(m_position);
-		r.Combine(me);
-	}
+    if (!m_rect.IsValid()) {
+        return;
+    }
+
+    sm::rect me(m_rect);
+    me.Translate(m_position);
+    r.Combine(me);
 }
 
 inline

@@ -15,6 +15,10 @@ OBB::OBB()
 inline
 bool OBB::IsContain(const sm::vec2& pos) const
 {
+    if (!m_rect.IsValid() || !pos.IsValid()) {
+        return false;
+    }
+
 	sm::vec2 position = sm::rotate_vector(pos - m_position, -m_angle);
 	return sm::is_point_in_rect(position, m_rect);
 }
@@ -22,6 +26,10 @@ bool OBB::IsContain(const sm::vec2& pos) const
 inline
 bool OBB::IsContain(const sm::rect& rect) const
 {
+    if (!m_rect.IsValid() || !rect.IsValid()) {
+        return false;
+    }
+
 	return IsContain(sm::vec2(rect.xmin, rect.ymin))
 		&& IsContain(sm::vec2(rect.xmax, rect.ymin))
 		&& IsContain(sm::vec2(rect.xmax, rect.ymax))
@@ -31,6 +39,10 @@ bool OBB::IsContain(const sm::rect& rect) const
 inline
 bool OBB::IsIntersect(const sm::rect& rect) const
 {
+    if (!m_rect.IsValid() || !rect.IsValid()) {
+        return false;
+    }
+
 	CU_VEC<sm::vec2> convex0, convex1;
 	convex0.resize(4);
 	convex1.resize(4);
@@ -48,12 +60,14 @@ bool OBB::IsIntersect(const sm::rect& rect) const
 inline
 void OBB::CombineTo(sm::rect& r) const
 {
-	if (m_rect.IsValid()) {
-		r.Combine(sm::rotate_vector(sm::vec2(m_rect.xmin, m_rect.ymin), m_angle) + m_position);
-		r.Combine(sm::rotate_vector(sm::vec2(m_rect.xmax, m_rect.ymin), m_angle) + m_position);
-		r.Combine(sm::rotate_vector(sm::vec2(m_rect.xmax, m_rect.ymax), m_angle) + m_position);
-		r.Combine(sm::rotate_vector(sm::vec2(m_rect.xmin, m_rect.ymax), m_angle) + m_position);
-	}
+    if (!m_rect.IsValid()) {
+        return;
+    }
+
+	r.Combine(sm::rotate_vector(sm::vec2(m_rect.xmin, m_rect.ymin), m_angle) + m_position);
+	r.Combine(sm::rotate_vector(sm::vec2(m_rect.xmax, m_rect.ymin), m_angle) + m_position);
+	r.Combine(sm::rotate_vector(sm::vec2(m_rect.xmax, m_rect.ymax), m_angle) + m_position);
+	r.Combine(sm::rotate_vector(sm::vec2(m_rect.xmin, m_rect.ymax), m_angle) + m_position);
 }
 
 inline
