@@ -5,6 +5,7 @@
 #include <geoshape/config.h>
 
 #include <geoshape/Point2D.h>
+#include <geoshape/Line2D.h>
 #include <geoshape/Rect.h>
 #include <geoshape/Circle.h>
 #include <geoshape/Polyline2D.h>
@@ -22,6 +23,11 @@ void DrawShape::Draw(tess::Painter& pt, const gs::Shape2D& shape, uint32_t color
 		auto& p = static_cast<const gs::Point2D&>(shape);
 		pt.AddCircleFilled(p.GetPos(), gs::NODE_QUERY_RADIUS * cam_scale, color);
 	}
+    else if (type == rttr::type::get<gs::Line2D>())
+    {
+        auto& l = static_cast<const gs::Line2D&>(shape);
+        pt.AddLine(l.GetStart(), l.GetEnd(), color, cam_scale);
+    }
 	else if (type == rttr::type::get<gs::Rect>())
 	{
 		auto& r = static_cast<const gs::Rect&>(shape).GetRect();
