@@ -10,11 +10,11 @@
 namespace tess { class Painter; }
 namespace gs { class Shape2D; }
 namespace pt0 { class Color; }
+namespace ur { class Texture; }
 
 namespace pt2
 {
 
-class Texture;
 class Text;
 class Textbox;
 class RenderColorCommon;
@@ -30,10 +30,10 @@ public:
 
 	static void DrawTexQuad(const float* positions, const float* texcoords, int texid, uint32_t color);
 
-	static void DrawTexture(const Texture& tex, const sm::rect& pos,
-		const sm::Matrix2D& mat);
+	static void DrawTexture(const ur::Texture& tex, const sm::rect& pos,
+		const sm::Matrix2D& mat, bool use_dtex = true);
     static void DrawTexture(int tex_w, int tex_h, int tex_id,
-        const sm::rect& pos, const sm::Matrix2D& mat);
+        const sm::rect& pos, const sm::Matrix2D& mat, bool use_dtex = true);
 	static void DrawTexture(const std::shared_ptr<Shader>& shader,
 		const sm::mat4& mat);
 

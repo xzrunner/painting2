@@ -35,14 +35,14 @@ void RenderSystem::DrawTexQuad(const float* positions, const float* texcoords, i
 	std::static_pointer_cast<rp::SpriteRenderer>(rd)->DrawQuad(positions, texcoords, texid, color);
 }
 
-void RenderSystem::DrawTexture(const Texture& tex, const sm::rect& pos,
-                               const sm::Matrix2D& mat)
+void RenderSystem::DrawTexture(const ur::Texture& tex, const sm::rect& pos,
+                               const sm::Matrix2D& mat, bool use_dtex)
 {
-    DrawTexture(tex.Width(), tex.Height(), tex.TexID(), pos, mat);
+    DrawTexture(tex.Width(), tex.Height(), tex.TexID(), pos, mat, use_dtex);
 }
 
-void RenderSystem::DrawTexture(int tex_w, int tex_h, int tex_id,
-                               const sm::rect& pos, const sm::Matrix2D& mat)
+void RenderSystem::DrawTexture(int tex_w, int tex_h, int tex_id, const sm::rect& pos,
+                               const sm::Matrix2D& mat, bool use_dtex)
 {
 	float vertices[8];
 	CalcVertices(pos, mat, vertices);
@@ -61,7 +61,9 @@ void RenderSystem::DrawTexture(int tex_w, int tex_h, int tex_id,
 		std::static_pointer_cast<rp::SpriteRenderer>(rd)->DrawQuad(vertices, texcoords, tex_id, 0xffffffff);
 	};
 
-	const bool use_dtex = tex_w < 512 && tex_h < 512;
+    if (tex_w >= 512 || tex_h >= 512) {
+        use_dtex = true;
+    }
 	auto rd = rp::RenderMgr::Instance()->SetRenderer(rp::RenderType::SPRITE);
 	// query from dtex
 	if (use_dtex)
