@@ -61,9 +61,6 @@ void RenderSystem::DrawTexture(int tex_w, int tex_h, int tex_id, const sm::rect&
 		std::static_pointer_cast<rp::SpriteRenderer>(rd)->DrawQuad(vertices, texcoords, tex_id, 0xffffffff);
 	};
 
-    if (tex_w >= 512 || tex_h >= 512) {
-        use_dtex = true;
-    }
 	auto rd = rp::RenderMgr::Instance()->SetRenderer(rp::RenderType::SPRITE);
 	// query from dtex
 	if (use_dtex)
