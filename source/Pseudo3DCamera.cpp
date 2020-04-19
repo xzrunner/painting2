@@ -20,13 +20,13 @@ static const float ANGLE = -20;
 Pseudo3DCamera::Pseudo3DCamera()
 	: m_cam(nullptr)
 {
-	auto& wc = pt2::Blackboard::Instance()->GetWindowContext();
-	if (wc)
-	{
-		float w = static_cast<float>(wc->GetScreenWidth());
-		float h = static_cast<float>(wc->GetScreenHeight());
-		OnSize(w, h);
-	}
+	//auto& wc = pt2::Blackboard::Instance()->GetWindowContext();
+	//if (wc)
+	//{
+	//	float w = static_cast<float>(wc->GetScreenWidth());
+	//	float h = static_cast<float>(wc->GetScreenHeight());
+	//	OnSize(w, h);
+	//}
 }
 
 Pseudo3DCamera::Pseudo3DCamera(const Pseudo3DCamera& cam)
@@ -47,10 +47,12 @@ Pseudo3DCamera::~Pseudo3DCamera()
 
 void Pseudo3DCamera::OnSize(float width, float height)
 {
-	auto& wc = pt2::Blackboard::Instance()->GetWindowContext();
-	if (wc) {
-		wc->SetProjection(static_cast<int>(width), static_cast<int>(height));
-	}
+    pt0::Camera::OnSize(width, height);
+
+	//auto& wc = pt2::Blackboard::Instance()->GetWindowContext();
+	//if (wc) {
+	//	wc->SetProjection(static_cast<int>(width), static_cast<int>(height));
+	//}
 
 	c25_cam_release(m_cam);
 
@@ -150,16 +152,15 @@ const sm_vec3* Pseudo3DCamera::GetPos() const
 
 void Pseudo3DCamera::Init(const Pseudo3DCamera& cam)
 {
-	auto& wc = pt2::Blackboard::Instance()->GetWindowContext();
-	if (!wc) {
-		return;
-	}
+	//auto& wc = pt2::Blackboard::Instance()->GetWindowContext();
+	//if (!wc) {
+	//	return;
+	//}
 
 	const sm_vec3* pos = c25_cam_get_pos(cam.m_cam);
 	float angle = c25_cam_get_angle(cam.m_cam);
-	int w = wc->GetScreenWidth(),
-		h = wc->GetScreenHeight();
-	m_cam = c25_cam_create(pos, angle, (float)w / h);
+    auto& sz = GetSize();
+	m_cam = c25_cam_create(pos, angle, sz.x / sz.y);
 }
 
 void Pseudo3DCamera::UpdateRender() const

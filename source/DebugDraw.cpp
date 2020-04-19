@@ -8,7 +8,8 @@
 namespace pt2
 {
 
-void DebugDraw::Draw(int tex_id, int pos)
+void DebugDraw::Draw(const ur2::Device& dev, ur2::Context& ctx,
+                     int tex_id, int pos)
 {
 	float xmin, xmax, ymin, ymax;
 	if (pos == 0) {
@@ -47,12 +48,13 @@ void DebugDraw::Draw(int tex_id, int pos)
 	texcoords[6] = 0; texcoords[7] = 1;
 
 	{
-		pt2::WindowCtxRegion wcr(2.0f, 2.0f);
+		pt2::WindowCtxRegion wcr(ctx, 2.0f, 2.0f);
 
-		auto rd = rp::RenderMgr::Instance()->SetRenderer(rp::RenderType::SPRITE);
-		std::static_pointer_cast<rp::SpriteRenderer>(rd)->DrawQuad(vertices, texcoords, tex_id, 0xffffffff);
+		auto rd = rp::RenderMgr::Instance()->SetRenderer(dev, ctx, rp::RenderType::SPRITE);
+        ur2::RenderState rs;
+		std::static_pointer_cast<rp::SpriteRenderer>(rd)->DrawQuad(ctx, rs, vertices, texcoords, tex_id, 0xffffffff);
 	}
-	rp::RenderMgr::Instance()->Flush();
+	rp::RenderMgr::Instance()->Flush(dev, ctx);
 }
 
 }

@@ -20,13 +20,15 @@ OrthoCamera::OrthoCamera(const sm::vec2& pos, float scale)
 
 void OrthoCamera::OnSize(float width, float height)
 {
-	auto& wc = pt2::Blackboard::Instance()->GetWindowContext();
-	if (wc) {
-		wc->SetProjection(static_cast<int>(width), static_cast<int>(height));
-		wc->SetScreen(static_cast<int>(width), static_cast<int>(height));
-		// todo: set viewport single
-//		wc->SetViewport(0, 0, width, height);
-	}
+    pt0::Camera::OnSize(width, height);
+
+//	auto& wc = pt2::Blackboard::Instance()->GetWindowContext();
+//	if (wc) {
+//		wc->SetProjection(static_cast<int>(width), static_cast<int>(height));
+//		wc->SetScreen(static_cast<int>(width), static_cast<int>(height));
+//		// todo: set viewport single
+////		wc->SetViewport(0, 0, width, height);
+//	}
 }
 
 void OrthoCamera::Bind() const
@@ -92,14 +94,14 @@ void OrthoCamera::Set(const sm::vec2& pos, float scale)
 
 void OrthoCamera::UpdateRender() const
 {
-	auto& wc = pt2::Blackboard::Instance()->GetWindowContext();
-	if (!wc) {
-		return;
-	}
+	//auto& wc = pt2::Blackboard::Instance()->GetWindowContext();
+	//if (!wc) {
+	//	return;
+	//}
 
-	sm::vec2 mv_offset = - m_position;
-	float mv_scale = 1 / m_scale;
-	wc->SetView(mv_offset, mv_scale);
+	//sm::vec2 mv_offset = - m_position;
+	//float mv_scale = 1 / m_scale;
+	//wc->SetView(mv_offset, mv_scale);
 }
 
 }

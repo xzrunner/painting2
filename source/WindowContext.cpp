@@ -1,7 +1,6 @@
 #include "painting2/WindowContext.h"
 
-#include <unirender/Blackboard.h>
-#include <unirender/RenderContext.h>
+#include <unirender2/Context.h>
 
 namespace pt2
 {
@@ -79,7 +78,7 @@ void WindowContext::SetScreen(int width, int height)
 	m_screen_height = height;
 }
 
-void WindowContext::SetViewport(int x, int y, int w, int h)
+void WindowContext::SetViewport(ur2::Context& ctx, int x, int y, int w, int h)
 {
 	if (m_vp_x == x &&
 		m_vp_y == y &&
@@ -92,7 +91,7 @@ void WindowContext::SetViewport(int x, int y, int w, int h)
 	m_vp_y = y;
 	m_vp_w = w;
 	m_vp_h = h;
-	UpdateViewport();
+	UpdateViewport(ctx);
 
 	m_proj_width  = static_cast<float>(w);
 	m_proj_height = static_cast<float>(h);
@@ -109,21 +108,20 @@ void WindowContext::UpdateProjection() const
 	m_on_proj(static_cast<int>(m_proj_width), static_cast<int>(m_proj_height));
 }
 
-void WindowContext::UpdateViewport() const
+void WindowContext::UpdateViewport(ur2::Context& ctx) const
 {
 	if (m_vp_w == 0 && m_vp_h == 0) {
 		return;
 	}
 
-	auto& ur_rc = ur::Blackboard::Instance()->GetRenderContext();
-	ur_rc.SetViewport(m_vp_x, m_vp_y, m_vp_w, m_vp_h);
+    ctx.SetViewport(m_vp_x, m_vp_y, m_vp_w, m_vp_h);
 }
 
-void WindowContext::Bind()
+void WindowContext::Bind(ur2::Context& ctx)
 {
 	UpdateView();
 	UpdateProjection();
-	UpdateViewport();
+	UpdateViewport(ctx);
 }
 
 }

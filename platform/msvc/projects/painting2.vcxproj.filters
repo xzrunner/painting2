@@ -86,6 +86,12 @@
     <ClCompile Include="..\..\..\source\RenderTargetCtx.cpp">
       <Filter>data\rt</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\source\ViewMatUpdater.cpp">
+      <Filter>render\uniforms</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\ProjectMatUpdater.cpp">
+      <Filter>render\uniforms</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\painting2\GeoTransform.h">
@@ -250,6 +256,12 @@
     <ClInclude Include="..\..\..\include\painting2\RenderTargetCtx.h">
       <Filter>data\rt</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\painting2\ViewMatUpdater.h">
+      <Filter>render\uniforms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\painting2\ProjectMatUpdater.h">
+      <Filter>render\uniforms</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="render">
@@ -311,6 +323,9 @@
     </Filter>
     <Filter Include="render\draw">
       <UniqueIdentifier>{ec6d3503-1d45-4a04-abd6-ea0e054b74ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="render\uniforms">
+      <UniqueIdentifier>{cada33f8-0a1e-4923-ab74-c926743a4bc9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -22,6 +22,8 @@
     <ClCompile Include="..\..\..\source\FilterFactory.cpp" />
     <ClCompile Include="..\..\..\source\GeoTransform.cpp" />
     <ClCompile Include="..\..\..\source\GradientColor.cpp" />
+    <ClCompile Include="..\..\..\source\ProjectMatUpdater.cpp" />
+    <ClCompile Include="..\..\..\source\ViewMatUpdater.cpp" />
     <ClCompile Include="..\..\..\source\OBB.cpp" />
     <ClCompile Include="..\..\..\source\OrthoCamera.cpp" />
     <ClCompile Include="..\..\..\source\Pseudo3DCamera.cpp" />
@@ -54,6 +56,8 @@
     <ClInclude Include="..\..\..\include\painting2\DrawRT.h" />
     <ClInclude Include="..\..\..\include\painting2\DrawShape.h" />
     <ClInclude Include="..\..\..\include\painting2\GradientColor.h" />
+    <ClInclude Include="..\..\..\include\painting2\ViewMatUpdater.h" />
+    <ClInclude Include="..\..\..\include\painting2\ProjectMatUpdater.h" />
     <ClInclude Include="..\..\..\include\painting2\RenderContext.h" />
     <ClInclude Include="..\..\..\include\painting2\DrawMask.h" />
     <ClInclude Include="..\..\..\include\painting2\DrawMesh.h" />
@@ -153,7 +157,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\sm\src\sm;..\..\..\..\cu\src;..\..\..\..\gimg\src\gimg;..\..\..\..\camera25\src\camera25;..\..\..\..\rigging\src\rigging;..\..\..\..\guard\include;..\..\..\..\polymesh2\include;..\..\..\..\cooking\include;..\..\..\..\cpputil\include;..\..\..\..\unirender\include;..\..\..\..\renderpipeline\include;..\..\..\..\shaderweaver\include;..\..\..\..\painting0\include;..\..\..\..\memmgr\include;..\..\..\..\stat\include;..\..\..\..\primitive\include;..\..\..\..\geoshape\include;..\..\..\..\tessellation\include;..\..\..\..\external\boost\include;..\..\..\..\external\rttr\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\sm\src\sm;..\..\..\..\cu\src;..\..\..\..\gimg\src\gimg;..\..\..\..\camera25\src\camera25;..\..\..\..\rigging\src\rigging;..\..\..\..\guard\include;..\..\..\..\polymesh2\include;..\..\..\..\cooking\include;..\..\..\..\cpputil\include;..\..\..\..\unirender2\include;..\..\..\..\renderpipeline\include;..\..\..\..\shaderweaver\include;..\..\..\..\painting0\include;..\..\..\..\memmgr\include;..\..\..\..\stat\include;..\..\..\..\primitive\include;..\..\..\..\geoshape\include;..\..\..\..\tessellation\include;..\..\..\..\external\boost\include;..\..\..\..\external\rttr\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;__STDC_LIMIT_MACROS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -167,7 +171,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\sm\src\sm;..\..\..\..\cu\src;..\..\..\..\gimg\src\gimg;..\..\..\..\camera25\src\camera25;..\..\..\..\rigging\src\rigging;..\..\..\..\guard\include;..\..\..\..\polymesh2\include;..\..\..\..\cooking\include;..\..\..\..\cpputil\include;..\..\..\..\unirender\include;..\..\..\..\renderpipeline\include;..\..\..\..\shaderweaver\include;..\..\..\..\painting0\include;..\..\..\..\memmgr\include;..\..\..\..\stat\include;..\..\..\..\primitive\include;..\..\..\..\geoshape\include;..\..\..\..\tessellation\include;..\..\..\..\external\boost\include;..\..\..\..\external\rttr\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\include;..\..\..\..\sm\src\sm;..\..\..\..\cu\src;..\..\..\..\gimg\src\gimg;..\..\..\..\camera25\src\camera25;..\..\..\..\rigging\src\rigging;..\..\..\..\guard\include;..\..\..\..\polymesh2\include;..\..\..\..\cooking\include;..\..\..\..\cpputil\include;..\..\..\..\unirender2\include;..\..\..\..\renderpipeline\include;..\..\..\..\shaderweaver\include;..\..\..\..\painting0\include;..\..\..\..\memmgr\include;..\..\..\..\stat\include;..\..\..\..\primitive\include;..\..\..\..\geoshape\include;..\..\..\..\tessellation\include;..\..\..\..\external\boost\include;..\..\..\..\external\rttr\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;__STDC_LIMIT_MACROS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>

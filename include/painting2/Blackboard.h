@@ -13,11 +13,11 @@ class WindowContext;
 class Blackboard
 {
 public:
-	void SetRenderContext(const std::shared_ptr<RenderContext>& rc) { m_rc = rc; }
-	RenderContext& GetRenderContext();
+	//void SetRenderContext(const std::shared_ptr<RenderContext>& rc) { m_rc = rc; }
+	//RenderContext& GetRenderContext();
 
-	void SetWindowContext(const std::shared_ptr<WindowContext>& wc) { m_wc = wc; }
-	const std::shared_ptr<WindowContext>& GetWindowContext() { return m_wc; }
+	//void SetWindowContext(const std::shared_ptr<WindowContext>& wc) { m_wc = wc; }
+	//const std::shared_ptr<WindowContext>& GetWindowContext() { return m_wc; }
 
 private:
 	std::shared_ptr<RenderContext> m_rc = nullptr;

@@ -11,10 +11,10 @@ Blackboard::Blackboard()
 {
 }
 
-RenderContext& Blackboard::GetRenderContext()
-{
-	GD_ASSERT(m_rc, "null rc");
-	return *m_rc;
-}
+//RenderContext& Blackboard::GetRenderContext()
+//{
+//	GD_ASSERT(m_rc, "null rc");
+//	return *m_rc;
+//}
 
 }

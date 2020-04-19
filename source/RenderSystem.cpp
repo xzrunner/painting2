@@ -6,8 +6,8 @@
 #include "painting2/DrawMask.h"
 #include "painting2/DrawShape.h"
 
-#include <unirender/Shader.h>
 #include <tessellation/Painter.h>
+#include <unirender2/Texture.h>
 #include <renderpipeline/RenderMgr.h>
 #include <renderpipeline/SpriteRenderer.h>
 #include <renderpipeline/ExternRenderer.h>
@@ -15,13 +15,14 @@
 namespace pt2
 {
 
-void RenderSystem::DrawPainter(const tess::Painter& pt, const sm::mat4& mat)
+void RenderSystem::DrawPainter(const ur2::Device& dev, ur2::Context& ctx, const ur2::RenderState& rs,
+                               const tess::Painter& pt, const sm::mat4& mat)
 {
 	if (pt.IsEmpty()) {
 		return;
 	}
-	auto rd = rp::RenderMgr::Instance()->SetRenderer(rp::RenderType::SPRITE);
-	std::static_pointer_cast<rp::SpriteRenderer>(rd)->DrawPainter(pt, mat);
+	auto rd = rp::RenderMgr::Instance()->SetRenderer(dev, ctx, rp::RenderType::SPRITE);
+	std::static_pointer_cast<rp::SpriteRenderer>(rd)->DrawPainter(ctx, rs, pt, mat);
 }
 
 void RenderSystem::DrawShape(tess::Painter& pt, const gs::Shape2D& shape, uint32_t color, float cam_scale)
@@ -29,25 +30,28 @@ void RenderSystem::DrawShape(tess::Painter& pt, const gs::Shape2D& shape, uint32
 	DrawShape::Draw(pt, shape, color, cam_scale);
 }
 
-void RenderSystem::DrawTexQuad(const float* positions, const float* texcoords, int texid, uint32_t color)
+void RenderSystem::DrawTexQuad(const ur2::Device& dev, ur2::Context& ctx, const ur2::RenderState& rs,
+                               const float* positions, const float* texcoords,
+                               int tex_id, uint32_t color)
 {
-	auto rd = rp::RenderMgr::Instance()->SetRenderer(rp::RenderType::SPRITE);
-	std::static_pointer_cast<rp::SpriteRenderer>(rd)->DrawQuad(positions, texcoords, texid, color);
+	auto rd = rp::RenderMgr::Instance()->SetRenderer(dev, ctx, rp::RenderType::SPRITE);
+	std::static_pointer_cast<rp::SpriteRenderer>(rd)->DrawQuad(ctx, rs, positions, texcoords, tex_id, color);
 }
 
-void RenderSystem::DrawTexture(const ur::Texture& tex, const sm::rect& pos,
+void RenderSystem::DrawTexture(const ur2::Device& dev, ur2::Context& ctx, const ur2::RenderState& rs,
+                               const ur2::TexturePtr& tex, const sm::rect& pos,
                                const sm::Matrix2D& mat, bool use_dtex)
 {
-    DrawTexture(tex.Width(), tex.Height(), tex.TexID(), pos, mat, use_dtex);
+    DrawTexture(dev, ctx, rs, tex->GetWidth(), tex->GetHeight(), tex->GetTexID(), pos, mat, use_dtex);
 }
 
-void RenderSystem::DrawTexture(int tex_w, int tex_h, int tex_id, const sm::rect& pos,
-                               const sm::Matrix2D& mat, bool use_dtex)
+void RenderSystem::DrawTexture(const ur2::Device& dev, ur2::Context& ctx, const ur2::RenderState& rs,
+                               int tex_w, int tex_h, int tex_id, const sm::rect& pos, const sm::Matrix2D& mat, bool use_dtex)
 {
 	float vertices[8];
 	CalcVertices(pos, mat, vertices);
 
-	auto draw_without_dtex = [](std::shared_ptr<rp::IRenderer>& rd, const float* vertices, int tex_id)
+	auto draw_without_dtex = [&](std::shared_ptr<rp::IRenderer>& rd, const float* vertices, int tex_id)
 	{
 		float txmin, txmax, tymin, tymax;
 		txmin = tymin = 0;
@@ -58,23 +62,23 @@ void RenderSystem::DrawTexture(int tex_w, int tex_h, int tex_id, const sm::rect&
 			txmax, tymax,
 			txmin, tymax,
 		};
-		std::static_pointer_cast<rp::SpriteRenderer>(rd)->DrawQuad(vertices, texcoords, tex_id, 0xffffffff);
+		std::static_pointer_cast<rp::SpriteRenderer>(rd)->DrawQuad(ctx, rs, vertices, texcoords, tex_id, 0xffffffff);
 	};
 
-	auto rd = rp::RenderMgr::Instance()->SetRenderer(rp::RenderType::SPRITE);
+	auto rd = rp::RenderMgr::Instance()->SetRenderer(dev, ctx, rp::RenderType::SPRITE);
 	// query from dtex
 	if (use_dtex)
 	{
-		sm::irect qr(0, 0, tex_w, tex_h);
-		int cached_texid;
-		auto cached_texcoords = Callback::QueryCachedTexQuad(tex_id, qr, cached_texid);
+		//sm::irect qr(0, 0, tex_w, tex_h);
+		//int cached_texid;
+		//auto cached_texcoords = Callback::QueryCachedTexQuad(tex->GetTexID(), qr, cached_texid);
 
-		if (cached_texcoords) {
-			std::static_pointer_cast<rp::SpriteRenderer>(rd)->DrawQuad(vertices, cached_texcoords, cached_texid, 0xffffffff);
-		} else {
-			draw_without_dtex(rd, vertices, tex_id);
-			Callback::AddCacheSymbol(tex_id, tex_w, tex_h, qr);
-		}
+		//if (cached_texcoords) {
+		//	std::static_pointer_cast<rp::SpriteRenderer>(rd)->DrawQuad(ctx, vertices, cached_texcoords, cached_texid, 0xffffffff);
+		//} else {
+		//	draw_without_dtex(rd, vertices, tex);
+		//	Callback::AddCacheSymbol(tex->GetTexID(), tex_w, tex_h, qr);
+		//}
 	}
 	else
 	{
@@ -82,16 +86,18 @@ void RenderSystem::DrawTexture(int tex_w, int tex_h, int tex_id, const sm::rect&
 	}
 }
 
-void RenderSystem::DrawTexture(const std::shared_ptr<Shader>& shader, const sm::mat4& mat)
+void RenderSystem::DrawTexture(const ur2::Device& dev, ur2::Context& ctx,
+                               const std::shared_ptr<ur2::ShaderProgram>& shader, const sm::mat4& mat)
 {
-	auto rd = rp::RenderMgr::Instance()->SetRenderer(rp::RenderType::EXTERN);
-	std::static_pointer_cast<rp::ExternRenderer>(rd)->DrawTexSpr(shader, mat);
+	auto rd = rp::RenderMgr::Instance()->SetRenderer(dev, ctx, rp::RenderType::EXTERN);
+	std::static_pointer_cast<rp::ExternRenderer>(rd)->DrawTexSpr(ctx, shader, mat);
 }
 
-void RenderSystem::DrawColor(const std::shared_ptr<Shader>& shader, const sm::mat4& mat)
+void RenderSystem::DrawColor(const ur2::Device& dev, ur2::Context& ctx,
+                             const std::shared_ptr<ur2::ShaderProgram>& shader, const sm::mat4& mat)
 {
-	auto sr = rp::RenderMgr::Instance()->SetRenderer(rp::RenderType::EXTERN);
-	std::static_pointer_cast<rp::ExternRenderer>(sr)->DrawNoTexSpr(shader, mat);
+	auto sr = rp::RenderMgr::Instance()->SetRenderer(dev, ctx, rp::RenderType::EXTERN);
+	std::static_pointer_cast<rp::ExternRenderer>(sr)->DrawNoTexSpr(ctx, shader, mat);
 }
 
 void RenderSystem::DrawText(const std::string& text, const Textbox& style,
