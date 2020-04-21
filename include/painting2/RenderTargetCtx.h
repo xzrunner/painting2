@@ -2,8 +2,6 @@
 //
 //#include <memory>
 //
-//namespace ur { class RenderContext; }
-//
 //namespace pt2
 //{
 //
