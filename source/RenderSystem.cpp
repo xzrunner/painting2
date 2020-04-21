@@ -100,10 +100,10 @@ void RenderSystem::DrawColor(const ur2::Device& dev, ur2::Context& ctx,
 	std::static_pointer_cast<rp::ExternRenderer>(sr)->DrawNoTexSpr(ctx, shader, mat);
 }
 
-void RenderSystem::DrawText(const std::string& text, const Textbox& style,
+void RenderSystem::DrawText(ur2::Context& ctx, const std::string& text, const Textbox& style,
 		                    const sm::Matrix2D& mat, const pt0::Color& mul_col, const pt0::Color& add_col)
 {
-	Callback::DrawText(text, style, mat, mul_col, add_col);
+	Callback::DrawText(ctx, text, style, mat, mul_col, add_col);
 }
 
 void RenderSystem::SetColor(const RenderColorCommon& col)

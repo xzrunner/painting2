@@ -10,10 +10,10 @@ void Callback::RegisterCallback(const Callback::Funs& funs)
 	FUNS = funs;
 }
 
-void Callback::DrawText(const std::string& text, const Textbox& style, const sm::Matrix2D& mat,
+void Callback::DrawText(ur2::Context& ctx, const std::string& text, const Textbox& style, const sm::Matrix2D& mat,
 	                    const pt0::Color& mul_col, const pt0::Color& add_col)
 {
-	FUNS.draw_text(text, style, mat, mul_col, add_col);
+	FUNS.draw_text(ctx, text, style, mat, mul_col, add_col);
 }
 
 sm::vec2 Callback::CalcLabelSize(const std::string& text, const Textbox& style)

@@ -48,7 +48,7 @@ public:
 	static void DrawColor(const ur2::Device& dev, ur2::Context& ctx,
         const std::shared_ptr<ur2::ShaderProgram>& shader, const sm::mat4& mat);
 
-	static void DrawText(const std::string& text, const Textbox& style,
+	static void DrawText(ur2::Context& ctx, const std::string& text, const Textbox& style,
 		const sm::Matrix2D& mat, const pt0::Color& mul_col, const pt0::Color& add_col);
 
 	static void SetColor(const RenderColorCommon& col);
