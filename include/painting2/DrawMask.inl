@@ -30,6 +30,7 @@ DrawMask<Type, Params>::DrawMask(const Type& base, const Type& mask, const Param
 template<typename Type, typename Params>
 RenderReturn DrawMask<Type, Params>::DrawImpl(cooking::DisplayList* dlist) const
 {
+    // todo use TexturePtr
 //	RenderReturn ret = RENDER_OK;
 //
 //#ifndef PT2_DISABLE_STATISTICS
@@ -82,6 +83,7 @@ RenderReturn DrawMask<Type, Params>::DrawImpl(cooking::DisplayList* dlist) const
 template<typename Type, typename Params>
 RenderReturn DrawMask<Type, Params>::DrawBaseToRT(cooking::DisplayList* dlist, RenderTarget& rt) const
 {
+    // todo use TexturePtr
 //	rt.Bind();
 //
 //#ifdef PT2_DISABLE_DEFERRED
@@ -113,6 +115,7 @@ RenderReturn DrawMask<Type, Params>::DrawBaseToRT(cooking::DisplayList* dlist, R
 template<typename Type, typename Params>
 RenderReturn DrawMask<Type, Params>::DrawMaskToRT(cooking::DisplayList* dlist, RenderTarget& rt) const
 {
+    // todo use TexturePtr
 //	rt.Bind();
 //
 //#ifdef PT2_DISABLE_DEFERRED
@@ -145,6 +148,7 @@ template<typename Type, typename Params>
 RenderReturn DrawMask<Type, Params>::
 DrawMaskFromRT(cooking::DisplayList* dlist, RenderTarget& rt_base, RenderTarget& rt_mask) const
 {
+    // todo use TexturePtr
 //	auto& rc = pt2::Blackboard::Instance()->GetRenderContext();
 //	auto& rt_mgr = rc.GetRTMgr();
 //

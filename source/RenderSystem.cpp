@@ -32,26 +32,26 @@ void RenderSystem::DrawShape(tess::Painter& pt, const gs::Shape2D& shape, uint32
 
 void RenderSystem::DrawTexQuad(const ur2::Device& dev, ur2::Context& ctx, const ur2::RenderState& rs,
                                const float* positions, const float* texcoords,
-                               int tex_id, uint32_t color)
+                               const ur2::TexturePtr& tex, uint32_t color)
 {
 	auto rd = rp::RenderMgr::Instance()->SetRenderer(dev, ctx, rp::RenderType::SPRITE);
-	std::static_pointer_cast<rp::SpriteRenderer>(rd)->DrawQuad(ctx, rs, positions, texcoords, tex_id, color);
+	std::static_pointer_cast<rp::SpriteRenderer>(rd)->DrawQuad(ctx, rs, positions, texcoords, tex, color);
 }
 
 void RenderSystem::DrawTexture(const ur2::Device& dev, ur2::Context& ctx, const ur2::RenderState& rs,
                                const ur2::TexturePtr& tex, const sm::rect& pos,
                                const sm::Matrix2D& mat, bool use_dtex)
 {
-    DrawTexture(dev, ctx, rs, tex->GetWidth(), tex->GetHeight(), tex->GetTexID(), pos, mat, use_dtex);
+    DrawTexture(dev, ctx, rs, tex->GetWidth(), tex->GetHeight(), tex, pos, mat, use_dtex);
 }
 
 void RenderSystem::DrawTexture(const ur2::Device& dev, ur2::Context& ctx, const ur2::RenderState& rs,
-                               int tex_w, int tex_h, int tex_id, const sm::rect& pos, const sm::Matrix2D& mat, bool use_dtex)
+                               int tex_w, int tex_h, const ur2::TexturePtr& tex, const sm::rect& pos, const sm::Matrix2D& mat, bool use_dtex)
 {
 	float vertices[8];
 	CalcVertices(pos, mat, vertices);
 
-	auto draw_without_dtex = [&](std::shared_ptr<rp::IRenderer>& rd, const float* vertices, int tex_id)
+	auto draw_without_dtex = [&](std::shared_ptr<rp::IRenderer>& rd, const float* vertices, const ur2::TexturePtr& tex)
 	{
 		float txmin, txmax, tymin, tymax;
 		txmin = tymin = 0;
@@ -62,27 +62,29 @@ void RenderSystem::DrawTexture(const ur2::Device& dev, ur2::Context& ctx, const 
 			txmax, tymax,
 			txmin, tymax,
 		};
-		std::static_pointer_cast<rp::SpriteRenderer>(rd)->DrawQuad(ctx, rs, vertices, texcoords, tex_id, 0xffffffff);
+		std::static_pointer_cast<rp::SpriteRenderer>(rd)->DrawQuad(ctx, rs, vertices, texcoords, tex, 0xffffffff);
 	};
 
 	auto rd = rp::RenderMgr::Instance()->SetRenderer(dev, ctx, rp::RenderType::SPRITE);
 	// query from dtex
-	if (use_dtex)
+    // todo use TexturePtr
+	if (0 && use_dtex)
 	{
 		sm::irect qr(0, 0, tex_w, tex_h);
 		int cached_texid;
-		auto cached_texcoords = Callback::QueryCachedTexQuad(tex_id, qr, cached_texid);
+		auto cached_texcoords = Callback::QueryCachedTexQuad(tex->GetTexID(), qr, cached_texid);
 
 		if (cached_texcoords) {
-			std::static_pointer_cast<rp::SpriteRenderer>(rd)->DrawQuad(ctx, rs, vertices, cached_texcoords, cached_texid, 0xffffffff);
+            // todo use TexturePtr
+			//std::static_pointer_cast<rp::SpriteRenderer>(rd)->DrawQuad(ctx, rs, vertices, cached_texcoords, cached_texid, 0xffffffff);
 		} else {
-			draw_without_dtex(rd, vertices, tex_id);
-			Callback::AddCacheSymbol(tex_id, tex_w, tex_h, qr);
+			draw_without_dtex(rd, vertices, tex);
+			Callback::AddCacheSymbol(tex->GetTexID(), tex_w, tex_h, qr);
 		}
 	}
 	else
 	{
-		draw_without_dtex(rd, vertices, tex_id);
+		draw_without_dtex(rd, vertices, tex);
 	}
 }
 

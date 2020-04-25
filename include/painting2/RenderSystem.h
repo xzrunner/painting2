@@ -36,12 +36,12 @@ public:
 	static void DrawShape(tess::Painter& pt, const gs::Shape2D& shape, uint32_t color, float cam_scale = 1.0f);
 
 	static void DrawTexQuad(const ur2::Device& dev, ur2::Context& ctx, const ur2::RenderState& rs,
-        const float* positions, const float* texcoords, int tex_id, uint32_t color);
+        const float* positions, const float* texcoords, const ur2::TexturePtr& tex, uint32_t color);
 
 	static void DrawTexture(const ur2::Device& dev, ur2::Context& ctx, const ur2::RenderState& rs,
         const ur2::TexturePtr& tex, const sm::rect& pos, const sm::Matrix2D& mat, bool use_dtex = true);
     static void DrawTexture(const ur2::Device& dev, ur2::Context& ctx, const ur2::RenderState& rs,
-        int tex_w, int tex_h, int tex_id, const sm::rect& pos, const sm::Matrix2D& mat, bool use_dtex = true);
+        int tex_w, int tex_h, const ur2::TexturePtr& tex, const sm::rect& pos, const sm::Matrix2D& mat, bool use_dtex = true);
 	static void DrawTexture(const ur2::Device& dev, ur2::Context& ctx,
         const std::shared_ptr<ur2::ShaderProgram>& shader, const sm::mat4& mat);
 

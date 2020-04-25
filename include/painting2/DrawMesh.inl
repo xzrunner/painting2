@@ -28,25 +28,25 @@ namespace
 void draw_sprite2(const ur2::Device& dev, ur2::Context& ctx, cooking::DisplayList* dlist,
                   const float* positions, const float* texcoords, int tex_id)
 {
-#ifdef PT2_DISABLE_DEFERRED
-	auto rd = rp::RenderMgr::Instance()->SetRenderer(dev, ctx, rp::RenderType::SPRITE);
-    ur2::RenderState rs;
-	std::static_pointer_cast<rp::SpriteRenderer>(rd)->DrawQuad(ctx, rs, positions, texcoords, tex_id, 0xffffffff);
-#else
-	cooking::draw_quad_sprite(dlist, positions, texcoords, tex_id);
-#endif // PT2_DISABLE_DEFERRED
+//#ifdef PT2_DISABLE_DEFERRED
+//	auto rd = rp::RenderMgr::Instance()->SetRenderer(dev, ctx, rp::RenderType::SPRITE);
+//    ur2::RenderState rs;
+//	std::static_pointer_cast<rp::SpriteRenderer>(rd)->DrawQuad(ctx, rs, positions, texcoords, tex_id, 0xffffffff);
+//#else
+//	cooking::draw_quad_sprite(dlist, positions, texcoords, tex_id);
+//#endif // PT2_DISABLE_DEFERRED
 }
 
 void draw_filter(const ur2::Device& dev, ur2::Context& ctx, ur2::RenderState& rs,
                  cooking::DisplayList* dlist, const float* positions, const float* texcoords, int tex_id)
 {
-#ifdef PT2_DISABLE_DEFERRED
-	// fixme: filter
-	auto rd = rp::RenderMgr::Instance()->SetRenderer(dev, ctx, rp::RenderType::SPRITE);
-	std::static_pointer_cast<rp::SpriteRenderer>(rd)->DrawQuad(ctx, rs, positions, texcoords, tex_id, 0xffffffff);
-#else
-	cooking::draw_quad_filter(dlist, positions, texcoords, tex_id);
-#endif // PT2_DISABLE_DEFERRED
+//#ifdef PT2_DISABLE_DEFERRED
+//	// fixme: filter
+//	auto rd = rp::RenderMgr::Instance()->SetRenderer(dev, ctx, rp::RenderType::SPRITE);
+//	std::static_pointer_cast<rp::SpriteRenderer>(rd)->DrawQuad(ctx, rs, positions, texcoords, tex_id, 0xffffffff);
+//#else
+//	cooking::draw_quad_filter(dlist, positions, texcoords, tex_id);
+//#endif // PT2_DISABLE_DEFERRED
 }
 
 }
@@ -237,110 +237,110 @@ template<typename Type, typename Params>
 RenderReturn DrawMesh<Type, Params>::
 DrawOnePass(const ur2::Device& dev, ur2::Context& ctx, cooking::DisplayList* dlist, const Params& params, const float* src_texcoords, int tex_id)
 {
-//	sl::ShaderType shader_type;
-#ifdef PT2_DISABLE_DEFERRED
-	//auto& shader_mgr = sl::Blackboard::Instance()->GetRenderContext().GetShaderMgr();
-	//shader_type = shader_mgr.GetShaderType();
-	//if (shader_type != sl::SPRITE2 && shader_type != sl::FILTER) {
-	//	return RENDER_NO_DATA;
-	//}
-#else
-	int _shader_type = dlist->GetShaderType();
-	assert(_shader_type >= 0);
-	shader_type = static_cast<sl::ShaderType>(_shader_type);
-	if (shader_type != sl::SPRITE2 && shader_type != sl::FILTER) {
-		return RENDER_NO_DATA;
-	}
-#endif // PT2_DISABLE_DEFERRED
-
-	CU_VEC<sm::vec2> vertices, texcoords;
-	CU_VEC<int> triangles;
-	m_mesh.DumpToTriangles(vertices, texcoords, triangles);
-	if (triangles.empty()) {
-		return RENDER_NO_DATA;
-	}
-
-	float x = src_texcoords[0], y = src_texcoords[1];
-	float w = src_texcoords[4] - src_texcoords[0],
-		  h = src_texcoords[5] - src_texcoords[1];
-
-	void (*draw)(const ur2::Device& dev, ur2::Context& ctx, cooking::DisplayList* dlist, const float* positions, const float* texcoords, int tex_id) = nullptr;
-
-	//switch (shader_type)
-	//{
-	//	case sl::SPRITE2:
-	//	{
-#ifdef PT2_DISABLE_DEFERRED
-			auto rd = rp::RenderMgr::Instance()->SetRenderer(dev, ctx, rp::RenderType::SPRITE);
-            ur2::RenderState rs;
-			std::static_pointer_cast<rp::SpriteRenderer>(rd)->DrawQuad(ctx, rs, &vertices[0].x, &texcoords[0].x, tex_id, 0xffffffff);
-#else
-			cooking::set_color_sprite(dlist, params.col_common.mul.ToABGR(), params.col_common.add.ToABGR(),
-				params.col_map.rmap.ToABGR(), params.col_map.gmap.ToABGR(), params.col_map.bmap.ToABGR());
-#endif // PT2_DISABLE_DEFERRED
-			draw = draw_sprite2;
-		//}
-		//	break;
-		//case sl::FILTER:
-		//{
-//			auto& col = params.col_common;
+////	sl::ShaderType shader_type;
 //#ifdef PT2_DISABLE_DEFERRED
-//			sl::FilterShader* shader = static_cast<sl::FilterShader*>(shader_mgr.GetShader());
-//			shader->SetColor(col.mul.ToABGR(), col.add.ToABGR());
+//	//auto& shader_mgr = sl::Blackboard::Instance()->GetRenderContext().GetShaderMgr();
+//	//shader_type = shader_mgr.GetShaderType();
+//	//if (shader_type != sl::SPRITE2 && shader_type != sl::FILTER) {
+//	//	return RENDER_NO_DATA;
+//	//}
 //#else
-//			cooking::set_color_filter(dlist, col.mul.ToABGR(), col.add.ToABGR());
+//	int _shader_type = dlist->GetShaderType();
+//	assert(_shader_type >= 0);
+//	shader_type = static_cast<sl::ShaderType>(_shader_type);
+//	if (shader_type != sl::SPRITE2 && shader_type != sl::FILTER) {
+//		return RENDER_NO_DATA;
+//	}
 //#endif // PT2_DISABLE_DEFERRED
-//			draw = draw_filter;
-	//	}
-	//		break;
-	//}
-
-	auto& mt = GetMat(params);
-
-	// 3 2    1 0
-	// 0 1 or 2 3
-	if ((w > 0 && h > 0) || (w < 0 && h < 0))
-	{
-		for (int i = 0, n = triangles.size(); i < n; )
-		{
-			sm::vec2 _vertices[4], _texcoords[4];
-			for (int j = 0; j < 3; ++j, ++i)
-			{
-				int idx = triangles[i];
-				_vertices[j] = mt * vertices[idx];
-				_texcoords[j].x = x + w * texcoords[idx].x;
-				_texcoords[j].y = y + h * texcoords[idx].y;
-			}
-			_vertices[3] = _vertices[2];
-			_texcoords[3] = _texcoords[2];
-
-			draw(dev, ctx, dlist, &_vertices[0].x, &_texcoords[0].x, tex_id);
-		}
-	}
-	// 0 3
-	// 1 2
-	else if (w > 0 && h < 0)
-	{
-		for (int i = 0, n = triangles.size(); i < n; )
-		{
-			sm::vec2 _vertices[4], _texcoords[4];
-			for (int j = 0; j < 3; ++j, ++i)
-			{
-				int idx = triangles[i];
-				_vertices[j] = mt * vertices[idx];
-				_texcoords[j].x = x + w * texcoords[idx].y;
-				_texcoords[j].y = y + h * texcoords[idx].x;
-			}
-			_vertices[3] = _vertices[2];
-			_texcoords[3] = _texcoords[2];
-
-			draw(dev, ctx, dlist, &_vertices[0].x, &_texcoords[0].x, tex_id);
-		}
-	}
-	else
-	{
-		assert(0);
-	}
+//
+//	CU_VEC<sm::vec2> vertices, texcoords;
+//	CU_VEC<int> triangles;
+//	m_mesh.DumpToTriangles(vertices, texcoords, triangles);
+//	if (triangles.empty()) {
+//		return RENDER_NO_DATA;
+//	}
+//
+//	float x = src_texcoords[0], y = src_texcoords[1];
+//	float w = src_texcoords[4] - src_texcoords[0],
+//		  h = src_texcoords[5] - src_texcoords[1];
+//
+//	void (*draw)(const ur2::Device& dev, ur2::Context& ctx, cooking::DisplayList* dlist, const float* positions, const float* texcoords, int tex_id) = nullptr;
+//
+//	//switch (shader_type)
+//	//{
+//	//	case sl::SPRITE2:
+//	//	{
+//#ifdef PT2_DISABLE_DEFERRED
+//			auto rd = rp::RenderMgr::Instance()->SetRenderer(dev, ctx, rp::RenderType::SPRITE);
+//            ur2::RenderState rs;
+//			std::static_pointer_cast<rp::SpriteRenderer>(rd)->DrawQuad(ctx, rs, &vertices[0].x, &texcoords[0].x, tex_id, 0xffffffff);
+//#else
+//			cooking::set_color_sprite(dlist, params.col_common.mul.ToABGR(), params.col_common.add.ToABGR(),
+//				params.col_map.rmap.ToABGR(), params.col_map.gmap.ToABGR(), params.col_map.bmap.ToABGR());
+//#endif // PT2_DISABLE_DEFERRED
+//			draw = draw_sprite2;
+//		//}
+//		//	break;
+//		//case sl::FILTER:
+//		//{
+////			auto& col = params.col_common;
+////#ifdef PT2_DISABLE_DEFERRED
+////			sl::FilterShader* shader = static_cast<sl::FilterShader*>(shader_mgr.GetShader());
+////			shader->SetColor(col.mul.ToABGR(), col.add.ToABGR());
+////#else
+////			cooking::set_color_filter(dlist, col.mul.ToABGR(), col.add.ToABGR());
+////#endif // PT2_DISABLE_DEFERRED
+////			draw = draw_filter;
+//	//	}
+//	//		break;
+//	//}
+//
+//	auto& mt = GetMat(params);
+//
+//	// 3 2    1 0
+//	// 0 1 or 2 3
+//	if ((w > 0 && h > 0) || (w < 0 && h < 0))
+//	{
+//		for (int i = 0, n = triangles.size(); i < n; )
+//		{
+//			sm::vec2 _vertices[4], _texcoords[4];
+//			for (int j = 0; j < 3; ++j, ++i)
+//			{
+//				int idx = triangles[i];
+//				_vertices[j] = mt * vertices[idx];
+//				_texcoords[j].x = x + w * texcoords[idx].x;
+//				_texcoords[j].y = y + h * texcoords[idx].y;
+//			}
+//			_vertices[3] = _vertices[2];
+//			_texcoords[3] = _texcoords[2];
+//
+//			draw(dev, ctx, dlist, &_vertices[0].x, &_texcoords[0].x, tex_id);
+//		}
+//	}
+//	// 0 3
+//	// 1 2
+//	else if (w > 0 && h < 0)
+//	{
+//		for (int i = 0, n = triangles.size(); i < n; )
+//		{
+//			sm::vec2 _vertices[4], _texcoords[4];
+//			for (int j = 0; j < 3; ++j, ++i)
+//			{
+//				int idx = triangles[i];
+//				_vertices[j] = mt * vertices[idx];
+//				_texcoords[j].x = x + w * texcoords[idx].y;
+//				_texcoords[j].y = y + h * texcoords[idx].x;
+//			}
+//			_vertices[3] = _vertices[2];
+//			_texcoords[3] = _texcoords[2];
+//
+//			draw(dev, ctx, dlist, &_vertices[0].x, &_texcoords[0].x, tex_id);
+//		}
+//	}
+//	else
+//	{
+//		assert(0);
+//	}
 
 	return RENDER_OK;
 }
