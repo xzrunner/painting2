@@ -2,6 +2,8 @@
 
 #include <SM_Matrix2D.h>
 #include <SM_Rect.h>
+#include <unirender2/typedef.h>
+
 #include <functional>
 
 namespace ur2 { class Context; }
@@ -24,8 +26,8 @@ public:
 
 		std::function<sm::rect(const n0::CompAsset&)> get_bounding;
 
-		std::function<const float*(size_t, const sm::irect&, int&)>  query_cached_tex_quad;
-		std::function<void(size_t, int, int, const sm::irect& rect)> add_cache_symbol;
+		std::function<const float*(size_t, const sm::irect&, ur2::TexturePtr&)>  query_cached_tex_quad;
+		std::function<void(const ur2::TexturePtr&, const sm::irect& rect)> add_cache_symbol;
 	};
 
 	static void RegisterCallback(const Funs& funs);
@@ -39,8 +41,8 @@ public:
 	static sm::rect GetBounding(const n0::CompAsset& casset);
     static sm::rect GetBounding(const n0::SceneNode& node);
 
-	static const float* QueryCachedTexQuad(size_t tex_id, const sm::irect& rect, int& out_tex_id);
-	static void AddCacheSymbol(size_t tex_id, int tex_w, int tex_h, const sm::irect& rect);
+	static const float* QueryCachedTexQuad(size_t tex_id, const sm::irect& rect, ur2::TexturePtr& out_tex);
+	static void AddCacheSymbol(const ur2::TexturePtr& tex, const sm::irect& rect);
 
 }; // Callback
 

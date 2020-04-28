@@ -68,18 +68,16 @@ void RenderSystem::DrawTexture(const ur2::Device& dev, ur2::Context& ctx, const 
 	auto rd = rp::RenderMgr::Instance()->SetRenderer(dev, ctx, rp::RenderType::SPRITE);
 	// query from dtex
     // todo use TexturePtr
-	if (0 && use_dtex)
+	if (use_dtex)
 	{
 		sm::irect qr(0, 0, tex_w, tex_h);
-		int cached_texid;
-		auto cached_texcoords = Callback::QueryCachedTexQuad(tex->GetTexID(), qr, cached_texid);
-
+        ur2::TexturePtr cached_tex = nullptr;
+		auto cached_texcoords = Callback::QueryCachedTexQuad(tex->GetTexID(), qr, cached_tex);
 		if (cached_texcoords) {
-            // todo use TexturePtr
-			//std::static_pointer_cast<rp::SpriteRenderer>(rd)->DrawQuad(ctx, rs, vertices, cached_texcoords, cached_texid, 0xffffffff);
+			std::static_pointer_cast<rp::SpriteRenderer>(rd)->DrawQuad(ctx, rs, vertices, cached_texcoords, cached_tex, 0xffffffff);
 		} else {
 			draw_without_dtex(rd, vertices, tex);
-			Callback::AddCacheSymbol(tex->GetTexID(), tex_w, tex_h, qr);
+			Callback::AddCacheSymbol(tex, qr);
 		}
 	}
 	else
