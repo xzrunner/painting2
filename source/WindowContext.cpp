@@ -1,6 +1,6 @@
 #include "painting2/WindowContext.h"
 
-#include <unirender2/Context.h>
+#include <unirender/Context.h>
 
 namespace pt2
 {
@@ -78,7 +78,7 @@ void WindowContext::SetScreen(int width, int height)
 	m_screen_height = height;
 }
 
-void WindowContext::SetViewport(ur2::Context& ctx, int x, int y, int w, int h)
+void WindowContext::SetViewport(ur::Context& ctx, int x, int y, int w, int h)
 {
 	if (m_vp_x == x &&
 		m_vp_y == y &&
@@ -108,7 +108,7 @@ void WindowContext::UpdateProjection() const
 	m_on_proj(static_cast<int>(m_proj_width), static_cast<int>(m_proj_height));
 }
 
-void WindowContext::UpdateViewport(ur2::Context& ctx) const
+void WindowContext::UpdateViewport(ur::Context& ctx) const
 {
 	if (m_vp_w == 0 && m_vp_h == 0) {
 		return;
@@ -117,7 +117,7 @@ void WindowContext::UpdateViewport(ur2::Context& ctx) const
     ctx.SetViewport(m_vp_x, m_vp_y, m_vp_w, m_vp_h);
 }
 
-void WindowContext::Bind(ur2::Context& ctx)
+void WindowContext::Bind(ur::Context& ctx)
 {
 	UpdateView();
 	UpdateProjection();

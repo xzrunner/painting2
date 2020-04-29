@@ -25,19 +25,19 @@
 namespace
 {
 
-void draw_sprite2(const ur2::Device& dev, ur2::Context& ctx, cooking::DisplayList* dlist,
+void draw_sprite2(const ur::Device& dev, ur::Context& ctx, cooking::DisplayList* dlist,
                   const float* positions, const float* texcoords, int tex_id)
 {
 //#ifdef PT2_DISABLE_DEFERRED
 //	auto rd = rp::RenderMgr::Instance()->SetRenderer(dev, ctx, rp::RenderType::SPRITE);
-//    ur2::RenderState rs;
+//    ur::RenderState rs;
 //	std::static_pointer_cast<rp::SpriteRenderer>(rd)->DrawQuad(ctx, rs, positions, texcoords, tex_id, 0xffffffff);
 //#else
 //	cooking::draw_quad_sprite(dlist, positions, texcoords, tex_id);
 //#endif // PT2_DISABLE_DEFERRED
 }
 
-void draw_filter(const ur2::Device& dev, ur2::Context& ctx, ur2::RenderState& rs,
+void draw_filter(const ur::Device& dev, ur::Context& ctx, ur::RenderState& rs,
                  cooking::DisplayList* dlist, const float* positions, const float* texcoords, int tex_id)
 {
 //#ifdef PT2_DISABLE_DEFERRED
@@ -154,7 +154,7 @@ DrawInfoXY(cooking::DisplayList* dlist, const sm::Matrix2D* mt)
 
 template<typename Type, typename Params>
 RenderReturn DrawMesh<Type, Params>::
-DrawTexture(const ur2::Device& dev, ur2::Context& ctx, cooking::DisplayList* dlist,
+DrawTexture(const ur::Device& dev, ur::Context& ctx, cooking::DisplayList* dlist,
             const Params& params, const Type& base_sym)
 {
 	RenderReturn ret = RENDER_OK;
@@ -235,7 +235,7 @@ DrawOnlyMesh(cooking::DisplayList* dlist, const sm::Matrix2D& mt, int tex_id)
 
 template<typename Type, typename Params>
 RenderReturn DrawMesh<Type, Params>::
-DrawOnePass(const ur2::Device& dev, ur2::Context& ctx, cooking::DisplayList* dlist, const Params& params, const float* src_texcoords, int tex_id)
+DrawOnePass(const ur::Device& dev, ur::Context& ctx, cooking::DisplayList* dlist, const Params& params, const float* src_texcoords, int tex_id)
 {
 ////	sl::ShaderType shader_type;
 //#ifdef PT2_DISABLE_DEFERRED
@@ -264,7 +264,7 @@ DrawOnePass(const ur2::Device& dev, ur2::Context& ctx, cooking::DisplayList* dli
 //	float w = src_texcoords[4] - src_texcoords[0],
 //		  h = src_texcoords[5] - src_texcoords[1];
 //
-//	void (*draw)(const ur2::Device& dev, ur2::Context& ctx, cooking::DisplayList* dlist, const float* positions, const float* texcoords, int tex_id) = nullptr;
+//	void (*draw)(const ur::Device& dev, ur::Context& ctx, cooking::DisplayList* dlist, const float* positions, const float* texcoords, int tex_id) = nullptr;
 //
 //	//switch (shader_type)
 //	//{
@@ -272,7 +272,7 @@ DrawOnePass(const ur2::Device& dev, ur2::Context& ctx, cooking::DisplayList* dli
 //	//	{
 //#ifdef PT2_DISABLE_DEFERRED
 //			auto rd = rp::RenderMgr::Instance()->SetRenderer(dev, ctx, rp::RenderType::SPRITE);
-//            ur2::RenderState rs;
+//            ur::RenderState rs;
 //			std::static_pointer_cast<rp::SpriteRenderer>(rd)->DrawQuad(ctx, rs, &vertices[0].x, &texcoords[0].x, tex_id, 0xffffffff);
 //#else
 //			cooking::set_color_sprite(dlist, params.col_common.mul.ToABGR(), params.col_common.add.ToABGR(),
@@ -383,7 +383,7 @@ DrawTwoPass(cooking::DisplayList* dlist, const Params& params, const Type& node)
 
 template<typename Type, typename Params>
 RenderReturn DrawMesh<Type, Params>::
-DrawMesh2RT(cooking::DisplayList* dlist, const std::shared_ptr<ur2::Framebuffer>& rt, const Params& params, const Type& node)
+DrawMesh2RT(cooking::DisplayList* dlist, const std::shared_ptr<ur::Framebuffer>& rt, const Params& params, const Type& node)
 {
 	rt.Bind();
 
@@ -410,7 +410,7 @@ DrawMesh2RT(cooking::DisplayList* dlist, const std::shared_ptr<ur2::Framebuffer>
 
 template<typename Type, typename Params>
 RenderReturn DrawMesh<Type, Params>::
-DrawRT2Screen(cooking::DisplayList* dlist, const std::shared_ptr<ur2::Framebuffer>& rt, const sm::Matrix2D& mt)
+DrawRT2Screen(cooking::DisplayList* dlist, const std::shared_ptr<ur::Framebuffer>& rt, const sm::Matrix2D& mt)
 {
 	return DrawOnlyMesh(dlist, mt, rt.GetTexID());
 }

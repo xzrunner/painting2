@@ -6,7 +6,7 @@
 #include <boost/noncopyable.hpp>
 
 namespace cooking { class DisplayList; }
-namespace ur2 { class Framebuffer; }
+namespace ur { class Framebuffer; }
 
 namespace pt2
 {
@@ -20,13 +20,13 @@ public:
 	RenderReturn DrawInfoUV(cooking::DisplayList* dlist, const sm::Matrix2D* mt = nullptr);
 	RenderReturn DrawInfoXY(cooking::DisplayList* dlist, const sm::Matrix2D* mt = nullptr);
 
-	RenderReturn DrawTexture(const ur2::Device& dev, ur2::Context& ctx,
+	RenderReturn DrawTexture(const ur::Device& dev, ur::Context& ctx,
         cooking::DisplayList* dlist, const Params& params, const Type& base_sym = nullptr);
 
 	RenderReturn DrawOnlyMesh(cooking::DisplayList* dlist, const sm::Matrix2D& mt, int tex_id);
 
 protected:
-	virtual RenderReturn DrawNode(const ur2::Device& dev, ur2::Context& ctx, ur2::RenderState& rs,
+	virtual RenderReturn DrawNode(const ur::Device& dev, ur::Context& ctx, ur::RenderState& rs,
         const Type& node, const Params& params) const = 0;
 
 	virtual bool IsNodeImage(const Type& node) const = 0;
@@ -36,12 +36,12 @@ protected:
 	virtual const sm::Matrix2D& GetMat(const Params& params) const = 0;
 
 private:
-	RenderReturn DrawOnePass(const ur2::Device& dev, ur2::Context& ctx,
+	RenderReturn DrawOnePass(const ur::Device& dev, ur::Context& ctx,
         cooking::DisplayList* dlist, const Params& params, const float* texcoords, int tex_id);
 
 	RenderReturn DrawTwoPass(cooking::DisplayList* dlist, const Params& params, const Type& node);
-	RenderReturn DrawMesh2RT(cooking::DisplayList* dlist, const std::shared_ptr<ur2::Framebuffer>& rt, const Params& params, const Type& node);
-	RenderReturn DrawRT2Screen(cooking::DisplayList* dlist, const std::shared_ptr<ur2::Framebuffer>& rt, const sm::Matrix2D& mt);
+	RenderReturn DrawMesh2RT(cooking::DisplayList* dlist, const std::shared_ptr<ur::Framebuffer>& rt, const Params& params, const Type& node);
+	RenderReturn DrawRT2Screen(cooking::DisplayList* dlist, const std::shared_ptr<ur::Framebuffer>& rt, const sm::Matrix2D& mt);
 
 protected:
 	const Mesh<Type>& m_mesh;

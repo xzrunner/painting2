@@ -1,8 +1,8 @@
 #include "painting2/RenderTargetMgr.h"
 
-#include <unirender2/Device.h>
-#include <unirender2/TextureDescription.h>
-#include <unirender2/Framebuffer.h>
+#include <unirender/Device.h>
+#include <unirender/TextureDescription.h>
+#include <unirender/Framebuffer.h>
 
 #include <guard/check.h>
 
@@ -21,7 +21,7 @@ RenderTargetMgr::RenderTargetMgr()
 {
 }
 
-std::shared_ptr<ur2::Framebuffer> RenderTargetMgr::Fetch(const ur2::Device& dev)
+std::shared_ptr<ur::Framebuffer> RenderTargetMgr::Fetch(const ur::Device& dev)
 {
 	for (int i = 0, n = m_items.size(); i < n; ++i)
 	{
@@ -33,17 +33,17 @@ std::shared_ptr<ur2::Framebuffer> RenderTargetMgr::Fetch(const ur2::Device& dev)
 		return m_items[i].fbo;
 	}
 
-    ur2::TextureDescription desc;
+    ur::TextureDescription desc;
     desc.width  = WIDTH;
     desc.height = HEIGHT;
-    desc.target = ur2::TextureTarget::Texture2D;
-    desc.format = ur2::TextureFormat::RGBA8;
+    desc.target = ur::TextureTarget::Texture2D;
+    desc.format = ur::TextureFormat::RGBA8;
     auto tex = dev.CreateTexture(desc);
 
     auto fbo = dev.CreateFramebuffer();
 
-    const auto type = ur2::AttachmentType::Color0;
-    fbo->SetAttachment(type, ur2::TextureTarget::Texture2D, tex, nullptr);
+    const auto type = ur::AttachmentType::Color0;
+    fbo->SetAttachment(type, ur::TextureTarget::Texture2D, tex, nullptr);
 
 	Item item;
 	item.fbo = fbo;
@@ -54,7 +54,7 @@ std::shared_ptr<ur2::Framebuffer> RenderTargetMgr::Fetch(const ur2::Device& dev)
 	return item.fbo;
 }
 
-void RenderTargetMgr::Return(std::shared_ptr<ur2::Framebuffer>& fbo)
+void RenderTargetMgr::Return(std::shared_ptr<ur::Framebuffer>& fbo)
 {
 	if (!fbo) {
 		return;
@@ -68,7 +68,7 @@ void RenderTargetMgr::Return(std::shared_ptr<ur2::Framebuffer>& fbo)
 	}
 }
 
-ur2::TexturePtr RenderTargetMgr::GetBindedTex(const std::shared_ptr<ur2::Framebuffer>& fbo) const
+ur::TexturePtr RenderTargetMgr::GetBindedTex(const std::shared_ptr<ur::Framebuffer>& fbo) const
 {
     for (auto& item : m_items) {
         if (item.fbo == fbo) {

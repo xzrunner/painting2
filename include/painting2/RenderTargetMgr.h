@@ -2,11 +2,11 @@
 
 #include <cu/cu_stl.h>
 #include <cu/cu_macro.h>
-#include <unirender2/typedef.h>
+#include <unirender/typedef.h>
 
 #include <memory>
 
-namespace ur2 { class Device; class Framebuffer; }
+namespace ur { class Device; class Framebuffer; }
 
 namespace pt2
 {
@@ -14,10 +14,10 @@ namespace pt2
 class RenderTargetMgr
 {
 public:
-	std::shared_ptr<ur2::Framebuffer> Fetch(const ur2::Device& dev);
-	void Return(std::shared_ptr<ur2::Framebuffer>& fbo);
+	std::shared_ptr<ur::Framebuffer> Fetch(const ur::Device& dev);
+	void Return(std::shared_ptr<ur::Framebuffer>& fbo);
 
-    ur2::TexturePtr GetBindedTex(const std::shared_ptr<ur2::Framebuffer>& fbo) const;
+    ur::TexturePtr GetBindedTex(const std::shared_ptr<ur::Framebuffer>& fbo) const;
 
 	//void InitScreenCB(RenderTarget* (*fetch_screen)(), void (*return_screen)(RenderTarget* rt));
 	//std::shared_ptr<RenderTarget> FetchScreen();
@@ -30,8 +30,8 @@ public:
 private:
 	struct Item
 	{
-		std::shared_ptr<ur2::Framebuffer> fbo = nullptr;
-        ur2::TexturePtr                   tex = nullptr;
+		std::shared_ptr<ur::Framebuffer> fbo = nullptr;
+        ur::TexturePtr                   tex = nullptr;
 		bool available;
 
 		Item() : fbo(nullptr), tex(nullptr), available(true) {}

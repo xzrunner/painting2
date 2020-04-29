@@ -6,7 +6,7 @@
 namespace pt2
 {
 
-WindowCtxRegion::WindowCtxRegion(const ur2::Context& ctx,
+WindowCtxRegion::WindowCtxRegion(const ur::Context& ctx,
                                  float width, float height)
     : m_ctx(ctx)
 {

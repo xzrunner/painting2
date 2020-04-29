@@ -9,7 +9,7 @@
 
 #include <boost/signals2.hpp>
 
-namespace ur2 { class Context; }
+namespace ur { class Context; }
 
 namespace pt2
 {
@@ -31,13 +31,13 @@ public:
 	void SetView(const sm::vec2& offset, float scale);
 	void SetProjection(int width, int height);
 	void SetScreen(int width, int height);
-	void SetViewport(ur2::Context& ctx, int x, int y, int w, int h);
+	void SetViewport(ur::Context& ctx, int x, int y, int w, int h);
 
 	void UpdateView() const;
 	void UpdateProjection() const;
-	void UpdateViewport(ur2::Context& ctx) const;
+	void UpdateViewport(ur::Context& ctx) const;
 
-	void Bind(ur2::Context& ctx);
+	void Bind(ur::Context& ctx);
 
 	const sm::vec2& GetViewOffset() const { return m_view_offset; }
 	float GetViewScale() const { return m_view_scale; }

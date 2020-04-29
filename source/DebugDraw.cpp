@@ -8,7 +8,7 @@
 namespace pt2
 {
 
-void DebugDraw::Draw(const ur2::Device& dev, ur2::Context& ctx,
+void DebugDraw::Draw(const ur::Device& dev, ur::Context& ctx,
                      int tex_id, int pos)
 {
     // todo use TexturePtr
@@ -52,7 +52,7 @@ void DebugDraw::Draw(const ur2::Device& dev, ur2::Context& ctx,
 	//	pt2::WindowCtxRegion wcr(ctx, 2.0f, 2.0f);
 
 	//	auto rd = rp::RenderMgr::Instance()->SetRenderer(dev, ctx, rp::RenderType::SPRITE);
- //       ur2::RenderState rs;
+ //       ur::RenderState rs;
 	//	std::static_pointer_cast<rp::SpriteRenderer>(rd)->DrawQuad(ctx, rs, vertices, texcoords, tex_id, 0xffffffff);
 	//}
 	//rp::RenderMgr::Instance()->Flush(dev, ctx);

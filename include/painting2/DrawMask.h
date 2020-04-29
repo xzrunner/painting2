@@ -5,7 +5,7 @@
 #include <boost/noncopyable.hpp>
 
 namespace cooking { class DisplayList; }
-namespace ur2 { struct RenderState; }
+namespace ur { struct RenderState; }
 
 namespace pt2
 {
@@ -25,10 +25,10 @@ public:
 protected:
 	RenderReturn DrawImpl(cooking::DisplayList* dlist) const;
 
-	virtual RenderReturn DrawBaseNode(const ur2::Device& dev, ur2::Context& ctx,
-        ur2::RenderState& rs, const Type& data, const Params& params) const = 0;
-	virtual RenderReturn DrawMaskNode(const ur2::Device& dev, ur2::Context& ctx,
-        ur2::RenderState& rs, const Type& data, const Params& params) const = 0;
+	virtual RenderReturn DrawBaseNode(const ur::Device& dev, ur::Context& ctx,
+        ur::RenderState& rs, const Type& data, const Params& params) const = 0;
+	virtual RenderReturn DrawMaskNode(const ur::Device& dev, ur::Context& ctx,
+        ur::RenderState& rs, const Type& data, const Params& params) const = 0;
 
 	virtual sm::rect GetBounding(const Type& data) const = 0;
 

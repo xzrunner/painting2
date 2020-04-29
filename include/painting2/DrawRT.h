@@ -7,7 +7,7 @@
 //
 //#include <boost/noncopyable.hpp>
 //
-//namespace ur2 { class Framebuffer; }
+//namespace ur { class Framebuffer; }
 //
 //namespace pt2
 //{
@@ -26,7 +26,7 @@
 //	void StoreToFile(const std::string& filepath, int width = -1, int height = -1, int channels = 4);
 //
 //private:
-//    std::shared_ptr<ur2::Framebuffer> m_fbo = nullptr;
+//    std::shared_ptr<ur::Framebuffer> m_fbo = nullptr;
 //
 //}; // DrawRT
 //
