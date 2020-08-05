@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SM_Vector.h>
+#include <SM_Matrix.h>
 #include <unirender/UniformUpdater.h>
 
 #include <string>
@@ -14,7 +15,7 @@ class ProjectMatUpdater : public ur::UniformUpdater
 {
 public:
     ProjectMatUpdater(const ur::ShaderProgram& shader,
-        const std::string& name);
+        const std::string& name, sm::mat4* mat = nullptr);
 
     virtual ur::UpdaterID UpdaterTypeID() const override {
         return ur::GetUpdaterTypeID<ProjectMatUpdater>();
@@ -49,6 +50,8 @@ private:
 
     float m_width  = 0;
     float m_height = 0;
+
+    sm::mat4* m_ret_mat = nullptr;
 
     friend class Snapshot;
 

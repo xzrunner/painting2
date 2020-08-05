@@ -9,7 +9,8 @@ namespace pt2
 {
 
 ViewMatUpdater::ViewMatUpdater(const ur::ShaderProgram& shader,
-                               const std::string& name)
+                               const std::string& name, sm::mat4* mat)
+    : m_ret_mat(mat)
 {
     m_uniform = shader.QueryUniform(name);
 
@@ -27,9 +28,6 @@ void ViewMatUpdater::Update(const ur::Context& ctx, const ur::DrawState& draw,
 
 void ViewMatUpdater::Update(const sm::vec2& offset, float scale)
 {
-    if (!m_uniform) {
-        return;
-    }
 
     if (offset == m_view_offset &&
         scale == m_view_scale) {
@@ -42,7 +40,14 @@ void ViewMatUpdater::Update(const sm::vec2& offset, float scale)
     auto s_mat = sm::mat4::Scaled(m_view_scale, m_view_scale, 1);
     auto t_mat = sm::mat4::Translated(m_view_offset.x, m_view_offset.y, 1);
     auto mat = s_mat * t_mat;
-    m_uniform->SetValue(mat.x, 4 * 4);
+
+    if (m_uniform) {
+        m_uniform->SetValue(mat.x, 4 * 4);
+    }
+
+    if (m_ret_mat) {
+        *m_ret_mat = mat;
+    }
 }
 
 }

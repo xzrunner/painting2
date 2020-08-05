@@ -9,7 +9,8 @@ namespace pt2
 {
 
 ProjectMatUpdater::ProjectMatUpdater(const ur::ShaderProgram& shader,
-                                     const std::string& name)
+                                     const std::string& name, sm::mat4* mat)
+    : m_ret_mat(mat)
 {
     m_uniform = shader.QueryUniform(name);
 }
@@ -25,10 +26,6 @@ void ProjectMatUpdater::Update(const ur::Context& ctx, const ur::DrawState& draw
 
 void ProjectMatUpdater::Update(float width, float height)
 {
-    if (!m_uniform) {
-        return;
-    }
-
     if (width == m_width &&
         height == m_height) {
         return;
@@ -40,7 +37,14 @@ void ProjectMatUpdater::Update(float width, float height)
     float hw = m_width * 0.5f;
     float hh = m_height * 0.5f;
     auto mat = sm::mat4::Orthographic(-hw, hw, -hh, hh, 1, -1);
-    m_uniform->SetValue(mat.x, 4 * 4);
+
+    if (m_uniform) {
+        m_uniform->SetValue(mat.x, 4 * 4);
+    }
+
+    if (m_ret_mat) {
+        *m_ret_mat = mat;
+    }
 }
 
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SM_Vector.h>
+#include <SM_Matrix.h>
 #include <unirender/UniformUpdater.h>
 
 #include <memory>
@@ -15,7 +16,7 @@ class ViewMatUpdater : public ur::UniformUpdater
 {
 public:
     ViewMatUpdater(const ur::ShaderProgram& shader,
-        const std::string& name);
+        const std::string& name, sm::mat4* mat = nullptr);
 
     virtual ur::UpdaterID UpdaterTypeID() const override {
         return ur::GetUpdaterTypeID<ViewMatUpdater>();
@@ -50,6 +51,8 @@ private:
 
     sm::vec2 m_view_offset;
     float    m_view_scale = 0;
+
+    sm::mat4* m_ret_mat = nullptr;
 
     friend class Snapshot;
 
