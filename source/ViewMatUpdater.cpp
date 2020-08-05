@@ -28,13 +28,16 @@ void ViewMatUpdater::Update(const ur::Context& ctx, const ur::DrawState& draw,
 
 void ViewMatUpdater::Update(const sm::vec2& offset, float scale)
 {
+    // for vulkan
+    //sm::vec2 revert_y_offset(offset.x, -offset.y);
+    sm::vec2 revert_y_offset(offset.x, offset.y);
 
-    if (offset == m_view_offset &&
+    if (revert_y_offset == m_view_offset &&
         scale == m_view_scale) {
         return;
     }
 
-    m_view_offset = offset;
+    m_view_offset = revert_y_offset;
     m_view_scale  = scale;
 
     auto s_mat = sm::mat4::Scaled(m_view_scale, m_view_scale, 1);
