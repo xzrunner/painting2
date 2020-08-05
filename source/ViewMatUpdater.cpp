@@ -41,7 +41,7 @@ void ViewMatUpdater::Update(const sm::vec2& offset, float scale)
     m_view_scale  = scale;
 
     auto s_mat = sm::mat4::Scaled(m_view_scale, m_view_scale, 1);
-    auto t_mat = sm::mat4::Translated(m_view_offset.x, m_view_offset.y, 1);
+    auto t_mat = sm::mat4::Translated(m_view_offset.x, m_view_offset.y, 0);
     auto mat = s_mat * t_mat;
 
     if (m_uniform) {
